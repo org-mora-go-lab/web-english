@@ -1,0 +1,146 @@
+{
+  "animal": "bear",
+  "id": "momo-hello",
+  "name": "Momo",
+  "korean": "곰",
+  "title": "곰 Momo와 손 흔들며 Hello!",
+  "topic": "인사 놀이",
+  "bpm": 96,
+  "lyrics": [
+    "Hello bear wave hello",
+    "Wave your paws hello",
+    "Hello friend clap clap",
+    "Clap clap wave goodbye"
+  ],
+  "translations": [
+    "안녕 곰아, 손 흔들며 인사해요",
+    "앞발을 흔들며 안녕",
+    "안녕 친구야, 짝짝",
+    "짝짝, 손 흔들며 잘 가"
+  ],
+  "intro": "Hello! I'm Momo the bear. Let's wave and sing!",
+  "play": "Can you wave? Wave your hands with me!",
+  "outro": "Great waving! Bye-bye, little friend.",
+  "word": "wave",
+  "meaning": "손 흔들기",
+  "number": 1,
+  "notes": [
+    [
+      60,
+      64,
+      67,
+      64
+    ],
+    [
+      62,
+      65,
+      69,
+      67
+    ],
+    [
+      64,
+      67,
+      69,
+      67
+    ],
+    [
+      65,
+      64,
+      62,
+      60
+    ]
+  ],
+  "color": "#f2d7b9",
+  "duration": 42.099999999999994,
+  "segments": [
+    {
+      "kind": "intro",
+      "text": "Hello! I'm Momo the bear. Let's wave and sing!",
+      "korean": "곰 Momo와 함께 노래해요!",
+      "start": 0.6,
+      "end": 3.760625
+    },
+    {
+      "kind": "song",
+      "text": "Hello bear wave hello",
+      "korean": "안녕 곰아, 손 흔들며 인사해요",
+      "start": 5,
+      "end": 8.025
+    },
+    {
+      "kind": "song",
+      "text": "Wave your paws hello",
+      "korean": "앞발을 흔들며 안녕",
+      "start": 8.125,
+      "end": 11.15
+    },
+    {
+      "kind": "song",
+      "text": "Hello friend clap clap",
+      "korean": "안녕 친구야, 짝짝",
+      "start": 11.25,
+      "end": 14.275
+    },
+    {
+      "kind": "song",
+      "text": "Clap clap wave goodbye",
+      "korean": "짝짝, 손 흔들며 잘 가",
+      "start": 14.375,
+      "end": 17.4
+    },
+    {
+      "kind": "play",
+      "text": "Can you wave? Wave your hands with me!",
+      "korean": "함께 해 봐요: 손 흔들기",
+      "start": 18.8,
+      "end": 21.371958333333335
+    },
+    {
+      "kind": "repeat",
+      "text": "Hello bear wave hello",
+      "korean": "안녕 곰아, 손 흔들며 인사해요",
+      "start": 24.3,
+      "end": 27.325
+    },
+    {
+      "kind": "repeat",
+      "text": "Wave your paws hello",
+      "korean": "앞발을 흔들며 안녕",
+      "start": 27.425,
+      "end": 30.45
+    },
+    {
+      "kind": "repeat",
+      "text": "Hello friend clap clap",
+      "korean": "안녕 친구야, 짝짝",
+      "start": 30.55,
+      "end": 33.574999999999996
+    },
+    {
+      "kind": "repeat",
+      "text": "Clap clap wave goodbye",
+      "korean": "짝짝, 손 흔들며 잘 가",
+      "start": 33.675,
+      "end": 36.699999999999996
+    },
+    {
+      "kind": "outro",
+      "text": "Great waving! Bye-bye, little friend.",
+      "korean": "잘했어요! 손을 흔들며 인사해요.",
+      "start": 37.89999999999999,
+      "end": 40.655291666666656
+    }
+  ],
+  "chapters": {
+    "intro": 0,
+    "song": 5,
+    "play": 18.3,
+    "repeat": 24.3,
+    "outro": 37.599999999999994
+  },
+  "synthesis": "Kokoro af_heart + WORLD score resynthesis",
+  "score": "Original melody, lyrics and arrangement",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30
+}

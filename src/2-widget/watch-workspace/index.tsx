@@ -5,8 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-import { LessonPractice } from "@/src/3-feature";
-import { lessons, lessonVideos, useCaptionPreference, useLibrary } from "@/src/4-entity";
+import { LessonPractice, SingalongPractice } from "@/src/3-feature";
+import { lessons, lessonVideos, songs, useCaptionPreference, useLibrary } from "@/src/4-entity";
 
 import type { WatchWorkspaceProps } from "./type";
 
@@ -64,7 +64,9 @@ export function WatchWorkspace({ lesson }: WatchWorkspaceProps) {
     if (!video.current) return;
     for (const track of Array.from(video.current.textTracks)) track.mode = track.language === language ? "showing" : "disabled";
   }
-  const related = [...lessons.filter(item => item.id !== lesson.id && item.category === lesson.category), ...lessons.filter(item => item.id !== lesson.id && item.category !== lesson.category)];
+  const catalog = [...lessons, ...songs];
+  const chapterNames = lesson.kind === "song" ? [["intro", "친구와 인사"], ["song", "함께 노래"], ["play", "같이 해요"], ["repeat", "한 번 더"], ["outro", "잘 가요"]] : [["intro", "처음부터"], ["vocabulary", "핵심 어휘"], ["phrase", "핵심 문장"], ["dialogue", "예시 대화"], ["review", "복습"]];
+  const related = [...catalog.filter(item => item.id !== lesson.id && item.category === lesson.category), ...catalog.filter(item => item.id !== lesson.id && item.category !== lesson.category)];
   return <div className="watch-workspace" inert={!ready || !captionReady} aria-busy={!ready || !captionReady}>
     <header className="watch-header">
       <Link href="/" className="back-link" aria-label="목록으로 돌아가기"><ArrowLeft size={20} /><span>목록으로</span></Link>
@@ -87,16 +89,16 @@ export function WatchWorkspace({ lesson }: WatchWorkspaceProps) {
         </div>
         <h1>{lesson.title}</h1>
         <div className="watch-channel">
-          <span className="momo-avatar">m.</span><div><strong>Momo&apos;s English</strong><small>{lesson.category} · {lesson.level}</small></div>
+          <span className="momo-avatar">m.</span><div><strong>{lesson.kind === "song" ? "Mora Little Friends" : "Momo’s English"}</strong><small>{lesson.category} · {lesson.level}</small></div>
           <button disabled={!ready} aria-label={saved ? "저장 취소" : "레슨 저장"} aria-pressed={saved} onClick={() => updateList("saved")}><Bookmark size={17} fill={saved ? "currentColor" : "none"} />{saved ? "저장됨" : "저장"}</button>
           <button disabled={!ready} className={completed ? "done" : "complete"} onClick={() => updateList("completed")}>{completed ? <RotateCcw size={17} /> : <Check size={17} />}{completed ? "학습 완료 취소" : "오늘의 학습 완료"}</button>
         </div>
-        <div className="watch-description"><strong>{lesson.subtitle}</strong><p>{lesson.goal}</p><p>{lesson.scenario}</p><span>어휘 3개 · 핵심 문장 5개 · 예시 대화 · 복습</span></div>
+        <div className="watch-description"><strong>{lesson.subtitle}</strong><p>{lesson.goal}</p><p>{lesson.scenario}</p><span>{lesson.kind === "song" ? "인사 · 동요 · 따라 하기 · 다시 부르기" : "어휘 3개 · 핵심 문장 5개 · 예시 대화 · 복습"}</span></div>
         {message && <p role="status">{message}</p>}
-        <section className="video-chapters" aria-label="영상 구간"><h2>필요한 순간부터 다시 듣기</h2><div>{[ ["intro", "처음부터"], ["vocabulary", "핵심 어휘"], ["phrase", "핵심 문장"], ["dialogue", "예시 대화"], ["review", "복습"] ].map(([kind, title]) => { const segment = media.segments.find(item => item.kind === kind)!; return <button key={kind} disabled={failed} onClick={() => seek(segment.start)}><Play size={13} /><span>{title}</span><small>{Math.floor(segment.start / 60)}:{String(Math.floor(segment.start % 60)).padStart(2, "0")}</small></button>; })}</div></section>
-        <LessonPractice lesson={lesson} onSeek={seek} />
+        <section className="video-chapters" aria-label="영상 구간"><h2>필요한 순간부터 다시 듣기</h2><div>{chapterNames.map(([kind, title]) => { const segment = media.segments.find(item => item.kind === kind)!; return <button key={kind} disabled={failed} onClick={() => seek(segment.start)}><Play size={13} /><span>{title}</span><small>{Math.floor(segment.start / 60)}:{String(Math.floor(segment.start % 60)).padStart(2, "0")}</small></button>; })}</div></section>
+        {lesson.kind === "song" ? <SingalongPractice lesson={lesson} onSeek={seek} /> : <LessonPractice lesson={lesson} onSeek={seek} />}
       </div>
-      <aside className="watch-related" aria-label="다음 학습 영상"><h2>다음엔 이런 영어</h2>{related.map(item => <Link className="related-video" key={item.id} href={`/watch/${item.id}`}><div><Image src={lessonVideos[item.id].poster} alt={`${item.headline.join(" ")} 영상 프리뷰`} width={1280} height={720} sizes="(max-width: 700px) 45vw, 180px" /><span>{lessonVideos[item.id].label}</span></div><div><h3>{item.title}</h3><p>Momo&apos;s English</p><small>{item.category} · {item.level}</small></div></Link>)}</aside>
+      <aside className="watch-related" aria-label="다음 학습 영상"><h2>다음엔 이런 영어</h2>{related.map(item => <Link className="related-video" key={item.id} href={`/watch/${item.id}`}><div><Image src={lessonVideos[item.id].poster} alt={`${item.headline.join(" ")} 영상 프리뷰`} width={1280} height={720} sizes="(max-width: 700px) 45vw, 180px" /><span>{lessonVideos[item.id].label}</span></div><div><h3>{item.title}</h3><p>{item.kind === "song" ? "Mora Little Friends" : "Momo’s English"}</p><small>{item.category} · {item.level}</small></div></Link>)}</aside>
     </main>
   </div>;
 }

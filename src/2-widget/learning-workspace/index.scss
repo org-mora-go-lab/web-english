@@ -1,3 +1,4 @@
+@use "../../3-feature/singalong-gallery";
 @use "../../3-feature/character-welcome";
 
 .peach {
@@ -1196,3 +1197,5 @@
   a.lesson-title { display: block; text-decoration: none; }
   .hero-copy > a { display: inline-flex; align-items: center; gap: 12px; padding: 13px 18px; border-radius: 7px; background: #252921; color: white; text-decoration: none; font-weight: 600; margin: 5px 0 15px; }
 }
+
+.learning-workspace .hero-copy > a.parent-start { background: transparent; color: #8d8a7b; padding: 8px 0; font-size: 11px; margin-left: 15px; }

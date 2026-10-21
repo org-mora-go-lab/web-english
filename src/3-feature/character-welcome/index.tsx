@@ -3,15 +3,36 @@
 import { Volume2, VolumeX } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
+import { useCaptionPreference } from "@/src/4-entity";
+
 import { welcomeVideo } from "./constant";
 import type { CharacterWelcomeProps } from "./type";
 
 export function CharacterWelcome({ suspended }: CharacterWelcomeProps) {
   const player = useRef<HTMLVideoElement>(null);
+  const { language, ready: captionReady, hydrate: hydrateCaptions, change: saveCaption } = useCaptionPreference();
   const [muted, setMuted] = useState(true);
   const [playing, setPlaying] = useState(false);
   const [error, setError] = useState("");
   const [failed, setFailed] = useState(false);
+  useEffect(() => {
+    if (!useCaptionPreference.getState().ready) hydrateCaptions();
+  }, [hydrateCaptions]);
+  useEffect(() => {
+    const video = player.current;
+    if (!video || !captionReady) return;
+    function apply() { const language = useCaptionPreference.getState().language; for (const track of Array.from(video!.textTracks)) track.mode = track.language === language ? "showing" : "disabled"; }
+    function remember() {
+      if (!video || video.readyState === 0) return;
+      const visible = Array.from(video.textTracks).find(track => track.mode === "showing");
+      const selected = visible?.language === "ko" ? "ko" : visible?.language === "en" ? "en" : "off";
+      if (selected !== useCaptionPreference.getState().language) saveCaption(selected);
+    }
+    apply();
+    video.addEventListener("loadedmetadata", apply);
+    video.textTracks.addEventListener("change", remember);
+    return () => { video.removeEventListener("loadedmetadata", apply); video.textTracks.removeEventListener("change", remember); };
+  }, [language, captionReady, saveCaption]);
   useEffect(() => {
     const video = player.current;
     if (!video) return;

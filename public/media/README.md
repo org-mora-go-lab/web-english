@@ -1,21 +1,16 @@
-# Momo welcome video
+# Mora English media
 
-Original vector character animation created for Mora English. No third-party character art, stock footage, or runtime speech service is used.
+The current home welcome is a 1920×1080, 30 fps, twenty-second H.264/AAC montage introducing ten original plush animal friends. The original four-line greeting has been revoiced with the free offline Kokoro model. English/Korean VTT and transcript metadata remain available. Its poster uses the original animal ensemble illustration. Reproduction sources are `scripts/create-friends-welcome-audio.py` and `scripts/finalize-singalong.mjs`.
 
-- `momo-welcome.mp4`: 1280×720, 24 fps, H.264 + AAC, approximately 20 seconds.
-- `momo-welcome-poster.webp`: first-screen poster.
-- `momo-welcome.en.vtt`, `momo-welcome.ko.vtt`: timed English captions and Korean subtitles.
-- `momo-welcome.json`: transcript and generation metadata.
+The original vector welcome renderer remains in source history and `scripts/create-welcome-video.mjs`; it is also used for the existing fifteen conversation lessons.
 
-English narration is synthesized offline with the installed Microsoft Zira Desktop voice. Mouth motion follows the narration's measured amplitude. The original character, scene, animation and encoding source is in `scripts/create-welcome-video.mjs`; narration generation is in `scripts/create-welcome-audio.ps1`.
-
-To regenerate on Windows, create the narration with the PowerShell script, then run the Node script with the audio directory and an FFmpeg executable. The renderer uses `sharp`, included by Next.js. Regeneration tools are not needed to serve the site.
+The ten new original nursery songs and character assets are documented in [singalong/README.md](singalong/README.md).
 
 ## Complete lesson series
 
 `lessons/` contains 15 distinct original 1280×720, 12 fps H.264/AAC English learning videos (approximately 47–57 seconds each), individual WebP preview images, English/Korean VTT captions, and metadata. `lessons/manifest.json` is the application's source for actual duration and chapter/phrase/dialogue timestamps. The MP4 files include offline synthesized narration; no runtime TTS, remote video provider, API key, or third-party footage is needed.
 
-Each lesson includes its three vocabulary items, five key phrases, four dialogue lines, review and closing practice advice. All segments have timed English and Korean text. The narrator and visual character are the same Momo as the welcome animation; each lesson has its own content, number, preview title and color palette.
+Each lesson includes its three vocabulary items, five key phrases, four dialogue lines, review and closing practice advice. All segments have timed English and Korean text. These legacy conversation videos retain the original vector Momo character; each lesson has its own content, number, preview title and color palette.
 
 Regenerate from the repository root on Windows:
 

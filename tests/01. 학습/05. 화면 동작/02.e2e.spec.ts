@@ -11,6 +11,6 @@ test("헤더 학습 현황과 홈 복귀", async ({ page }) => {
     .getByRole("button", { name: "Mora English 홈", exact: true })
     .click();
   await expect(
-    page.getByRole("heading", { name: "영어가 일상이 되는 작은 시작." }),
+    page.getByRole("heading", { name: "동물 친구와 노래하며 영어를 만나요." }),
   ).toBeVisible();
 });

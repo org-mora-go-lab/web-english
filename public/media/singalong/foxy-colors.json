@@ -1,0 +1,146 @@
+{
+  "animal": "fox",
+  "id": "foxy-colors",
+  "name": "Fifi",
+  "korean": "여우",
+  "title": "여우 Fifi의 빨강·파랑·노랑 색깔 노래",
+  "topic": "색깔 놀이",
+  "bpm": 94,
+  "lyrics": [
+    "Red fox red ball",
+    "Blue sky yellow sun",
+    "Red blue yellow green",
+    "Find red little fox"
+  ],
+  "translations": [
+    "빨간 여우, 빨간 공",
+    "파란 하늘, 노란 해",
+    "빨강 파랑 노랑 초록",
+    "작은 여우야, 빨강을 찾아봐"
+  ],
+  "intro": "Hello! I'm Fifi the fox. Let's find colors!",
+  "play": "Can you find something red? Point to red!",
+  "outro": "You found the colors! Great job, little friend.",
+  "word": "red",
+  "meaning": "빨강",
+  "number": 4,
+  "notes": [
+    [
+      60,
+      62,
+      64,
+      67
+    ],
+    [
+      64,
+      67,
+      69,
+      67
+    ],
+    [
+      65,
+      69,
+      72,
+      69
+    ],
+    [
+      67,
+      64,
+      62,
+      60
+    ]
+  ],
+  "color": "#f1cfb0",
+  "duration": 42.63191489361702,
+  "segments": [
+    {
+      "kind": "intro",
+      "text": "Hello! I'm Fifi the fox. Let's find colors!",
+      "korean": "여우 Fifi와 함께 노래해요!",
+      "start": 0.6,
+      "end": 4.036666666666666
+    },
+    {
+      "kind": "song",
+      "text": "Red fox red ball",
+      "korean": "빨간 여우, 빨간 공",
+      "start": 5,
+      "end": 8.091489361702129
+    },
+    {
+      "kind": "song",
+      "text": "Blue sky yellow sun",
+      "korean": "파란 하늘, 노란 해",
+      "start": 8.191489361702128,
+      "end": 11.282978723404257
+    },
+    {
+      "kind": "song",
+      "text": "Red blue yellow green",
+      "korean": "빨강 파랑 노랑 초록",
+      "start": 11.382978723404255,
+      "end": 14.474468085106382
+    },
+    {
+      "kind": "song",
+      "text": "Find red little fox",
+      "korean": "작은 여우야, 빨강을 찾아봐",
+      "start": 14.574468085106384,
+      "end": 17.66595744680851
+    },
+    {
+      "kind": "play",
+      "text": "Can you find something red? Point to red!",
+      "korean": "함께 해 봐요: 빨강",
+      "start": 19.06595744680851,
+      "end": 21.84258244680851
+    },
+    {
+      "kind": "repeat",
+      "text": "Red fox red ball",
+      "korean": "빨간 여우, 빨간 공",
+      "start": 24.56595744680851,
+      "end": 27.657446808510638
+    },
+    {
+      "kind": "repeat",
+      "text": "Blue sky yellow sun",
+      "korean": "파란 하늘, 노란 해",
+      "start": 27.75744680851064,
+      "end": 30.848936170212767
+    },
+    {
+      "kind": "repeat",
+      "text": "Red blue yellow green",
+      "korean": "빨강 파랑 노랑 초록",
+      "start": 30.948936170212768,
+      "end": 34.04042553191489
+    },
+    {
+      "kind": "repeat",
+      "text": "Find red little fox",
+      "korean": "작은 여우야, 빨강을 찾아봐",
+      "start": 34.14042553191489,
+      "end": 37.23191489361702
+    },
+    {
+      "kind": "outro",
+      "text": "You found the colors! Great job, little friend.",
+      "korean": "잘했어요! 손을 흔들며 인사해요.",
+      "start": 38.43191489361702,
+      "end": 41.67924822695035
+    }
+  ],
+  "chapters": {
+    "intro": 0,
+    "song": 5,
+    "play": 18.56595744680851,
+    "repeat": 24.56595744680851,
+    "outro": 38.13191489361702
+  },
+  "synthesis": "Kokoro af_heart + WORLD score resynthesis",
+  "score": "Original melody, lyrics and arrangement",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30
+}
