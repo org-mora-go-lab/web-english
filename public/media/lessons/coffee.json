@@ -1,0 +1,114 @@
+{
+  "duration": 55.4025,
+  "fps": 12,
+  "width": 1280,
+  "height": 720,
+  "voice": "Microsoft Zira Desktop",
+  "segments": [
+    {
+      "kind": "intro",
+      "text": "Hi! I'm Momo. Let's practice One coffee, please..",
+      "korean": "음료 종류·우유·포장 여부를 원하는 대로 주문할 수 있어요.",
+      "start": 0.5,
+      "end": 6.4245
+    },
+    {
+      "kind": "vocabulary",
+      "text": "oat milk",
+      "korean": "오트 밀크",
+      "start": 6.8245,
+      "end": 8.244
+    },
+    {
+      "kind": "vocabulary",
+      "text": "to go",
+      "korean": "포장해서",
+      "start": 8.644,
+      "end": 9.8835
+    },
+    {
+      "kind": "vocabulary",
+      "text": "decaf",
+      "korean": "카페인을 제거한",
+      "start": 10.2835,
+      "end": 11.743
+    },
+    {
+      "kind": "phrase",
+      "text": "Could I get an iced latte, please?",
+      "korean": "아이스 라테 한 잔 주시겠어요?",
+      "start": 12.143,
+      "end": 15.2075
+    },
+    {
+      "kind": "phrase",
+      "text": "Can I have it with oat milk?",
+      "korean": "오트 밀크로 바꿔 주실 수 있나요?",
+      "start": 15.6075,
+      "end": 17.792
+    },
+    {
+      "kind": "phrase",
+      "text": "To go, please.",
+      "korean": "포장해 주세요.",
+      "start": 18.192,
+      "end": 20.3765
+    },
+    {
+      "kind": "phrase",
+      "text": "Could you make it decaf?",
+      "korean": "디카페인으로 만들어 주시겠어요?",
+      "start": 20.7765,
+      "end": 22.851
+    },
+    {
+      "kind": "phrase",
+      "text": "That's all, thank you.",
+      "korean": "이게 전부예요. 감사합니다.",
+      "start": 23.251,
+      "end": 25.6605
+    },
+    {
+      "kind": "dialogue",
+      "text": "Hi! What can I get for you?",
+      "korean": "Barista: 안녕하세요! 무엇을 드릴까요?",
+      "start": 26.0605,
+      "end": 29.23
+    },
+    {
+      "kind": "dialogue",
+      "text": "Could I get an iced latte with oat milk, please?",
+      "korean": "You: 오트 밀크를 넣은 아이스 라테 한 잔 주시겠어요?",
+      "start": 29.63,
+      "end": 33.3745
+    },
+    {
+      "kind": "dialogue",
+      "text": "Of course. For here or to go?",
+      "korean": "Barista: 물론이죠. 매장에서 드시나요, 포장하시나요?",
+      "start": 33.7745,
+      "end": 37.124
+    },
+    {
+      "kind": "dialogue",
+      "text": "To go, please. That's all, thank you.",
+      "korean": "You: 포장해 주세요. 이게 전부예요. 감사합니다.",
+      "start": 37.524,
+      "end": 42.1185
+    },
+    {
+      "kind": "review",
+      "text": "Remember this expression. To go, please.",
+      "korean": "To go는 포장, for here는 매장에서 먹거나 마신다는 뜻입니다.",
+      "start": 42.5185,
+      "end": 46.888
+    },
+    {
+      "kind": "outro",
+      "text": "Great job! Pause, repeat, and make it your own. See you in the next lesson!",
+      "korean": "Could I get…? 뒤에 음료 이름을 붙이면 정중한 주문이 됩니다. 우유를 바꿀 때는 with oat milk를 덧붙여 보세요.",
+      "start": 47.288,
+      "end": 54.0025
+    }
+  ]
+}

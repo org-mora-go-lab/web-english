@@ -11,14 +11,16 @@ import path from "node:path";
 
 import sharp from "sharp";
 
-const [audioDirectory, ffmpeg] = process.argv.slice(2);
+const [audioDirectory, ffmpeg, planFile] = process.argv.slice(2);
 if (!audioDirectory || !ffmpeg)
   throw new Error("Provide an audio directory and FFmpeg executable.");
-const output = path.resolve("public/media");
+const plan = planFile ? JSON.parse(fs.readFileSync(planFile, "utf8").replace(/^\uFEFF/, "")) : null;
+const assetName = plan?.id || "momo-welcome";
+const output = path.resolve(plan ? "public/media/lessons" : "public/media");
 fs.mkdirSync(output, { recursive: true });
 const sampleRate = 24000;
-const fps = 24;
-const segments = [
+const fps = plan ? 12 : 24;
+const segments = plan?.segments || [
   {
     text: "Hi! I'm Momo, your English buddy.",
     korean: "안녕! 나는 너의 영어 친구 Momo야.",
@@ -119,10 +121,11 @@ function svgAt(time) {
   const tilt = Math.sin(time * 1.5) * 2;
   const blink = time % 4.1 > 3.87 && time % 4.1 < 4.02;
   const wave =
-    time < segments[0].end + 0.2 || time > segments[3].start
+    time < segments[0].end + 0.2 || time > segments[segments.length - 1].start
       ? Math.sin(time * 8) * 14 - 18
       : 0;
-  return `<svg width="1280" height="720" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg">
+  const lines = caption.match(/.{1,62}(?:\s|$)|.{1,62}/g) || [caption];
+  let scene = `<svg width="1280" height="720" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="bg" x2="0" y2="1"><stop stop-color="#fdf8ef"/><stop offset="1" stop-color="#f0eee3"/></linearGradient>
     <radialGradient id="fur" cx=".35" cy=".22" r=".9"><stop stop-color="#ce9c70"/><stop offset=".7" stop-color="#b67e54"/><stop offset="1" stop-color="#9e6745"/></radialGradient>
@@ -163,16 +166,22 @@ function svgAt(time) {
     <ellipse cx="91" cy="144" rx="31" ry="29" fill="#bb865c"/>
   </g>
   <rect x="65" y="606" width="1150" height="65" rx="22" fill="#fffdf7" opacity=".95"/>
-  <text x="640" y="648" text-anchor="middle" font-family="Arial,sans-serif" font-size="31" font-weight="500" fill="#4d5545">${escape(caption)}</text>
+  ${lines.map((line, i) => `<text x="640" y="${lines.length > 1 ? 631 + i * 27 : 648}" text-anchor="middle" font-family="Arial,sans-serif" font-size="${lines.length > 1 ? 25 : 31}" font-weight="500" fill="#4d5545">${escape(line.trim())}</text>`).join("")}
   <text x="640" y="702" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" letter-spacing="3" fill="#a89a83">MOMO · YOUR ENGLISH BUDDY</text>
   </svg>`;
+  if (plan) {
+    const palettes = {peach: "#f3d7c5", olive: "#dce6c5", lavender: "#e0d7f0", blue: "#cddfeb", pink: "#f0d2de", yellow: "#f3e2af"};
+    scene = scene.replaceAll("#e1e8d9", palettes[plan.color] || "#e1e8d9")
+      .replace('A LITTLE, EVERY DAY</text>', `LESSON ${String(plan.number).padStart(2, '0')}</text>`);
+  }
+  return scene;
 }
 function timecode(value) {
   const ms = Math.round(value * 1000);
   return `${String(Math.floor(ms / 3600000)).padStart(2, "0")}:${String(Math.floor(ms / 60000) % 60).padStart(2, "0")}:${String(Math.floor(ms / 1000) % 60).padStart(2, "0")}.${String(ms % 1000).padStart(3, "0")}`;
 }
 async function main() {
-  const destination = path.join(output, "momo-welcome.mp4");
+  const destination = path.join(output, `${assetName}.mp4`);
   const processHandle = spawn(
     ffmpeg,
     [
@@ -226,11 +235,21 @@ async function main() {
   }
   processHandle.stdin.end();
   await completion;
-  await sharp(Buffer.from(svgAt(0.2)))
+  let poster = svgAt(0.2);
+  if (plan) {
+    const titleLines = []; let line = '';
+    for (const word of plan.headline.split(' ')) {
+      if ((line + ' ' + word).length > 16 && line) { titleLines.push(line); line = word; }
+      else line += (line ? ' ' : '') + word;
+    }
+    if (line) titleLines.push(line);
+    poster = poster.replace('translate(640 ', 'translate(865 ').replace('</svg>', `<rect x="0" y="95" width="510" height="480" rx="32" fill="#fffaf1" opacity=".97"/><text x="48" y="160" font-family="Arial" font-size="21" fill="#738268" letter-spacing="3">MOMO'S ENGLISH · ${String(plan.number).padStart(2, '0')}</text>${titleLines.map((text, i) => `<text x="48" y="${245 + i * 65}" font-family="Georgia" font-size="57" fill="#3f4938">${escape(text)}</text>`).join('')}<text x="48" y="530" font-family="Arial" font-size="21" fill="#8c826e">WATCH · LISTEN · SAY IT</text></svg>`);
+  }
+  await sharp(Buffer.from(poster))
     .webp({ quality: 88 })
-    .toFile(path.join(output, "momo-welcome-poster.webp"));
+    .toFile(path.join(output, `${assetName}-poster.webp`));
   fs.writeFileSync(
-    path.join(output, "momo-welcome.en.vtt"),
+    path.join(output, `${assetName}.en.vtt`),
     "WEBVTT\n\n" +
       segments
         .map(
@@ -240,7 +259,7 @@ async function main() {
         .join("\n"),
   );
   fs.writeFileSync(
-    path.join(output, "momo-welcome.ko.vtt"),
+    path.join(output, `${assetName}.ko.vtt`),
     "WEBVTT\n\n" +
       segments
         .map(
@@ -250,7 +269,7 @@ async function main() {
         .join("\n"),
   );
   fs.writeFileSync(
-    path.join(output, "momo-welcome.json"),
+    path.join(output, `${assetName}.json`),
     JSON.stringify(
       {
         duration,

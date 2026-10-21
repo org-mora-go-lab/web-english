@@ -1,0 +1,114 @@
+{
+  "duration": 54.4725,
+  "fps": 12,
+  "width": 1280,
+  "height": 720,
+  "voice": "Microsoft Zira Desktop",
+  "segments": [
+    {
+      "kind": "intro",
+      "text": "Hi! I'm Momo. Let's practice Got plans? Let’s meet..",
+      "korean": "만날 시간과 장소를 정하고 일정 변경을 정중하게 요청할 수 있어요.",
+      "start": 0.5,
+      "end": 7.0795
+    },
+    {
+      "kind": "vocabulary",
+      "text": "available",
+      "korean": "시간이 되는",
+      "start": 7.4795,
+      "end": 8.929
+    },
+    {
+      "kind": "vocabulary",
+      "text": "reschedule",
+      "korean": "일정을 다시 잡다",
+      "start": 9.329,
+      "end": 10.9035
+    },
+    {
+      "kind": "vocabulary",
+      "text": "work for you",
+      "korean": "일정이나 조건이 괜찮다",
+      "start": 11.3035,
+      "end": 12.928
+    },
+    {
+      "kind": "phrase",
+      "text": "Are you free this Saturday?",
+      "korean": "이번 토요일에 시간 있어요?",
+      "start": 13.328,
+      "end": 15.4575
+    },
+    {
+      "kind": "phrase",
+      "text": "Would you like to grab lunch?",
+      "korean": "같이 점심 먹을래요?",
+      "start": 15.8575,
+      "end": 18.097
+    },
+    {
+      "kind": "phrase",
+      "text": "Does noon work for you?",
+      "korean": "정오가 괜찮으세요?",
+      "start": 18.497,
+      "end": 20.5665
+    },
+    {
+      "kind": "phrase",
+      "text": "Could we reschedule for Sunday?",
+      "korean": "일요일로 약속을 바꿀 수 있을까요?",
+      "start": 20.9665,
+      "end": 23.371
+    },
+    {
+      "kind": "phrase",
+      "text": "Let's meet outside the station.",
+      "korean": "역 밖에서 만나요.",
+      "start": 23.771,
+      "end": 26.2255
+    },
+    {
+      "kind": "dialogue",
+      "text": "Are you free this Saturday?",
+      "korean": "You: 이번 토요일에 시간 있어요?",
+      "start": 26.6255,
+      "end": 28.755
+    },
+    {
+      "kind": "dialogue",
+      "text": "Yes. Would you like to grab lunch?",
+      "korean": "Friend: 네. 같이 점심 먹을래요?",
+      "start": 29.155,
+      "end": 32.7345
+    },
+    {
+      "kind": "dialogue",
+      "text": "That sounds great. Does noon work for you?",
+      "korean": "You: 좋아요. 정오가 괜찮으세요?",
+      "start": 33.1345,
+      "end": 37.109
+    },
+    {
+      "kind": "dialogue",
+      "text": "Perfect. Let's meet outside the station.",
+      "korean": "Friend: 좋아요. 역 밖에서 만나요.",
+      "start": 37.509,
+      "end": 41.5135
+    },
+    {
+      "kind": "review",
+      "text": "Remember this expression. Could we reschedule?",
+      "korean": "reschedule은 이미 정한 일정을 다시 잡는다는 뜻입니다.",
+      "start": 41.9135,
+      "end": 45.958
+    },
+    {
+      "kind": "outro",
+      "text": "Great job! Pause, repeat, and make it your own. See you in the next lesson!",
+      "korean": "Does … work for you?는 시간이나 장소가 괜찮은지 확인하는 표현이에요. 상대가 편한 대안을 고를 수 있도록 제안하세요.",
+      "start": 46.358,
+      "end": 53.0725
+    }
+  ]
+}

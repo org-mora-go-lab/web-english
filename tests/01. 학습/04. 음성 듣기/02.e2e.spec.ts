@@ -1,16 +1,12 @@
 import { expect, test } from "@playwright/test";
 
-import { mockSpeech } from "../../__mock__";
-test("선택 문장만 재생", async ({ page }) => {
-  await mockSpeech(page);
-  await page.goto("/");
-  await page.getByRole("button", { name: "오늘의 레슨 시작하기" }).click();
-  await page
-    .getByRole("button", { name: "2번 문장 듣기", exact: true })
-    .click();
-  expect(
-    await page.evaluate(() =>
-      window.__moraSpeech.calls.map((call) => call.text),
-    ),
-  ).toEqual(["Do you have any plans for the weekend?"]);
+test("문장 선택 구간 이동", async ({ page }) => {
+  await page.goto("/watch/small-talk");
+  const video = page.getByTestId("lesson-video");
+  await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.readyState)).toBeGreaterThanOrEqual(2);
+  await page.getByRole("button", { name: "3번 문장 영상 재생", exact: true }).click();
+  const data = await (await page.request.get("/media/lessons/manifest.json")).json();
+  const start = data["small-talk"].segments.filter((s: {kind: string}) => s.kind === "phrase")[2].start;
+  await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.currentTime)).toBeGreaterThanOrEqual(start);
+  expect(await video.evaluate((v: HTMLVideoElement) => v.currentTime)).toBeLessThan(start + 4);
 });

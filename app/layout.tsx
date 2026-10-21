@@ -1,5 +1,6 @@
 import "@/src/5-shared/style/global.scss";
 import "@/src/1-page/home/index.scss";
+import "@/src/1-page/watch/index.scss";
 
 import type { Metadata } from "next";
 import type { ReactNode } from "react";

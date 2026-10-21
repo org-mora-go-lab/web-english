@@ -1,17 +1,11 @@
 import { expect, test } from "@playwright/test";
 
-import { mockSpeech } from "../../__mock__";
-test("대화 재생과 레슨 닫기", async ({ page }) => {
-  await mockSpeech(page);
-  await page.goto("/");
-  await page.getByRole("button", { name: "오늘의 레슨 시작하기" }).click();
-  await page.getByRole("button", { name: "대화 듣기", exact: true }).click();
-  expect(await page.evaluate(() => window.__moraSpeech.calls[0].text)).toBe(
-    "How was your weekend? Pretty good. I tried a new café near my place. That sounds nice. Do you have any plans for next weekend? Not yet. Do you have any recommendations?",
-  );
-  const before = await page.evaluate(() => window.__moraSpeech.cancels);
-  await page.getByRole("button", { name: "레슨 닫기" }).click();
-  expect(await page.evaluate(() => window.__moraSpeech.cancels)).toBe(
-    before + 1,
-  );
+test("대화 선택 구간 이동", async ({ page }) => {
+  await page.goto("/watch/small-talk");
+  const video = page.getByTestId("lesson-video");
+  await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.readyState)).toBeGreaterThanOrEqual(2);
+  await page.getByRole("button", { name: "2번 대화 영상 재생", exact: true }).click();
+  const data = await (await page.request.get("/media/lessons/manifest.json")).json();
+  const start = data["small-talk"].segments.filter((s: {kind: string}) => s.kind === "dialogue")[1].start;
+  await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.currentTime)).toBeGreaterThanOrEqual(start);
 });

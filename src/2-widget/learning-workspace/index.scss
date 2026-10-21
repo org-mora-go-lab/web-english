@@ -1,4 +1,3 @@
-@use "../../3-feature/lesson-practice";
 @use "../../3-feature/character-welcome";
 
 .peach {
@@ -1190,4 +1189,10 @@
       font-size: 42px;
     }
   }
+}
+
+.learning-workspace {
+  .thumbnail { display: block; padding: 0; text-decoration: none; img { display: block; width: 100%; height: 100%; object-fit: cover; } }
+  a.lesson-title { display: block; text-decoration: none; }
+  .hero-copy > a { display: inline-flex; align-items: center; gap: 12px; padding: 13px 18px; border-radius: 7px; background: #252921; color: white; text-decoration: none; font-weight: 600; margin: 5px 0 15px; }
 }

@@ -10,7 +10,7 @@ test("레슨 정렬", async ({ page }) => {
   await expect
     .poll(async () => {
       const minutes = (await page.locator(".duration").allTextContents()).map(
-        (value) => parseInt(value),
+        (value) => { const [minutes, seconds] = value.split(":").map(Number); return minutes * 60 + seconds; },
       );
       return (
         minutes.length === 15 &&

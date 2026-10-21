@@ -1,0 +1,114 @@
+{
+  "duration": 54.2025,
+  "fps": 12,
+  "width": 1280,
+  "height": 720,
+  "voice": "Microsoft Zira Desktop",
+  "segments": [
+    {
+      "kind": "intro",
+      "text": "Hi! I'm Momo. Let's practice Could you, please?.",
+      "korean": "Could you + 동사로 도움을 요청하고 허락을 구할 수 있어요.",
+      "start": 0.5,
+      "end": 6.1395
+    },
+    {
+      "kind": "vocabulary",
+      "text": "request",
+      "korean": "부탁, 요청",
+      "start": 6.5395,
+      "end": 8.164
+    },
+    {
+      "kind": "vocabulary",
+      "text": "outlet",
+      "korean": "전기 콘센트",
+      "start": 8.564,
+      "end": 9.9785
+    },
+    {
+      "kind": "vocabulary",
+      "text": "hold the door",
+      "korean": "문을 잡아 주다",
+      "start": 10.3785,
+      "end": 11.983
+    },
+    {
+      "kind": "phrase",
+      "text": "Could you help me with this?",
+      "korean": "이것 좀 도와주시겠어요?",
+      "start": 12.383,
+      "end": 14.5175
+    },
+    {
+      "kind": "phrase",
+      "text": "Could you hold the door, please?",
+      "korean": "문을 잡아 주시겠어요?",
+      "start": 14.9175,
+      "end": 17.797
+    },
+    {
+      "kind": "phrase",
+      "text": "Could I use this outlet?",
+      "korean": "이 콘센트를 사용해도 될까요?",
+      "start": 18.197,
+      "end": 20.3315
+    },
+    {
+      "kind": "phrase",
+      "text": "Would you mind moving your bag?",
+      "korean": "가방을 옮겨 주실 수 있을까요?",
+      "start": 20.7315,
+      "end": 23.146
+    },
+    {
+      "kind": "phrase",
+      "text": "Thank you. I really appreciate it.",
+      "korean": "감사합니다. 정말 큰 도움이 됐어요.",
+      "start": 23.546,
+      "end": 27.1005
+    },
+    {
+      "kind": "dialogue",
+      "text": "Excuse me. Could I use this outlet?",
+      "korean": "You: 실례합니다. 이 콘센트를 사용해도 될까요?",
+      "start": 27.5005,
+      "end": 31.265
+    },
+    {
+      "kind": "dialogue",
+      "text": "Of course. Let me move my bag.",
+      "korean": "Student: 물론이죠. 제 가방을 옮길게요.",
+      "start": 31.665,
+      "end": 35.1345
+    },
+    {
+      "kind": "dialogue",
+      "text": "Thank you. I really appreciate it.",
+      "korean": "You: 감사합니다. 정말 큰 도움이 됐어요.",
+      "start": 35.5345,
+      "end": 39.089
+    },
+    {
+      "kind": "dialogue",
+      "text": "You're welcome.",
+      "korean": "Student: 천만에요.",
+      "start": 39.489,
+      "end": 41.1435
+    },
+    {
+      "kind": "review",
+      "text": "Remember this expression. Could I open the window?",
+      "korean": "Could I…?는 내가 해도 되는지, Could you…?는 상대가 해 줄 수 있는지 묻습니다.",
+      "start": 41.5435,
+      "end": 45.688
+    },
+    {
+      "kind": "outro",
+      "text": "Great job! Pause, repeat, and make it your own. See you in the next lesson!",
+      "korean": "Could you…?는 상대의 행동을 부탁하고, Could I…?는 내가 어떤 일을 해도 되는지 허락을 구해요.",
+      "start": 46.088,
+      "end": 52.8025
+    }
+  ]
+}

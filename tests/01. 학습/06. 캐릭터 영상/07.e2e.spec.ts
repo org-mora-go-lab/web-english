@@ -1,13 +1,9 @@
 import { expect, test } from "@playwright/test";
-test("레슨을 열면 영상 정지", async ({ page }) => {
+
+test("시청 페이지에서 홈 인사 영상 해제", async ({ page }) => {
   await page.goto("/");
-  const video = page.getByTestId("momo-video");
-  await expect
-    .poll(() => video.evaluate((element: HTMLVideoElement) => element.paused))
-    .toBe(false);
-  await page.getByRole("button", { name: "오늘의 레슨 시작하기" }).click();
-  await expect(page.getByRole("dialog")).toBeVisible();
-  await expect
-    .poll(() => video.evaluate((element: HTMLVideoElement) => element.paused))
-    .toBe(true);
+  await expect(page.getByTestId("momo-video")).toBeVisible();
+  await page.getByRole("link", { name: "오늘의 레슨 시작하기" }).click();
+  await expect(page.getByTestId("momo-video")).toHaveCount(0);
+  await expect(page.getByTestId("lesson-video")).toBeVisible();
 });

@@ -1,0 +1,114 @@
+{
+  "duration": 48.8025,
+  "fps": 12,
+  "width": 1280,
+  "height": 720,
+  "voice": "Microsoft Zira Desktop",
+  "segments": [
+    {
+      "kind": "intro",
+      "text": "Hi! I'm Momo. Let's practice At nine. On Monday..",
+      "korean": "시각·요일·월에 알맞은 전치사를 붙여 일정을 설명할 수 있어요.",
+      "start": 0.5,
+      "end": 6.7245
+    },
+    {
+      "kind": "vocabulary",
+      "text": "at nine",
+      "korean": "9시에",
+      "start": 7.1245,
+      "end": 8.494
+    },
+    {
+      "kind": "vocabulary",
+      "text": "on Monday",
+      "korean": "월요일에",
+      "start": 8.894,
+      "end": 10.3435
+    },
+    {
+      "kind": "vocabulary",
+      "text": "in November",
+      "korean": "11월에",
+      "start": 10.7435,
+      "end": 12.283
+    },
+    {
+      "kind": "phrase",
+      "text": "The class starts at nine.",
+      "korean": "수업은 9시에 시작해요.",
+      "start": 12.683,
+      "end": 14.9175
+    },
+    {
+      "kind": "phrase",
+      "text": "Let's meet on Monday.",
+      "korean": "월요일에 만나요.",
+      "start": 15.3175,
+      "end": 17.257
+    },
+    {
+      "kind": "phrase",
+      "text": "The course begins in November.",
+      "korean": "과정은 11월에 시작해요.",
+      "start": 17.657,
+      "end": 20.0115
+    },
+    {
+      "kind": "phrase",
+      "text": "I usually study in the evening.",
+      "korean": "저는 보통 저녁에 공부해요.",
+      "start": 20.4115,
+      "end": 22.926
+    },
+    {
+      "kind": "phrase",
+      "text": "I'm available on Friday afternoon.",
+      "korean": "금요일 오후에 시간이 돼요.",
+      "start": 23.326,
+      "end": 26.1255
+    },
+    {
+      "kind": "dialogue",
+      "text": "When does the course begin?",
+      "korean": "Friend: 과정이 언제 시작하나요?",
+      "start": 26.5255,
+      "end": 28.675
+    },
+    {
+      "kind": "dialogue",
+      "text": "It begins in November.",
+      "korean": "You: 11월에 시작해요.",
+      "start": 29.075,
+      "end": 31.1045
+    },
+    {
+      "kind": "dialogue",
+      "text": "What time is the first class?",
+      "korean": "Friend: 첫 수업은 몇 시인가요?",
+      "start": 31.5045,
+      "end": 34.024
+    },
+    {
+      "kind": "dialogue",
+      "text": "It's at nine on Monday.",
+      "korean": "You: 월요일 9시예요.",
+      "start": 34.424,
+      "end": 36.4885
+    },
+    {
+      "kind": "review",
+      "text": "Remember this expression. on",
+      "korean": "요일과 날짜 앞에는 on을 사용합니다.",
+      "start": 36.8885,
+      "end": 40.288
+    },
+    {
+      "kind": "outro",
+      "text": "Great job! Pause, repeat, and make it your own. See you in the next lesson!",
+      "korean": "구체적인 시각에는 at, 요일·날짜에는 on, 월·연도·대부분의 시간대에는 in을 써요. at night 같은 예외도 함께 익혀 보세요.",
+      "start": 40.688,
+      "end": 47.4025
+    }
+  ]
+}

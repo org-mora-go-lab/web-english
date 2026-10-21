@@ -1,0 +1,114 @@
+{
+  "duration": 55.6225,
+  "fps": 12,
+  "width": 1280,
+  "height": 720,
+  "voice": "Microsoft Zira Desktop",
+  "segments": [
+    {
+      "kind": "intro",
+      "text": "Hi! I'm Momo. Let's practice On track. In sync..",
+      "korean": "진행 상태를 설명하고 필요한 시간이나 도움을 구체적으로 요청할 수 있어요.",
+      "start": 0.5,
+      "end": 6.8645
+    },
+    {
+      "kind": "vocabulary",
+      "text": "on track",
+      "korean": "계획대로 진행 중인",
+      "start": 7.2645,
+      "end": 8.749
+    },
+    {
+      "kind": "vocabulary",
+      "text": "deadline",
+      "korean": "마감",
+      "start": 9.149,
+      "end": 10.6585
+    },
+    {
+      "kind": "vocabulary",
+      "text": "extend",
+      "korean": "연장하다",
+      "start": 11.0585,
+      "end": 12.683
+    },
+    {
+      "kind": "phrase",
+      "text": "We're on track to finish by Thursday.",
+      "korean": "목요일까지 마칠 수 있도록 계획대로 진행 중이에요.",
+      "start": 13.083,
+      "end": 15.8425
+    },
+    {
+      "kind": "phrase",
+      "text": "I'm waiting for the final review.",
+      "korean": "최종 검토를 기다리고 있어요.",
+      "start": 16.2425,
+      "end": 18.662
+    },
+    {
+      "kind": "phrase",
+      "text": "Could we extend the deadline by one day?",
+      "korean": "마감을 하루 연장할 수 있을까요?",
+      "start": 19.062,
+      "end": 21.9415
+    },
+    {
+      "kind": "phrase",
+      "text": "I'll send you an update this afternoon.",
+      "korean": "오늘 오후에 진행 상황을 공유하겠습니다.",
+      "start": 22.3415,
+      "end": 25.226
+    },
+    {
+      "kind": "phrase",
+      "text": "Is there anything I can help with?",
+      "korean": "제가 도울 수 있는 일이 있을까요?",
+      "start": 25.626,
+      "end": 28.1505
+    },
+    {
+      "kind": "dialogue",
+      "text": "How is the project going?",
+      "korean": "Lead: 프로젝트는 어떻게 진행되고 있나요?",
+      "start": 28.5505,
+      "end": 30.8
+    },
+    {
+      "kind": "dialogue",
+      "text": "I'm waiting for the final review.",
+      "korean": "You: 최종 검토를 기다리고 있어요.",
+      "start": 31.2,
+      "end": 33.6195
+    },
+    {
+      "kind": "dialogue",
+      "text": "Could we extend the deadline by one day?",
+      "korean": "You: 마감을 하루 연장할 수 있을까요?",
+      "start": 34.0195,
+      "end": 36.899
+    },
+    {
+      "kind": "dialogue",
+      "text": "Yes. Please send me an update this afternoon.",
+      "korean": "Lead: 네. 오늘 오후에 진행 상황을 알려 주세요.",
+      "start": 37.299,
+      "end": 41.6435
+    },
+    {
+      "kind": "review",
+      "text": "Remember this expression. Could we extend the deadline by one day?",
+      "korean": "extend the deadline은 마감을 연장하다, by one day는 하루만큼이라는 의미입니다.",
+      "start": 42.0435,
+      "end": 47.108
+    },
+    {
+      "kind": "outro",
+      "text": "Great job! Pause, repeat, and make it your own. See you in the next lesson!",
+      "korean": "일정 변경을 요청할 때 이유와 새로운 마감을 함께 제안하세요. by Thursday는 목요일까지라는 뜻입니다.",
+      "start": 47.508,
+      "end": 54.2225
+    }
+  ]
+}

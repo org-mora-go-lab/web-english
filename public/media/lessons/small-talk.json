@@ -1,0 +1,114 @@
+{
+  "duration": 56.7475,
+  "fps": 12,
+  "width": 1280,
+  "height": 720,
+  "voice": "Microsoft Zira Desktop",
+  "segments": [
+    {
+      "kind": "intro",
+      "text": "Hi! I'm Momo. Let's practice Hello, small talk..",
+      "korean": "처음 만난 사람에게 질문하고 자연스럽게 대화를 마무리할 수 있어요.",
+      "start": 0.5,
+      "end": 6.3645
+    },
+    {
+      "kind": "vocabulary",
+      "text": "small talk",
+      "korean": "가볍게 나누는 일상 대화",
+      "start": 6.7645,
+      "end": 8.474
+    },
+    {
+      "kind": "vocabulary",
+      "text": "catch up",
+      "korean": "그동안의 이야기를 나누다",
+      "start": 8.874,
+      "end": 10.3085
+    },
+    {
+      "kind": "vocabulary",
+      "text": "weekend plans",
+      "korean": "주말 계획",
+      "start": 10.7085,
+      "end": 12.608
+    },
+    {
+      "kind": "phrase",
+      "text": "How has your day been?",
+      "korean": "오늘 하루 어땠어요?",
+      "start": 13.008,
+      "end": 15.0075
+    },
+    {
+      "kind": "phrase",
+      "text": "Do you have any plans for the weekend?",
+      "korean": "주말에 무슨 계획 있어요?",
+      "start": 15.4075,
+      "end": 18.227
+    },
+    {
+      "kind": "phrase",
+      "text": "It was lovely talking to you.",
+      "korean": "이야기 나눠서 즐거웠어요.",
+      "start": 18.627,
+      "end": 20.9665
+    },
+    {
+      "kind": "phrase",
+      "text": "How was your weekend?",
+      "korean": "주말 어떻게 보내셨어요?",
+      "start": 21.3665,
+      "end": 23.326
+    },
+    {
+      "kind": "phrase",
+      "text": "I tried a new café near my place.",
+      "korean": "집 근처 새 카페에 가 봤어요.",
+      "start": 23.726,
+      "end": 26.6205
+    },
+    {
+      "kind": "dialogue",
+      "text": "How was your weekend?",
+      "korean": "Alex: 주말 어떻게 보내셨어요?",
+      "start": 27.0205,
+      "end": 28.98
+    },
+    {
+      "kind": "dialogue",
+      "text": "Pretty good. I tried a new café near my place.",
+      "korean": "Jin: 꽤 좋았어요. 집 근처 새 카페에 가 봤어요.",
+      "start": 29.38,
+      "end": 33.7545
+    },
+    {
+      "kind": "dialogue",
+      "text": "That sounds nice. Do you have any plans for next weekend?",
+      "korean": "Alex: 좋았겠네요. 다음 주말에는 무슨 계획 있어요?",
+      "start": 34.1545,
+      "end": 39.179
+    },
+    {
+      "kind": "dialogue",
+      "text": "Not yet. Do you have any recommendations?",
+      "korean": "Jin: 아직요. 추천해 주실 만한 게 있나요?",
+      "start": 39.579,
+      "end": 43.6885
+    },
+    {
+      "kind": "review",
+      "text": "Remember this expression. How was your weekend?",
+      "korean": "How was your weekend?는 부담 없이 일상 이야기를 시작하는 질문입니다.",
+      "start": 44.0885,
+      "end": 48.233
+    },
+    {
+      "kind": "outro",
+      "text": "Great job! Pause, repeat, and make it your own. See you in the next lesson!",
+      "korean": "질문 뒤에는 내 이야기도 한 문장 덧붙여 보세요. 상대가 답할 여유를 주면 대화가 자연스럽게 이어집니다.",
+      "start": 48.633,
+      "end": 55.3475
+    }
+  ]
+}
