@@ -67,8 +67,8 @@ export function WatchWorkspace({ lesson }: WatchWorkspaceProps) {
         </div>
         <div className="player-tools">
           <span><Volume2 size={15} /> 영어 음성 포함 · {media.label}</span>
-          <label>재생 속도 <select aria-label="영상 재생 속도" value={rate} onChange={event => { const next = Number(event.target.value); setRate(next); if (video.current) video.current.playbackRate = next; }}><option value={0.75}>0.75×</option><option value={1}>1×</option><option value={1.25}>1.25×</option><option value={1.5}>1.5×</option></select></label>
-          <label>자막 <select aria-label="영상 자막" value={caption} onChange={event => changeCaptions(event.target.value)}><option value="en">English</option><option value="ko">한국어</option><option value="off">끄기</option></select></label>
+          <label>재생 속도 <select disabled={!ready} aria-label="영상 재생 속도" value={rate} onChange={event => { const next = Number(event.target.value); setRate(next); if (video.current) { video.current.defaultPlaybackRate = next; video.current.playbackRate = next; } }}><option value={0.75}>0.75×</option><option value={1}>1×</option><option value={1.25}>1.25×</option><option value={1.5}>1.5×</option></select></label>
+          <label>자막 <select disabled={!ready} aria-label="영상 자막" value={caption} onChange={event => changeCaptions(event.target.value)}><option value="en">English</option><option value="ko">한국어</option><option value="off">끄기</option></select></label>
         </div>
         <h1>{lesson.title}</h1>
         <div className="watch-channel">
