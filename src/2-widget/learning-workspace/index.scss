@@ -26,6 +26,59 @@
 }
 
 .learning-workspace {
+  .lesson-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin: -3px 0 22px;
+    > span {
+      color: #969696;
+      font-size: 11px;
+    }
+    > div {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 10px;
+      color: #888;
+    }
+    select {
+      color: #555;
+      font: inherit;
+      font-size: 11px;
+      border: 1px solid #e5e5e5;
+      background: white;
+      border-radius: 7px;
+      padding: 8px;
+    }
+    button {
+      font-size: 10px;
+      color: #777;
+      background: #f4f4f4;
+      border-radius: 7px;
+      padding: 8px;
+    }
+  }
+  .lesson-info .lesson-goal {
+    font-size: 10px;
+    color: #888;
+    line-height: 1.7;
+    margin: 4px 0 7px;
+  }
+  .section-heading h2 {
+    scroll-margin-top: 160px;
+  }
+  .header-right .profile {
+    display: grid;
+    place-items: center;
+  }
   .skip-link {
     position: fixed;
     top: -100px;
@@ -904,6 +957,20 @@
   }
 }
 @media (max-width: 700px) {
+  .learning-workspace .hero .hero-art {
+    display: none;
+  }
+  .learning-workspace .lesson-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    > span {
+      font-size: 10px;
+    }
+    > div {
+      gap: 9px;
+    }
+  }
   .learning-workspace {
     .topbar {
       height: 116px;

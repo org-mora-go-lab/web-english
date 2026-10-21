@@ -12,5 +12,5 @@ test("검색과 빈 결과", async ({ page }) => {
     page.getByRole("heading", { name: "일치하는 레슨이 없어요" }),
   ).toBeVisible();
   await page.getByRole("button", { name: "검색 지우기" }).click();
-  await expect(page.getByRole("article")).toHaveCount(8);
+  await expect(page.getByRole("article")).toHaveCount(15);
 });
