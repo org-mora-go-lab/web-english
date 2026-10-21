@@ -1,1 +1,0 @@
-export { mockSpeech } from "./speech";

@@ -2,8 +2,8 @@ import { expect, test } from "@playwright/test";
 
 test("문장 해석 표시", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "오늘의 레슨 시작하기" }).click();
-  const dialog = page.getByRole("dialog");
+  await page.getByRole("link", { name: "오늘의 레슨 시작하기" }).click();
+  const dialog = page.locator(".watch-primary");
   await expect(
     dialog.getByText("How has your day been?", { exact: true }),
   ).toBeVisible();

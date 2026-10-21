@@ -1,0 +1,114 @@
+{
+  "duration": 50.9025,
+  "fps": 12,
+  "width": 1280,
+  "height": 720,
+  "voice": "Microsoft Zira Desktop",
+  "segments": [
+    {
+      "kind": "intro",
+      "text": "Hi! I'm Momo. Let's practice More than “I'm fine.”.",
+      "korean": "기분을 구체적으로 설명하고 상대의 좋은 소식에 반응할 수 있어요.",
+      "start": 0.5,
+      "end": 5.7045
+    },
+    {
+      "kind": "vocabulary",
+      "text": "overwhelmed",
+      "korean": "할 일이 많아 벅찬",
+      "start": 6.1045,
+      "end": 7.674
+    },
+    {
+      "kind": "vocabulary",
+      "text": "relieved",
+      "korean": "안도하는",
+      "start": 8.074,
+      "end": 9.6085
+    },
+    {
+      "kind": "vocabulary",
+      "text": "look forward to",
+      "korean": "기대하다",
+      "start": 10.0085,
+      "end": 11.803
+    },
+    {
+      "kind": "phrase",
+      "text": "I'm feeling a bit overwhelmed.",
+      "korean": "조금 벅찬 기분이에요.",
+      "start": 12.203,
+      "end": 14.5925
+    },
+    {
+      "kind": "phrase",
+      "text": "That really made my day.",
+      "korean": "그 덕분에 정말 기분이 좋아졌어요.",
+      "start": 14.9925,
+      "end": 17.002
+    },
+    {
+      "kind": "phrase",
+      "text": "I'm looking forward to it.",
+      "korean": "기대하고 있어요.",
+      "start": 17.402,
+      "end": 19.5015
+    },
+    {
+      "kind": "phrase",
+      "text": "I'm relieved that it's over.",
+      "korean": "끝나서 안심이에요.",
+      "start": 19.9015,
+      "end": 22.016
+    },
+    {
+      "kind": "phrase",
+      "text": "I'm a bit tired, but I'm doing okay.",
+      "korean": "조금 피곤하지만 괜찮아요.",
+      "start": 22.416,
+      "end": 25.6205
+    },
+    {
+      "kind": "dialogue",
+      "text": "How are you feeling today?",
+      "korean": "Friend: 오늘 기분이 어때요?",
+      "start": 26.0205,
+      "end": 28.195
+    },
+    {
+      "kind": "dialogue",
+      "text": "I'm feeling a bit overwhelmed.",
+      "korean": "You: 조금 벅찬 기분이에요.",
+      "start": 28.595,
+      "end": 30.9845
+    },
+    {
+      "kind": "dialogue",
+      "text": "Let's take a break this weekend.",
+      "korean": "Friend: 이번 주말에 좀 쉬어요.",
+      "start": 31.3845,
+      "end": 33.844
+    },
+    {
+      "kind": "dialogue",
+      "text": "That sounds great. I'm looking forward to it.",
+      "korean": "You: 정말 좋네요. 기대하고 있어요.",
+      "start": 34.244,
+      "end": 38.2485
+    },
+    {
+      "kind": "review",
+      "text": "Remember this expression. I'm relieved.",
+      "korean": "relieved는 걱정이나 부담이 사라져 안도하는 감정입니다.",
+      "start": 38.6485,
+      "end": 42.388
+    },
+    {
+      "kind": "outro",
+      "text": "Great job! Pause, repeat, and make it your own. See you in the next lesson!",
+      "korean": "a bit은 감정을 조금 부드럽게 전달해요. I’m a bit tired처럼 부담 없이 현재 상태를 설명해 보세요.",
+      "start": 42.788,
+      "end": 49.5025
+    }
+  ]
+}

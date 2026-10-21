@@ -4,7 +4,6 @@ import {
   ArrowDown,
   ArrowRight,
   Bookmark,
-  BookOpen,
   Check,
   CheckCheck,
   ChevronRight,
@@ -13,15 +12,17 @@ import {
   History,
   Home,
   Menu,
+  Play,
   Search,
   Sparkles,
   X,
 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
-import { CharacterWelcome, LessonPractice } from "@/src/3-feature";
-import type { Lesson } from "@/src/4-entity";
-import { categories, lessons, useLibrary } from "@/src/4-entity";
+import { CharacterWelcome } from "@/src/3-feature";
+import { categories, lessons, lessonVideos, useBrowse, useLibrary } from "@/src/4-entity";
 
 const navigation = [
   { name: "홈", icon: Home },
@@ -41,26 +42,31 @@ function isMobile() {
 }
 
 export function LearningWorkspace() {
-  const lessonTrigger = useRef<HTMLElement | null>(null);
   const resultsHeading = useRef<HTMLHeadingElement | null>(null);
   const mobile = useSyncExternalStore(subscribeMobile, isMobile, () => false);
-  const [view, setView] = useState("홈");
-  const [category, setCategory] = useState("전체");
-  const [query, setQuery] = useState("");
-  const [level, setLevel] = useState("전체");
-  const [sort, setSort] = useState("추천순");
+  const { view, category, query, level, sort, change, restore } = useBrowse();
+  const setView = (view: string) => change({ view });
+  const setCategory = (category: string) => change({ category, scroll: 0 });
+  const setQuery = (query: string) => change({ query, scroll: 0 });
+  const setLevel = (level: string) => change({ level, scroll: 0 });
+  const setSort = (sort: string) => change({ sort, scroll: 0 });
   const [sidebar, setSidebar] = useState(false);
-  const [selected, setSelected] = useState<Lesson | null>(null);
   const { library, ready, hydrate, update } = useLibrary();
   const [notice, setNotice] = useState("");
   useEffect(() => {
-    hydrate();
+    if (!useLibrary.getState().ready) hydrate();
+    restore();
     function sync(event: StorageEvent) {
       if (event.key === "mora-english-library" || event.key === null) hydrate();
     }
     window.addEventListener("storage", sync);
     return () => window.removeEventListener("storage", sync);
-  }, [hydrate]);
+  }, [hydrate, restore]);
+  useEffect(() => {
+    if (!ready) return;
+    const frame = requestAnimationFrame(() => window.scrollTo(0, useBrowse.getState().scroll));
+    return () => cancelAnimationFrame(frame);
+  }, [ready]);
   function updateLibrary(next: typeof library) {
     if (!update(next))
       setNotice("저장 공간을 사용할 수 없어 이번 세션에서만 유지됩니다.");
@@ -73,18 +79,7 @@ export function LearningWorkspace() {
         : [...library.saved, id],
     });
   }
-  function openLesson(lesson: Lesson) {
-    lessonTrigger.current = document.activeElement as HTMLElement;
-    setSelected(lesson);
-    updateLibrary({
-      ...library,
-      history: [lesson.id, ...library.history.filter((id) => id !== lesson.id)],
-    });
-  }
-  function closeLesson() {
-    setSelected(null);
-    requestAnimationFrame(() => lessonTrigger.current?.focus());
-  }
+  function rememberList() { change({ scroll: window.scrollY }); }
   function navigate(name: string) {
     setView(name);
     setCategory("전체");
@@ -111,7 +106,7 @@ export function LearningWorkspace() {
     )
     .sort((a, b) =>
       sort === "짧은순"
-        ? parseInt(a.duration) - parseInt(b.duration)
+        ? lessonVideos[a.id].seconds - lessonVideos[b.id].seconds
         : sort === "제목순"
           ? a.title.localeCompare(b.title, "ko")
           : 0,
@@ -249,7 +244,7 @@ export function LearningWorkspace() {
         <footer>
           <span>mora-go-lab</span>
           <p>Made for your everyday English.</p>
-          <span>© {new Date().getFullYear()} Mora English · v1.0.2</span>
+          <span>© {new Date().getFullYear()} Mora English · v1.0.3</span>
         </footer>
       </aside>
       <main id="content" tabIndex={-1}>
@@ -284,14 +279,14 @@ export function LearningWorkspace() {
                   <br />
                   오늘의 5분이 내일의 자신감이 되도록.
                 </p>
-                <button onClick={() => openLesson(today)}>
+                <Link href={`/watch/${today.id}`} onClick={rememberList}>
                   오늘의 레슨 시작하기 <ArrowRight size={17} />
-                </button>
+                </Link>
                 <span className="hero-footnote">
-                  {today.category} · {today.duration} · 핵심 문장 5개
+                  {today.category} · {lessonVideos[today.id].label} · 핵심 문장 5개
                 </span>
               </div>
-              <CharacterWelcome suspended={selected !== null} />
+              <CharacterWelcome suspended={false} />
             </section>
           )}
         <section className="lesson-section" aria-label="레슨 목록">
@@ -310,7 +305,7 @@ export function LearningWorkspace() {
                 {query.trim()
                   ? `“${query}” · ${visible.length}개의 레슨`
                   : view === "홈"
-                    ? `학습용 예시 레슨 ${lessons.length}개 · 상황별 핵심 문장 ${lessons.reduce((count, lesson) => count + lesson.phrases.length, 0)}개`
+                    ? `Momo 영어 영상 ${lessons.length}개 · 상황별 핵심 문장 ${lessons.reduce((count, lesson) => count + lesson.phrases.length, 0)}개`
                     : `${visible.length}개의 레슨 · 조금씩, 꾸준히 함께해요.`}
               </p>
             </div>
@@ -371,50 +366,35 @@ export function LearningWorkspace() {
           </div>
           {visible.length ? (
             <div className="lesson-grid">
-              {visible.map((lesson, index) => (
+              {visible.map((lesson) => (
                 <article className="lesson-card" key={lesson.id}>
-                  <button
+                  <Link
+                    href={`/watch/${lesson.id}`}
+                    onClick={rememberList}
                     className={`thumbnail ${lesson.color}`}
                     aria-label={`${lesson.title} 레슨 열기`}
-                    onClick={() => openLesson(lesson)}
                   >
-                    <span className="thumbnail-label">
-                      {lesson.category.toUpperCase()}
-                      <span>문장 레슨</span>
-                    </span>
-                    <span className="thumbnail-headline" lang="en">
-                      {lesson.headline.map((line) => (
-                        <span key={line}>{line}</span>
-                      ))}
-                    </span>
-                    <span
-                      className={`thumbnail-symbol symbol-${index % 4}`}
-                      aria-hidden="true"
-                    >
-                      {["✳", "◔", "↗", "≋"][index % 4]}
-                    </span>
-                    <span className="thumbnail-caption">{lesson.caption}</span>
-                    <span className="duration">{lesson.duration}</span>
-                    <span className="hover-play">
-                      <BookOpen size={27} />
-                    </span>
+                    <Image src={lessonVideos[lesson.id].poster} alt={`${lesson.headline.join(" ")} 영상 프리뷰`} width={1280} height={720} sizes="(max-width: 700px) 100vw, (max-width: 1100px) 45vw, 30vw" />
+                    <span className="duration">{lessonVideos[lesson.id].label}</span>
+                    <span className="hover-play"><Play size={27} fill="currentColor" /></span>
                     {library.completed.includes(lesson.id) && (
                       <span className="completed-badge">
                         <Check size={12} /> 완료
                       </span>
                     )}
-                  </button>
+                  </Link>
                   <div className="lesson-info">
                     <span className={`creator-avatar ${lesson.color}`}>
                       {lesson.initial}
                     </span>
                     <div>
-                      <button
+                      <Link
+                        href={`/watch/${lesson.id}`}
                         className="lesson-title"
-                        onClick={() => openLesson(lesson)}
+                        onClick={rememberList}
                       >
                         {lesson.title}
-                      </button>
+                      </Link>
                       <p>{lesson.creator}</p>
                       <p className="lesson-goal">{lesson.goal}</p>
                       <span className="lesson-meta">
@@ -480,24 +460,7 @@ export function LearningWorkspace() {
           </button>
         </div>
       )}
-      {selected && (
-        <LessonPractice
-          key={selected.id}
-          lesson={selected}
-          saved={library.saved.includes(selected.id)}
-          completed={library.completed.includes(selected.id)}
-          onClose={closeLesson}
-          onSave={() => toggleSaved(selected.id)}
-          onComplete={() => {
-            updateLibrary({
-              ...library,
-              completed: library.completed.includes(selected.id)
-                ? library.completed.filter((id) => id !== selected.id)
-                : [...library.completed, selected.id],
-            });
-          }}
-        />
-      )}
+
     </div>
   );
 }

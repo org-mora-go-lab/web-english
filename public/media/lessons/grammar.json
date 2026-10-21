@@ -1,0 +1,114 @@
+{
+  "duration": 49.8375,
+  "fps": 12,
+  "width": 1280,
+  "height": 720,
+  "voice": "Microsoft Zira Desktop",
+  "segments": [
+    {
+      "kind": "intro",
+      "text": "Hi! I'm Momo. Let's practice Have you ever…?.",
+      "korean": "Have you ever…?로 경험을 묻고 아직 해 보지 않은 일을 말할 수 있어요.",
+      "start": 0.5,
+      "end": 5.4145
+    },
+    {
+      "kind": "vocabulary",
+      "text": "ever",
+      "korean": "지금까지 한 번이라도",
+      "start": 5.8145,
+      "end": 7.039
+    },
+    {
+      "kind": "vocabulary",
+      "text": "yet",
+      "korean": "아직, 벌써",
+      "start": 7.439,
+      "end": 8.7035
+    },
+    {
+      "kind": "vocabulary",
+      "text": "a chance to",
+      "korean": "~할 기회",
+      "start": 9.1035,
+      "end": 10.743
+    },
+    {
+      "kind": "phrase",
+      "text": "Have you ever been to London?",
+      "korean": "런던에 가 본 적 있나요?",
+      "start": 11.143,
+      "end": 13.4175
+    },
+    {
+      "kind": "phrase",
+      "text": "I've always wanted to try that.",
+      "korean": "늘 그걸 해 보고 싶었어요.",
+      "start": 13.8175,
+      "end": 16.312
+    },
+    {
+      "kind": "phrase",
+      "text": "I haven't had a chance yet.",
+      "korean": "아직 기회가 없었어요.",
+      "start": 16.712,
+      "end": 19.0615
+    },
+    {
+      "kind": "phrase",
+      "text": "I've never tried surfing.",
+      "korean": "서핑을 해 본 적이 없어요.",
+      "start": 19.4615,
+      "end": 21.681
+    },
+    {
+      "kind": "phrase",
+      "text": "I've visited London twice.",
+      "korean": "런던에 두 번 가 봤어요.",
+      "start": 22.081,
+      "end": 24.4155
+    },
+    {
+      "kind": "dialogue",
+      "text": "Have you ever been to London?",
+      "korean": "You: 런던에 가 본 적 있나요?",
+      "start": 24.8155,
+      "end": 27.09
+    },
+    {
+      "kind": "dialogue",
+      "text": "Yes, I've visited London twice.",
+      "korean": "Friend: 네, 런던에 두 번 가 봤어요.",
+      "start": 27.49,
+      "end": 30.6145
+    },
+    {
+      "kind": "dialogue",
+      "text": "When did you go?",
+      "korean": "You: 언제 갔어요?",
+      "start": 31.0145,
+      "end": 32.624
+    },
+    {
+      "kind": "dialogue",
+      "text": "Last summer. Have you been there?",
+      "korean": "Friend: 지난여름이요. 가 본 적 있어요?",
+      "start": 33.024,
+      "end": 36.3885
+    },
+    {
+      "kind": "review",
+      "text": "Remember this expression. I haven't had a chance yet.",
+      "korean": "현재까지 경험이 없음을 haven’t had로, 아직이라는 의미를 yet으로 표현합니다.",
+      "start": 36.7885,
+      "end": 41.323
+    },
+    {
+      "kind": "outro",
+      "text": "Great job! Pause, repeat, and make it your own. See you in the next lesson!",
+      "korean": "경험 자체는 Have you ever…?로 묻고, 특정 시점의 이야기는 When did you go?처럼 과거형으로 이어 가세요.",
+      "start": 41.723,
+      "end": 48.4375
+    }
+  ]
+}

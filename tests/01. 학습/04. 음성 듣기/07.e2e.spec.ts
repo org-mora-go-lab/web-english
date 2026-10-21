@@ -1,15 +1,11 @@
 import { expect, test } from "@playwright/test";
 
-import { mockSpeech } from "../../__mock__";
-test("음성 엔진 오류 안내", async ({ page }) => {
-  await mockSpeech(page, "error");
-  await page.goto("/");
-  await page.getByRole("button", { name: "오늘의 레슨 시작하기" }).click();
-  await page.getByRole("button", { name: "전체 듣기", exact: true }).click();
-  await expect(page.locator(".speech-status")).toContainText(
-    "음성을 재생할 수 없습니다",
-  );
-  await expect(
-    page.getByRole("button", { name: "듣기 중지", exact: true }),
-  ).toHaveCount(0);
+test("영상 로드 오류와 재시도", async ({ page }) => {
+  await page.route("**/media/lessons/coffee.mp4", route => route.abort());
+  await page.goto("/watch/coffee");
+  await expect(page.locator(".player-error[role=alert]")).toContainText("영상을 불러오지 못했어요");
+  await page.unroute("**/media/lessons/coffee.mp4");
+  await page.getByRole("button", { name: "다시 시도", exact: true }).click();
+  await expect(page.locator(".player-error[role=alert]")).toHaveCount(0);
+  await expect.poll(() => page.getByTestId("lesson-video").evaluate((v: HTMLVideoElement) => v.readyState)).toBeGreaterThanOrEqual(2);
 });

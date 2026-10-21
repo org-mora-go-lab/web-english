@@ -1,0 +1,114 @@
+{
+  "duration": 55.4475,
+  "fps": 12,
+  "width": 1280,
+  "height": 720,
+  "voice": "Microsoft Zira Desktop",
+  "segments": [
+    {
+      "kind": "intro",
+      "text": "Hi! I'm Momo. Let's practice Next stop: anywhere..",
+      "korean": "체크인 위치와 탑승구를 묻고 원하는 좌석을 요청할 수 있어요.",
+      "start": 0.5,
+      "end": 6.3995
+    },
+    {
+      "kind": "vocabulary",
+      "text": "check-in counter",
+      "korean": "탑승 수속 카운터",
+      "start": 6.7995,
+      "end": 8.569
+    },
+    {
+      "kind": "vocabulary",
+      "text": "boarding pass",
+      "korean": "탑승권",
+      "start": 8.969,
+      "end": 10.6735
+    },
+    {
+      "kind": "vocabulary",
+      "text": "checked bag",
+      "korean": "위탁 수하물",
+      "start": 11.0735,
+      "end": 12.628
+    },
+    {
+      "kind": "phrase",
+      "text": "Where is the check-in counter?",
+      "korean": "체크인 카운터가 어디인가요?",
+      "start": 13.028,
+      "end": 15.2525
+    },
+    {
+      "kind": "phrase",
+      "text": "Could I have a window seat?",
+      "korean": "창가 자리로 주실 수 있나요?",
+      "start": 15.6525,
+      "end": 17.832
+    },
+    {
+      "kind": "phrase",
+      "text": "Which gate should I go to?",
+      "korean": "어느 게이트로 가야 하나요?",
+      "start": 18.232,
+      "end": 20.3865
+    },
+    {
+      "kind": "phrase",
+      "text": "Is this bag included in my allowance?",
+      "korean": "이 가방은 제 수하물 허용량에 포함되나요?",
+      "start": 20.7865,
+      "end": 23.721
+    },
+    {
+      "kind": "phrase",
+      "text": "What time does boarding start?",
+      "korean": "탑승은 몇 시에 시작하나요?",
+      "start": 24.121,
+      "end": 26.5505
+    },
+    {
+      "kind": "dialogue",
+      "text": "May I see your passport, please?",
+      "korean": "Agent: 여권을 보여 주시겠어요?",
+      "start": 26.9505,
+      "end": 30.13
+    },
+    {
+      "kind": "dialogue",
+      "text": "Here you go. Could I have a window seat?",
+      "korean": "You: 여기 있습니다. 창가 자리로 주실 수 있나요?",
+      "start": 30.53,
+      "end": 34.2345
+    },
+    {
+      "kind": "dialogue",
+      "text": "Of course. Here is your boarding pass.",
+      "korean": "Agent: 물론이죠. 여기 탑승권입니다.",
+      "start": 34.6345,
+      "end": 38.394
+    },
+    {
+      "kind": "dialogue",
+      "text": "Thank you. What time does boarding start?",
+      "korean": "You: 감사합니다. 탑승은 몇 시에 시작하나요?",
+      "start": 38.794,
+      "end": 42.6435
+    },
+    {
+      "kind": "review",
+      "text": "Remember this expression. boarding pass",
+      "korean": "boarding pass는 탑승권, window seat는 창가 좌석, checked bag은 위탁 수하물입니다.",
+      "start": 43.0435,
+      "end": 46.933
+    },
+    {
+      "kind": "outro",
+      "text": "Great job! Pause, repeat, and make it your own. See you in the next lesson!",
+      "korean": "탑승구는 변경될 수 있어요. 실제 여행에서는 안내 화면과 항공사 공지를 함께 확인하세요. 이 레슨은 질문 표현을 연습합니다.",
+      "start": 47.333,
+      "end": 54.0475
+    }
+  ]
+}

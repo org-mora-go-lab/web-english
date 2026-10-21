@@ -1,0 +1,114 @@
+{
+  "duration": 53.6925,
+  "fps": 12,
+  "width": 1280,
+  "height": 720,
+  "voice": "Microsoft Zira Desktop",
+  "segments": [
+    {
+      "kind": "intro",
+      "text": "Hi! I'm Momo. Let's practice Fifteen? Or fifty?.",
+      "korean": "들은 숫자와 시간을 되물어 잘못 이해한 내용을 바로잡을 수 있어요.",
+      "start": 0.5,
+      "end": 6.8145
+    },
+    {
+      "kind": "vocabulary",
+      "text": "fifteen",
+      "korean": "15",
+      "start": 7.2145,
+      "end": 8.739
+    },
+    {
+      "kind": "vocabulary",
+      "text": "fifty",
+      "korean": "50",
+      "start": 9.139,
+      "end": 10.4785
+    },
+    {
+      "kind": "vocabulary",
+      "text": "half past",
+      "korean": "~시 30분",
+      "start": 10.8785,
+      "end": 12.503
+    },
+    {
+      "kind": "phrase",
+      "text": "Did you say fifteen or fifty?",
+      "korean": "15라고 하셨나요, 50이라고 하셨나요?",
+      "start": 12.903,
+      "end": 15.4475
+    },
+    {
+      "kind": "phrase",
+      "text": "Could you say that again?",
+      "korean": "다시 말씀해 주시겠어요?",
+      "start": 15.8475,
+      "end": 17.862
+    },
+    {
+      "kind": "phrase",
+      "text": "The appointment is at half past two.",
+      "korean": "예약은 두 시 반입니다.",
+      "start": 18.262,
+      "end": 21.0515
+    },
+    {
+      "kind": "phrase",
+      "text": "That's two thirty, right?",
+      "korean": "두 시 삼십 분이라는 말씀이죠?",
+      "start": 21.4515,
+      "end": 24.036
+    },
+    {
+      "kind": "phrase",
+      "text": "Let me write that down.",
+      "korean": "그걸 적어 둘게요.",
+      "start": 24.436,
+      "end": 26.4455
+    },
+    {
+      "kind": "dialogue",
+      "text": "Your appointment is at two fifteen.",
+      "korean": "Staff: 예약은 두 시 십오 분입니다.",
+      "start": 26.8455,
+      "end": 29.6
+    },
+    {
+      "kind": "dialogue",
+      "text": "Did you say two fifteen or two fifty?",
+      "korean": "You: 두 시 십오 분인가요, 두 시 오십 분인가요?",
+      "start": 30,
+      "end": 33.0345
+    },
+    {
+      "kind": "dialogue",
+      "text": "Two fifteen. A quarter past two.",
+      "korean": "Staff: 두 시 십오 분이요. 두 시에서 15분 지난 시간이에요.",
+      "start": 33.4345,
+      "end": 37.184
+    },
+    {
+      "kind": "dialogue",
+      "text": "Got it. Let me write that down.",
+      "korean": "You: 알겠습니다. 적어 둘게요.",
+      "start": 37.584,
+      "end": 40.8635
+    },
+    {
+      "kind": "review",
+      "text": "Remember this expression. 2시 30분",
+      "korean": "half past는 정각에서 30분 지난 시간입니다.",
+      "start": 41.2635,
+      "end": 45.178
+    },
+    {
+      "kind": "outro",
+      "text": "Great job! Pause, repeat, and make it your own. See you in the next lesson!",
+      "korean": "못 들었다면 추측하기보다 Did you say…?로 확인하세요. 음성의 강세를 듣고 숫자를 직접 따라 읽어 보세요.",
+      "start": 45.578,
+      "end": 52.2925
+    }
+  ]
+}

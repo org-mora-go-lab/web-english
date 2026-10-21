@@ -1,0 +1,114 @@
+{
+  "duration": 52.6525,
+  "fps": 12,
+  "width": 1280,
+  "height": 720,
+  "voice": "Microsoft Zira Desktop",
+  "segments": [
+    {
+      "kind": "intro",
+      "text": "Hi! I'm Momo. Let's practice Say that again?.",
+      "korean": "다시 말하기·천천히 말하기를 요청하고 이해한 내용을 확인할 수 있어요.",
+      "start": 0.5,
+      "end": 5.5295
+    },
+    {
+      "kind": "vocabulary",
+      "text": "catch",
+      "korean": "말을 알아듣다",
+      "start": 5.9295,
+      "end": 7.269
+    },
+    {
+      "kind": "vocabulary",
+      "text": "mean",
+      "korean": "뜻하다",
+      "start": 7.669,
+      "end": 8.9785
+    },
+    {
+      "kind": "vocabulary",
+      "text": "a little more slowly",
+      "korean": "조금 더 천천히",
+      "start": 9.3785,
+      "end": 11.328
+    },
+    {
+      "kind": "phrase",
+      "text": "Sorry, I didn't catch that.",
+      "korean": "죄송해요. 잘 못 들었어요.",
+      "start": 11.728,
+      "end": 14.6325
+    },
+    {
+      "kind": "phrase",
+      "text": "Could you speak a little more slowly?",
+      "korean": "조금 더 천천히 말씀해 주시겠어요?",
+      "start": 15.0325,
+      "end": 17.612
+    },
+    {
+      "kind": "phrase",
+      "text": "What do you mean by that?",
+      "korean": "그게 무슨 뜻인가요?",
+      "start": 18.012,
+      "end": 20.1465
+    },
+    {
+      "kind": "phrase",
+      "text": "Do you mean the meeting is tomorrow?",
+      "korean": "회의가 내일이라는 말씀이신가요?",
+      "start": 20.5465,
+      "end": 23.056
+    },
+    {
+      "kind": "phrase",
+      "text": "Thanks for explaining.",
+      "korean": "설명해 주셔서 감사합니다.",
+      "start": 23.456,
+      "end": 25.5105
+    },
+    {
+      "kind": "dialogue",
+      "text": "We're moving the meeting to tomorrow.",
+      "korean": "Colleague: 회의를 내일로 옮길 거예요.",
+      "start": 25.9105,
+      "end": 28.42
+    },
+    {
+      "kind": "dialogue",
+      "text": "Sorry, I didn't catch that.",
+      "korean": "You: 죄송해요. 잘 못 들었어요.",
+      "start": 28.82,
+      "end": 31.7245
+    },
+    {
+      "kind": "dialogue",
+      "text": "The meeting will be tomorrow, not today.",
+      "korean": "Colleague: 회의는 오늘이 아니라 내일이에요.",
+      "start": 32.1245,
+      "end": 35.249
+    },
+    {
+      "kind": "dialogue",
+      "text": "Got it. Thanks for explaining.",
+      "korean": "You: 이해했어요. 설명해 주셔서 감사합니다.",
+      "start": 35.649,
+      "end": 38.9735
+    },
+    {
+      "kind": "review",
+      "text": "Remember this expression. Could you speak a little more slowly?",
+      "korean": "speak more slowly는 더 천천히 말하다라는 뜻입니다.",
+      "start": 39.3735,
+      "end": 44.138
+    },
+    {
+      "kind": "outro",
+      "text": "Great job! Pause, repeat, and make it your own. See you in the next lesson!",
+      "korean": "I didn’t catch that은 상대를 탓하지 않고 못 들었다고 말하는 자연스러운 표현이에요.",
+      "start": 44.538,
+      "end": 51.2525
+    }
+  ]
+}

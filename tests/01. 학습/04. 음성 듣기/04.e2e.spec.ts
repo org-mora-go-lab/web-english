@@ -1,17 +1,13 @@
 import { expect, test } from "@playwright/test";
 
-import { mockSpeech } from "../../__mock__";
-test("음성 재생 중지", async ({ page }) => {
-  await mockSpeech(page);
-  await page.goto("/");
-  await page.getByRole("button", { name: "오늘의 레슨 시작하기" }).click();
-  await page.getByRole("button", { name: "전체 듣기", exact: true }).click();
-  const before = await page.evaluate(() => window.__moraSpeech.cancels);
-  await page.getByRole("button", { name: "듣기 중지", exact: true }).click();
-  expect(await page.evaluate(() => window.__moraSpeech.cancels)).toBe(
-    before + 1,
-  );
-  await expect(
-    page.getByRole("button", { name: "듣기 중지", exact: true }),
-  ).toHaveCount(0);
+test("영상 일시 정지", async ({ page }) => {
+  await page.goto("/watch/small-talk");
+  const video = page.getByTestId("lesson-video");
+  await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.readyState)).toBeGreaterThanOrEqual(2);
+  await video.evaluate((v: HTMLVideoElement) => v.play());
+  await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.currentTime)).toBeGreaterThan(0.2);
+  await video.evaluate((v: HTMLVideoElement) => v.pause());
+  const time = await video.evaluate((v: HTMLVideoElement) => v.currentTime);
+  await page.waitForTimeout(400);
+  expect(await video.evaluate((v: HTMLVideoElement) => v.currentTime)).toBeCloseTo(time, 1);
 });

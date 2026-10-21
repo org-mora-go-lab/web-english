@@ -1,0 +1,114 @@
+{
+  "duration": 46.5175,
+  "fps": 12,
+  "width": 1280,
+  "height": 720,
+  "voice": "Microsoft Zira Desktop",
+  "segments": [
+    {
+      "kind": "intro",
+      "text": "Hi! I'm Momo. Let's practice Tune in. Listen closer..",
+      "korean": "빠른 일상 대화에서 단어가 연결되는 부분을 문장 단위로 익힐 수 있어요.",
+      "start": 0.5,
+      "end": 7.0595
+    },
+    {
+      "kind": "vocabulary",
+      "text": "head out",
+      "korean": "밖으로 나가다, 출발하다",
+      "start": 7.4595,
+      "end": 8.859
+    },
+    {
+      "kind": "vocabulary",
+      "text": "up to",
+      "korean": "무엇을 하고 있는",
+      "start": 9.259,
+      "end": 10.5685
+    },
+    {
+      "kind": "vocabulary",
+      "text": "ready",
+      "korean": "준비된",
+      "start": 10.9685,
+      "end": 12.193
+    },
+    {
+      "kind": "phrase",
+      "text": "What are you up to?",
+      "korean": "뭐 하고 있어요?",
+      "start": 12.593,
+      "end": 14.3625
+    },
+    {
+      "kind": "phrase",
+      "text": "I'm going to head out.",
+      "korean": "저는 이제 나갈 거예요.",
+      "start": 14.7625,
+      "end": 16.762
+    },
+    {
+      "kind": "phrase",
+      "text": "Let me know when you're ready.",
+      "korean": "준비되면 알려 주세요.",
+      "start": 17.162,
+      "end": 19.3315
+    },
+    {
+      "kind": "phrase",
+      "text": "Do you want to grab a bite?",
+      "korean": "간단히 뭐 좀 먹을래요?",
+      "start": 19.7315,
+      "end": 22.001
+    },
+    {
+      "kind": "phrase",
+      "text": "I'll be there in a minute.",
+      "korean": "금방 갈게요.",
+      "start": 22.401,
+      "end": 24.3255
+    },
+    {
+      "kind": "dialogue",
+      "text": "What are you up to?",
+      "korean": "Sam: 뭐 하고 있어요?",
+      "start": 24.7255,
+      "end": 26.495
+    },
+    {
+      "kind": "dialogue",
+      "text": "I'm finishing some work.",
+      "korean": "You: 일을 조금 마무리하고 있어요.",
+      "start": 26.895,
+      "end": 29.0545
+    },
+    {
+      "kind": "dialogue",
+      "text": "Do you want to grab a bite?",
+      "korean": "Sam: 간단히 뭐 좀 먹을래요?",
+      "start": 29.4545,
+      "end": 31.724
+    },
+    {
+      "kind": "dialogue",
+      "text": "Sure. I'll be there in a minute.",
+      "korean": "You: 좋아요. 금방 갈게요.",
+      "start": 32.124,
+      "end": 35.4185
+    },
+    {
+      "kind": "review",
+      "text": "Remember this expression. 이제 출발하려 한다.",
+      "korean": "head out은 밖으로 나가거나 어떤 곳을 향해 출발한다는 표현입니다.",
+      "start": 35.8185,
+      "end": 38.003
+    },
+    {
+      "kind": "outro",
+      "text": "Great job! Pause, repeat, and make it your own. See you in the next lesson!",
+      "korean": "단어마다 끊어 읽지 말고 let me know / when you’re ready처럼 의미 단위로 따라 읽어 보세요. 기기 음성은 실제 대화의 모든 축약 발음을 재현하지 않을 수 있습니다.",
+      "start": 38.403,
+      "end": 45.1175
+    }
+  ]
+}

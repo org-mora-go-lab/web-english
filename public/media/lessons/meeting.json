@@ -1,0 +1,114 @@
+{
+  "duration": 54.8025,
+  "fps": 12,
+  "width": 1280,
+  "height": 720,
+  "voice": "Microsoft Zira Desktop",
+  "segments": [
+    {
+      "kind": "intro",
+      "text": "Hi! I'm Momo. Let's practice Speak up. Stand out..",
+      "korean": "회의에서 다른 의견을 정중히 제안하고 추가 설명을 요청할 수 있어요.",
+      "start": 0.5,
+      "end": 6.9195
+    },
+    {
+      "kind": "vocabulary",
+      "text": "approach",
+      "korean": "접근 방법",
+      "start": 7.3195,
+      "end": 8.839
+    },
+    {
+      "kind": "vocabulary",
+      "text": "walk someone through",
+      "korean": "차근차근 설명하다",
+      "start": 9.239,
+      "end": 11.1635
+    },
+    {
+      "kind": "vocabulary",
+      "text": "scope",
+      "korean": "업무나 프로젝트의 범위",
+      "start": 11.5635,
+      "end": 13.033
+    },
+    {
+      "kind": "phrase",
+      "text": "I'd like to suggest a different approach.",
+      "korean": "다른 접근 방법을 제안하고 싶어요.",
+      "start": 13.433,
+      "end": 16.2725
+    },
+    {
+      "kind": "phrase",
+      "text": "Could you walk me through that?",
+      "korean": "그 부분을 차근차근 설명해 주실 수 있나요?",
+      "start": 16.6725,
+      "end": 18.852
+    },
+    {
+      "kind": "phrase",
+      "text": "Let's take a step back.",
+      "korean": "한 걸음 물러나서 생각해 봅시다.",
+      "start": 19.252,
+      "end": 21.4165
+    },
+    {
+      "kind": "phrase",
+      "text": "I see your point, but we may need more time.",
+      "korean": "무슨 말씀인지 알겠지만 시간이 더 필요할 수 있어요.",
+      "start": 21.8165,
+      "end": 25.371
+    },
+    {
+      "kind": "phrase",
+      "text": "What if we start with a smaller scope?",
+      "korean": "더 작은 범위로 시작하면 어떨까요?",
+      "start": 25.771,
+      "end": 28.5205
+    },
+    {
+      "kind": "dialogue",
+      "text": "Let's launch all the features next Friday.",
+      "korean": "Mina: 다음 주 금요일에 모든 기능을 출시합시다.",
+      "start": 28.9205,
+      "end": 31.995
+    },
+    {
+      "kind": "dialogue",
+      "text": "I see your point, but we may need more time.",
+      "korean": "You: 무슨 말씀인지 알겠지만 시간이 더 필요할 수 있어요.",
+      "start": 32.395,
+      "end": 35.9495
+    },
+    {
+      "kind": "dialogue",
+      "text": "What would you suggest?",
+      "korean": "Mina: 어떤 방법을 제안하시겠어요?",
+      "start": 36.3495,
+      "end": 38.374
+    },
+    {
+      "kind": "dialogue",
+      "text": "What if we start with a smaller scope?",
+      "korean": "You: 더 작은 범위로 시작하면 어떨까요?",
+      "start": 38.774,
+      "end": 41.5235
+    },
+    {
+      "kind": "review",
+      "text": "Remember this expression. Could you walk me through that?",
+      "korean": "walk someone through는 어떤 과정이나 내용을 단계별로 설명한다는 뜻입니다.",
+      "start": 41.9235,
+      "end": 46.288
+    },
+    {
+      "kind": "outro",
+      "text": "Great job! Pause, repeat, and make it your own. See you in the next lesson!",
+      "korean": "반대 의견을 바로 단정하기보다 I see your point를 먼저 말하면 상대의 의견을 존중하면서 대안을 제안할 수 있어요.",
+      "start": 46.688,
+      "end": 53.4025
+    }
+  ]
+}
