@@ -244,7 +244,7 @@ export function LearningWorkspace() {
         <footer>
           <span>mora-go-lab</span>
           <p>Made for your everyday English.</p>
-          <span>© {new Date().getFullYear()} Mora English · v1.0.3</span>
+          <span>© {new Date().getFullYear()} Mora English · v1.0.4</span>
         </footer>
       </aside>
       <main id="content" tabIndex={-1}>

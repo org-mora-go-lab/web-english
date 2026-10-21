@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import { LessonPractice } from "@/src/3-feature";
-import { lessons, lessonVideos, useLibrary } from "@/src/4-entity";
+import { lessons, lessonVideos, useCaptionPreference, useLibrary } from "@/src/4-entity";
 
 import type { WatchWorkspaceProps } from "./type";
 
@@ -17,12 +17,13 @@ export function WatchWorkspace({ lesson }: WatchWorkspaceProps) {
   const [failed, setFailed] = useState(false);
   const [message, setMessage] = useState("");
   const [rate, setRate] = useState(1);
-  const [caption, setCaption] = useState("en");
+  const { language: caption, ready: captionReady, hydrate: hydrateCaptions, change: saveCaption } = useCaptionPreference();
   const saved = library.saved.includes(lesson.id);
   const completed = library.completed.includes(lesson.id);
   useEffect(() => {
     // A prerendered video can fail before React attaches its event handlers.
     queueMicrotask(() => { if (video.current?.error) setFailed(true); });
+    if (!useCaptionPreference.getState().ready) hydrateCaptions();
     if (!useLibrary.getState().ready) hydrate();
     const current = useLibrary.getState().library;
     if (!update({ ...current, history: [lesson.id, ...current.history.filter(id => id !== lesson.id)] }))
@@ -32,7 +33,20 @@ export function WatchWorkspace({ lesson }: WatchWorkspaceProps) {
     }
     window.addEventListener("storage", sync);
     return () => window.removeEventListener("storage", sync);
-  }, [hydrate, update, lesson.id]);
+  }, [hydrate, hydrateCaptions, update, lesson.id]);
+  useEffect(() => {
+    const player = video.current;
+    if (!player || !captionReady) return;
+    for (const track of Array.from(player.textTracks)) track.mode = track.language === caption ? "showing" : "disabled";
+    function rememberNativeSelection() {
+      if (!player || player.readyState === 0) return;
+      const visible = Array.from(player.textTracks).find(track => track.mode === "showing");
+      const language = visible?.language === "ko" ? "ko" : visible?.language === "en" ? "en" : "off";
+      if (language !== useCaptionPreference.getState().language) saveCaption(language);
+    }
+    player.textTracks.addEventListener("change", rememberNativeSelection);
+    return () => player.textTracks.removeEventListener("change", rememberNativeSelection);
+  }, [caption, captionReady, saveCaption]);
   function updateList(key: "saved" | "completed") {
     const current = useLibrary.getState().library;
     if (!update({ ...current, [key]: current[key].includes(lesson.id) ? current[key].filter(id => id !== lesson.id) : [...current[key], lesson.id] }))
@@ -45,12 +59,13 @@ export function WatchWorkspace({ lesson }: WatchWorkspaceProps) {
     video.current.scrollIntoView({ block: "center", behavior: "smooth" });
   }
   function changeCaptions(language: string) {
-    setCaption(language);
+    if (language !== "en" && language !== "ko" && language !== "off") return;
+    if (!saveCaption(language)) setMessage("자막 설정은 이번 세션에서만 유지됩니다.");
     if (!video.current) return;
     for (const track of Array.from(video.current.textTracks)) track.mode = track.language === language ? "showing" : "disabled";
   }
   const related = [...lessons.filter(item => item.id !== lesson.id && item.category === lesson.category), ...lessons.filter(item => item.id !== lesson.id && item.category !== lesson.category)];
-  return <div className="watch-workspace" inert={!ready} aria-busy={!ready}>
+  return <div className="watch-workspace" inert={!ready || !captionReady} aria-busy={!ready || !captionReady}>
     <header className="watch-header">
       <Link href="/" className="back-link" aria-label="목록으로 돌아가기"><ArrowLeft size={20} /><span>목록으로</span></Link>
       <Link href="/" className="watch-brand">mora<span>english</span><sup>EN</sup></Link>
@@ -59,8 +74,8 @@ export function WatchWorkspace({ lesson }: WatchWorkspaceProps) {
     <main className="watch-layout">
       <div className="watch-primary">
         <div className="player-frame">
-          <video key={lesson.id} ref={video} data-testid="lesson-video" src={media.src} controls playsInline preload="metadata" poster={media.poster} aria-label={`${lesson.title} 영어 학습 영상`} onError={() => setFailed(true)} onLoadedMetadata={() => { if (video.current) video.current.playbackRate = rate; changeCaptions(caption); }}>
-            <track kind="captions" src={`${media.captions}.en.vtt`} srcLang="en" label="English" default />
+          <video key={lesson.id} ref={video} data-testid="lesson-video" src={media.src} controls playsInline preload="metadata" poster={media.poster} aria-label={`${lesson.title} 영어 학습 영상`} onError={() => setFailed(true)} onLoadedMetadata={() => { if (video.current) video.current.playbackRate = rate; const language = useCaptionPreference.getState().language; for (const track of Array.from(video.current?.textTracks || [])) track.mode = track.language === language ? "showing" : "disabled"; }}>
+            <track kind="captions" src={`${media.captions}.en.vtt`} srcLang="en" label="English" />
             <track kind="subtitles" src={`${media.captions}.ko.vtt`} srcLang="ko" label="한국어" />
           </video>
           {failed && <div role="alert" className="player-error"><p>영상을 불러오지 못했어요. 연결을 확인한 뒤 다시 시도해 주세요.</p><button onClick={() => { setFailed(false); video.current?.load(); }}>다시 시도</button></div>}
@@ -68,7 +83,7 @@ export function WatchWorkspace({ lesson }: WatchWorkspaceProps) {
         <div className="player-tools">
           <span><Volume2 size={15} /> 영어 음성 포함 · {media.label}</span>
           <label>재생 속도 <select disabled={!ready} aria-label="영상 재생 속도" value={rate} onChange={event => { const next = Number(event.target.value); setRate(next); if (video.current) { video.current.defaultPlaybackRate = next; video.current.playbackRate = next; } }}><option value={0.75}>0.75×</option><option value={1}>1×</option><option value={1.25}>1.25×</option><option value={1.5}>1.5×</option></select></label>
-          <label>자막 <select disabled={!ready} aria-label="영상 자막" value={caption} onChange={event => changeCaptions(event.target.value)}><option value="en">English</option><option value="ko">한국어</option><option value="off">끄기</option></select></label>
+          <label>자막 <select disabled={!ready || !captionReady} aria-label="영상 자막" value={caption} onChange={event => changeCaptions(event.target.value)}><option value="en">English</option><option value="ko">한국어</option><option value="off">끄기</option></select></label>
         </div>
         <h1>{lesson.title}</h1>
         <div className="watch-channel">

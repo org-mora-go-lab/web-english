@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { lessons } from "../constant";
 
 export { useBrowse } from "./browse";
+export { useCaptionPreference } from "./captions";
 
 type Library = { saved: string[]; completed: string[]; history: string[] };
 type LibraryState = {
