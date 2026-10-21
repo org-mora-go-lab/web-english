@@ -1,0 +1,1 @@
+export { mockSpeech } from "./speech";

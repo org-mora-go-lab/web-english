@@ -1,4 +1,169 @@
 .lesson-practice {
+  h3 {
+    font-size: 15px;
+    margin: 28px 0 13px;
+  }
+  .lesson-context {
+    padding: 16px;
+    background: #f8f6f2;
+    border-radius: 10px;
+    margin: 20px 0 15px;
+    > span {
+      font-size: 11px;
+      color: #8a7357;
+      font-weight: bold;
+    }
+    p {
+      line-height: 1.8;
+      font-size: 13px;
+      margin: 8px 0 0;
+      color: #655f56;
+    }
+  }
+  .vocabulary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    > span {
+      border: 1px solid #e8e8e8;
+      padding: 9px 11px;
+      border-radius: 8px;
+      font-size: 11px;
+      color: #777;
+      strong {
+        display: block;
+        color: #444;
+        font-size: 12px;
+        margin-bottom: 4px;
+      }
+    }
+  }
+  .audio-note {
+    color: #858585;
+    font-size: 11px;
+    line-height: 1.8;
+  }
+  .rate-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #777;
+    select {
+      font: inherit;
+      padding: 9px 5px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: white;
+    }
+  }
+  .practice-controls {
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .dialogue-section {
+    margin-top: 28px;
+    > button {
+      margin-top: 15px;
+    }
+  }
+  .dialogue-line {
+    display: flex;
+    gap: 13px;
+    margin: 12px 0;
+    padding: 14px;
+    background: #f8f8f8;
+    border-radius: 9px;
+    > span {
+      min-width: 65px;
+      font-size: 11px;
+      color: #8a7357;
+      padding-top: 4px;
+    }
+    > div {
+      min-width: 0;
+    }
+    p {
+      font-size: 14px;
+      line-height: 1.7;
+      margin: 0;
+    }
+    small {
+      display: block;
+      font-size: 12px;
+      line-height: 1.7;
+      color: #888;
+      margin-top: 4px;
+    }
+  }
+  .practice-tip {
+    background: #f1f4ed;
+    padding: 17px;
+    border-radius: 10px;
+    margin: 24px 0;
+    strong {
+      color: #57674b;
+      font-size: 12px;
+    }
+    p {
+      color: #6c7565;
+      line-height: 1.9;
+      font-size: 12px;
+      margin: 8px 0 0;
+    }
+  }
+  .quick-check {
+    border: 0;
+    padding: 0;
+    margin: 25px 0;
+    legend {
+      font-size: 15px;
+      font-weight: bold;
+    }
+    > p {
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    > button {
+      display: flex;
+      width: 100%;
+      gap: 12px;
+      text-align: left;
+      justify-content: flex-start;
+      min-height: 44px;
+      font-size: 12px;
+      border: 1px solid #e6e6e6;
+      background: white;
+      padding: 12px 14px;
+      border-radius: 9px;
+      margin: 9px 0;
+      span {
+        line-height: 1.6;
+      }
+      &.chosen {
+        background: #f2f4ed;
+        border-color: #a1ae94;
+      }
+    }
+    .quiz-correct,
+    .quiz-retry {
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      line-height: 1.7;
+      p {
+        margin: 6px 0 0;
+      }
+    }
+    .quiz-correct {
+      background: #eef5e9;
+      color: #47603a;
+    }
+    .quiz-retry {
+      background: #fdf2e7;
+      color: #8b6236;
+    }
+  }
   border: 0;
   border-radius: 22px;
   padding: 0;
@@ -21,6 +186,10 @@
     padding: 10px 15px;
   }
   .practice-top {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: white;
     padding: 14px 22px;
     display: flex;
     align-items: center;
