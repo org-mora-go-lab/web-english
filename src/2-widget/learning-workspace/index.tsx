@@ -10,7 +10,6 @@ import {
   ChevronRight,
   Compass,
   GraduationCap,
-  Headphones,
   History,
   Home,
   Menu,
@@ -20,7 +19,7 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
-import { LessonPractice } from "@/src/3-feature";
+import { CharacterWelcome, LessonPractice } from "@/src/3-feature";
 import type { Lesson } from "@/src/4-entity";
 import { categories, lessons, useLibrary } from "@/src/4-entity";
 
@@ -250,7 +249,7 @@ export function LearningWorkspace() {
         <footer>
           <span>mora-go-lab</span>
           <p>Made for your everyday English.</p>
-          <span>© {new Date().getFullYear()} Mora English · v1.0.1</span>
+          <span>© {new Date().getFullYear()} Mora English · v1.0.2</span>
         </footer>
       </aside>
       <main id="content" tabIndex={-1}>
@@ -292,29 +291,7 @@ export function LearningWorkspace() {
                   {today.category} · {today.duration} · 핵심 문장 5개
                 </span>
               </div>
-              <div className="hero-art" aria-hidden="true">
-                <span className="art-orbit orbit-one" />
-                <span className="art-orbit orbit-two" />
-                <div className="art-label">
-                  A LITTLE ENGLISH,
-                  <br />A WHOLE NEW WORLD.
-                </div>
-                <div className="speech-card speech-first">
-                  Hello,
-                  <br />
-                  <span>new possibilities.</span>
-                  <span className="card-star">✳</span>
-                </div>
-                <div className="speech-card speech-second">
-                  <span className="wave-bars">▂ ▆ ▃ █ ▅ ▂ ▆ ▃</span>
-                  <span>Listen. Speak. Grow.</span>
-                  <span className="art-play">
-                    <Headphones size={16} />
-                  </span>
-                </div>
-                <span className="floating-star">✦</span>
-                <span className="art-small">one day at a time ↗</span>
-              </div>
+              <CharacterWelcome suspended={selected !== null} />
             </section>
           )}
         <section className="lesson-section" aria-label="레슨 목록">
