@@ -1,0 +1,146 @@
+{
+  "animal": "panda",
+  "id": "panda-body",
+  "name": "Poco",
+  "korean": "판다",
+  "title": "판다 Poco와 Nose, Hands, Knees! 몸 놀이",
+  "topic": "몸 놀이",
+  "bpm": 92,
+  "lyrics": [
+    "Touch your little nose",
+    "Clap your little hands",
+    "Tap your little knees",
+    "Wave your hands goodbye"
+  ],
+  "translations": [
+    "작은 코를 톡 만져요",
+    "작은 손으로 짝짝",
+    "작은 무릎을 톡톡",
+    "손을 흔들며 잘 가"
+  ],
+  "intro": "Hello! I'm Poco the panda. Let's play together!",
+  "play": "Where is your nose? Touch your nose. There it is!",
+  "outro": "You found your nose! Well done.",
+  "word": "nose",
+  "meaning": "코",
+  "number": 7,
+  "notes": [
+    [
+      64,
+      62,
+      60,
+      64
+    ],
+    [
+      67,
+      69,
+      67,
+      64
+    ],
+    [
+      65,
+      64,
+      62,
+      65
+    ],
+    [
+      64,
+      62,
+      67,
+      60
+    ]
+  ],
+  "color": "#dce6d7",
+  "duration": 43.186956521739134,
+  "segments": [
+    {
+      "kind": "intro",
+      "text": "Hello! I'm Poco the panda. Let's play together!",
+      "korean": "판다 Poco와 함께 노래해요!",
+      "start": 0.6,
+      "end": 4.058
+    },
+    {
+      "kind": "song",
+      "text": "Touch your little nose",
+      "korean": "작은 코를 톡 만져요",
+      "start": 5,
+      "end": 8.160869565217391
+    },
+    {
+      "kind": "song",
+      "text": "Clap your little hands",
+      "korean": "작은 손으로 짝짝",
+      "start": 8.26086956521739,
+      "end": 11.421739130434782
+    },
+    {
+      "kind": "song",
+      "text": "Tap your little knees",
+      "korean": "작은 무릎을 톡톡",
+      "start": 11.521739130434783,
+      "end": 14.682608695652176
+    },
+    {
+      "kind": "song",
+      "text": "Wave your hands goodbye",
+      "korean": "손을 흔들며 잘 가",
+      "start": 14.782608695652174,
+      "end": 17.943478260869565
+    },
+    {
+      "kind": "play",
+      "text": "Where is your nose? Touch your nose. There it is!",
+      "korean": "함께 해 봐요: 코",
+      "start": 19.343478260869567,
+      "end": 22.637478260869567
+    },
+    {
+      "kind": "repeat",
+      "text": "Touch your little nose",
+      "korean": "작은 코를 톡 만져요",
+      "start": 24.843478260869567,
+      "end": 28.004347826086956
+    },
+    {
+      "kind": "repeat",
+      "text": "Clap your little hands",
+      "korean": "작은 손으로 짝짝",
+      "start": 28.104347826086958,
+      "end": 31.265217391304347
+    },
+    {
+      "kind": "repeat",
+      "text": "Tap your little knees",
+      "korean": "작은 무릎을 톡톡",
+      "start": 31.36521739130435,
+      "end": 34.52608695652174
+    },
+    {
+      "kind": "repeat",
+      "text": "Wave your hands goodbye",
+      "korean": "손을 흔들며 잘 가",
+      "start": 34.62608695652174,
+      "end": 37.78695652173913
+    },
+    {
+      "kind": "outro",
+      "text": "You found your nose! Well done.",
+      "korean": "잘했어요! 손을 흔들며 인사해요.",
+      "start": 38.98695652173913,
+      "end": 41.28895652173913
+    }
+  ],
+  "chapters": {
+    "intro": 0,
+    "song": 5,
+    "play": 18.843478260869567,
+    "repeat": 24.843478260869567,
+    "outro": 38.686956521739134
+  },
+  "synthesis": "Kokoro af_heart + WORLD score resynthesis",
+  "score": "Original melody, lyrics and arrangement",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30
+}

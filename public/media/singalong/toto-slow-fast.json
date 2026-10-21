@@ -1,0 +1,146 @@
+{
+  "animal": "turtle",
+  "id": "toto-slow-fast",
+  "name": "Toto",
+  "korean": "거북이",
+  "title": "거북이 Toto의 Slow & Fast 산책",
+  "topic": "반대말 놀이",
+  "bpm": 88,
+  "lyrics": [
+    "Little turtle slow slow",
+    "Walk walk stop stop",
+    "Fast feet slow feet",
+    "Take one little breath"
+  ],
+  "translations": [
+    "작은 거북이가 천천히 천천히",
+    "걷고 걷고, 멈춰 멈춰",
+    "빠른 발, 느린 발",
+    "작게 숨을 한 번 쉬어요"
+  ],
+  "intro": "Hi! I'm Toto the turtle. Let's take a little walk!",
+  "play": "Can you walk slowly? Slow, slow. Now stop!",
+  "outro": "That was a lovely walk. Bye-bye!",
+  "word": "slow",
+  "meaning": "천천히",
+  "number": 8,
+  "notes": [
+    [
+      60,
+      62,
+      64,
+      62
+    ],
+    [
+      65,
+      64,
+      62,
+      60
+    ],
+    [
+      64,
+      65,
+      67,
+      65
+    ],
+    [
+      64,
+      62,
+      60,
+      60
+    ]
+  ],
+  "color": "#cce8df",
+  "duration": 44.37272727272727,
+  "segments": [
+    {
+      "kind": "intro",
+      "text": "Hi! I'm Toto the turtle. Let's take a little walk!",
+      "korean": "거북이 Toto와 함께 노래해요!",
+      "start": 0.6,
+      "end": 4.005333333333334
+    },
+    {
+      "kind": "song",
+      "text": "Little turtle slow slow",
+      "korean": "작은 거북이가 천천히 천천히",
+      "start": 5,
+      "end": 8.309090909090909
+    },
+    {
+      "kind": "song",
+      "text": "Walk walk stop stop",
+      "korean": "걷고 걷고, 멈춰 멈춰",
+      "start": 8.409090909090908,
+      "end": 11.718181818181817
+    },
+    {
+      "kind": "song",
+      "text": "Fast feet slow feet",
+      "korean": "빠른 발, 느린 발",
+      "start": 11.818181818181817,
+      "end": 15.127272727272725
+    },
+    {
+      "kind": "song",
+      "text": "Take one little breath",
+      "korean": "작게 숨을 한 번 쉬어요",
+      "start": 15.227272727272727,
+      "end": 18.536363636363635
+    },
+    {
+      "kind": "play",
+      "text": "Can you walk slowly? Slow, slow. Now stop!",
+      "korean": "함께 해 봐요: 천천히",
+      "start": 19.936363636363634,
+      "end": 23.223696969696967
+    },
+    {
+      "kind": "repeat",
+      "text": "Little turtle slow slow",
+      "korean": "작은 거북이가 천천히 천천히",
+      "start": 25.436363636363634,
+      "end": 28.745454545454542
+    },
+    {
+      "kind": "repeat",
+      "text": "Walk walk stop stop",
+      "korean": "걷고 걷고, 멈춰 멈춰",
+      "start": 28.845454545454544,
+      "end": 32.15454545454545
+    },
+    {
+      "kind": "repeat",
+      "text": "Fast feet slow feet",
+      "korean": "빠른 발, 느린 발",
+      "start": 32.25454545454545,
+      "end": 35.563636363636355
+    },
+    {
+      "kind": "repeat",
+      "text": "Take one little breath",
+      "korean": "작게 숨을 한 번 쉬어요",
+      "start": 35.66363636363636,
+      "end": 38.97272727272726
+    },
+    {
+      "kind": "outro",
+      "text": "That was a lovely walk. Bye-bye!",
+      "korean": "잘했어요! 손을 흔들며 인사해요.",
+      "start": 40.172727272727265,
+      "end": 42.746060606060595
+    }
+  ],
+  "chapters": {
+    "intro": 0,
+    "song": 5,
+    "play": 19.436363636363634,
+    "repeat": 25.436363636363634,
+    "outro": 39.87272727272727
+  },
+  "synthesis": "Kokoro af_heart + WORLD score resynthesis",
+  "score": "Original melody, lyrics and arrangement",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30
+}

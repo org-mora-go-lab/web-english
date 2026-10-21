@@ -1,0 +1,15 @@
+.singalong-gallery {
+  padding: 30px 0 40px; margin-bottom: 24px; border-bottom: 1px solid #eee;
+  .singalong-heading { display: flex; justify-content: space-between; align-items: center; gap: 20px; h2 { font-size: 26px; letter-spacing: -.8px; margin: 11px 0; } p { color: #86877c; font-size: 13px; line-height: 1.8; } }
+  .singalong-eyebrow { display: flex; align-items: center; gap: 6px; color: #899275; font-size: 10px; letter-spacing: 2px; }
+  .singalong-tag { display: flex; gap: 7px; align-items: center; padding: 11px 14px; border-radius: 24px; color: #7f8c65; background: #f1f4e9; font-size: 11px; white-space: nowrap; }
+  .animal-picker { display: flex; gap: 8px; overflow-x: auto; padding: 13px 0 24px; scrollbar-width: thin; button { display: flex; flex-shrink: 0; flex-direction: column; align-items: center; justify-content: center; gap: 5px; min-width: 78px; height: 92px; padding: 7px 12px; border: 1px solid #eeede7; border-radius: 18px; background: #fbfaf7; color: #817d72; font-size: 10px; img { width: 50px; height: 50px; object-fit: contain; } &[aria-pressed=true] { background: #edf1e2; border-color: #bdcba3; color: #586448; font-weight: 700; } } }
+  .singalong-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 20px; }
+  .singalong-card { min-width: 0; a { display: block; text-decoration: none; } .song-preview { position: relative; aspect-ratio: 16 / 9; border-radius: 15px; overflow: hidden; background: #f4f2e9; > img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .25s ease; } } &:hover .song-preview > img { transform: scale(1.025); } }
+  .song-play { position: absolute; left: 14px; bottom: 12px; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; color: white; background: #343b2ca8; backdrop-filter: blur(5px); }
+  .song-duration { position: absolute; bottom: 13px; right: 12px; padding: 3px 5px; border-radius: 4px; background: #000b; color: white; font-size: 11px; }
+  .song-card-info { padding: 12px 3px 0; > span { color: #9a8b72; font-size: 10px; } h3 { font-size: 14px; line-height: 1.7; margin: 5px 0 6px; } p { color: #99988d; font-size: 10px; margin: 0; } }
+  .together-note { font-size: 11px; line-height: 1.8; color: #99988d; margin: 26px 0 0; }
+  @media(max-width:1100px) { .singalong-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .singalong-heading h2 { font-size: 22px; } .singalong-tag { display: none; } }
+  @media(max-width:500px) { .singalong-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; } .singalong-heading h2 { font-size: 21px; } .animal-picker button { min-width: 70px; } }
+}

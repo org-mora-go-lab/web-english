@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 import { lessons } from "../constant";
+import { songs } from "../song";
 
 export { useBrowse } from "./browse";
 export { useCaptionPreference } from "./captions";
@@ -35,7 +36,7 @@ export const useLibrary = create<LibraryState>((set) => ({
                 value.filter(
                   (id): id is string =>
                     typeof id === "string" &&
-                    lessons.some((lesson) => lesson.id === id),
+                    [...lessons, ...songs].some((lesson) => lesson.id === id),
                 ),
               ),
             ]

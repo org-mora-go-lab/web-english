@@ -1,0 +1,146 @@
+{
+  "animal": "elephant",
+  "id": "ellie-big-small",
+  "name": "Ellie",
+  "korean": "코끼리",
+  "title": "코끼리 Ellie의 Big & Small 발걸음",
+  "topic": "반대말 놀이",
+  "bpm": 92,
+  "lyrics": [
+    "Big ears little toes",
+    "Stomp stomp tip toe",
+    "Up up down down",
+    "Big hug little friend"
+  ],
+  "translations": [
+    "큰 귀, 작은 발가락",
+    "쿵쿵, 살금살금",
+    "위로 위로, 아래로 아래로",
+    "작은 친구에게 큰 포옹"
+  ],
+  "intro": "Hello! I'm Ellie the elephant. Big ears, little toes!",
+  "play": "Can you make yourself big? Now make yourself small!",
+  "outro": "Big hugs! You did so well.",
+  "word": "big",
+  "meaning": "크다",
+  "number": 5,
+  "notes": [
+    [
+      60,
+      60,
+      64,
+      65
+    ],
+    [
+      67,
+      65,
+      64,
+      62
+    ],
+    [
+      64,
+      67,
+      65,
+      64
+    ],
+    [
+      62,
+      64,
+      62,
+      60
+    ]
+  ],
+  "color": "#ddd8ef",
+  "duration": 44.186956521739134,
+  "segments": [
+    {
+      "kind": "intro",
+      "text": "Hello! I'm Ellie the elephant. Big ears, little toes!",
+      "korean": "코끼리 Ellie와 함께 노래해요!",
+      "start": 0.6,
+      "end": 4.616666666666666
+    },
+    {
+      "kind": "song",
+      "text": "Big ears little toes",
+      "korean": "큰 귀, 작은 발가락",
+      "start": 6,
+      "end": 9.160869565217391
+    },
+    {
+      "kind": "song",
+      "text": "Stomp stomp tip toe",
+      "korean": "쿵쿵, 살금살금",
+      "start": 9.26086956521739,
+      "end": 12.421739130434782
+    },
+    {
+      "kind": "song",
+      "text": "Up up down down",
+      "korean": "위로 위로, 아래로 아래로",
+      "start": 12.521739130434783,
+      "end": 15.682608695652176
+    },
+    {
+      "kind": "song",
+      "text": "Big hug little friend",
+      "korean": "작은 친구에게 큰 포옹",
+      "start": 15.782608695652174,
+      "end": 18.943478260869565
+    },
+    {
+      "kind": "play",
+      "text": "Can you make yourself big? Now make yourself small!",
+      "korean": "함께 해 봐요: 크다",
+      "start": 20.343478260869567,
+      "end": 23.674769927536232
+    },
+    {
+      "kind": "repeat",
+      "text": "Big ears little toes",
+      "korean": "큰 귀, 작은 발가락",
+      "start": 25.843478260869567,
+      "end": 29.004347826086956
+    },
+    {
+      "kind": "repeat",
+      "text": "Stomp stomp tip toe",
+      "korean": "쿵쿵, 살금살금",
+      "start": 29.104347826086958,
+      "end": 32.26521739130435
+    },
+    {
+      "kind": "repeat",
+      "text": "Up up down down",
+      "korean": "위로 위로, 아래로 아래로",
+      "start": 32.36521739130435,
+      "end": 35.52608695652174
+    },
+    {
+      "kind": "repeat",
+      "text": "Big hug little friend",
+      "korean": "작은 친구에게 큰 포옹",
+      "start": 35.62608695652174,
+      "end": 38.78695652173913
+    },
+    {
+      "kind": "outro",
+      "text": "Big hugs! You did so well.",
+      "korean": "잘했어요! 손을 흔들며 인사해요.",
+      "start": 39.98695652173913,
+      "end": 42.21958152173913
+    }
+  ],
+  "chapters": {
+    "intro": 0,
+    "song": 6,
+    "play": 19.843478260869567,
+    "repeat": 25.843478260869567,
+    "outro": 39.686956521739134
+  },
+  "synthesis": "Kokoro af_heart + WORLD score resynthesis",
+  "score": "Original melody, lyrics and arrangement",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30
+}

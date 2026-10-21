@@ -21,8 +21,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
-import { CharacterWelcome } from "@/src/3-feature";
-import { categories, lessons, lessonVideos, useBrowse, useLibrary } from "@/src/4-entity";
+import { CharacterWelcome, SingalongGallery } from "@/src/3-feature";
+import { categories, lessons, lessonVideos, songs, useBrowse, useLibrary } from "@/src/4-entity";
 
 const navigation = [
   { name: "홈", icon: Home },
@@ -42,6 +42,7 @@ function isMobile() {
 }
 
 export function LearningWorkspace() {
+  const catalog = [...lessons, ...songs];
   const resultsHeading = useRef<HTMLHeadingElement | null>(null);
   const mobile = useSyncExternalStore(subscribeMobile, isMobile, () => false);
   const { view, category, query, level, sort, change, restore } = useBrowse();
@@ -90,9 +91,9 @@ export function LearningWorkspace() {
   const visible = (
     view === "최근 학습"
       ? library.history
-          .map((id) => lessons.find((lesson) => lesson.id === id)!)
+          .map((id) => catalog.find((lesson) => lesson.id === id)!)
           .filter(Boolean)
-      : lessons
+      : view === "홈" && category !== "동물 동요" && !query.trim() ? lessons : catalog
   )
     .filter(
       (lesson) =>
@@ -223,7 +224,7 @@ export function LearningWorkspace() {
           <span className="progress-label">
             학습한 레슨{" "}
             <b>
-              {library.completed.length} / {lessons.length}
+              {library.completed.length} / {catalog.length}
             </b>
           </span>
           <div
@@ -231,12 +232,12 @@ export function LearningWorkspace() {
             role="progressbar"
             aria-label="학습 완료 진행률"
             aria-valuemin={0}
-            aria-valuemax={lessons.length}
+            aria-valuemax={catalog.length}
             aria-valuenow={library.completed.length}
           >
             <span
               style={{
-                width: `${(library.completed.length / lessons.length) * 100}%`,
+                width: `${(library.completed.length / catalog.length) * 100}%`,
               }}
             />
           </div>
@@ -244,12 +245,12 @@ export function LearningWorkspace() {
         <footer>
           <span>mora-go-lab</span>
           <p>Made for your everyday English.</p>
-          <span>© {new Date().getFullYear()} Mora English · v1.0.4</span>
+          <span>© {new Date().getFullYear()} Mora English · v1.0.5</span>
         </footer>
       </aside>
       <main id="content" tabIndex={-1}>
         <div className="category-bar" aria-label="레슨 카테고리">
-          {categories.map((name) => (
+          {[...categories, "동물 동요"].map((name) => (
             <button
               key={name}
               className={category === name ? "selected" : ""}
@@ -267,19 +268,20 @@ export function LearningWorkspace() {
             <section className="hero">
               <div className="hero-copy">
                 <span className="eyebrow">
-                  <span /> YOUR EVERYDAY ENGLISH
+                  <span /> SING A LITTLE, SMILE A LOT
                 </span>
                 <h1>
-                  영어가 일상이 되는
+                  동물 친구와 노래하며
                   <br />
-                  <span>작은 시작.</span>
+                  <span>영어를 만나요.</span>
                 </h1>
                 <p>
-                  좋아하는 주제로, 나의 속도로.
+                  짧은 노래와 쉬운 동작으로.
                   <br />
-                  오늘의 5분이 내일의 자신감이 되도록.
+                  아이와 함께, 즐거운 영어 놀이.
                 </p>
-                <Link href={`/watch/${today.id}`} onClick={rememberList}>
+                <Link className="kids-start" href="/watch/momo-hello" onClick={rememberList}>동물 친구와 노래하기 <ArrowRight size={17} /></Link>
+                <Link className="parent-start" href={`/watch/${today.id}`} onClick={rememberList}>
                   오늘의 레슨 시작하기 <ArrowRight size={17} />
                 </Link>
                 <span className="hero-footnote">
@@ -289,14 +291,17 @@ export function LearningWorkspace() {
               <CharacterWelcome suspended={false} />
             </section>
           )}
+        {view === "홈" && !query.trim() && category === "전체" && level === "전체" && <SingalongGallery />}
         <section className="lesson-section" aria-label="레슨 목록">
           <div className="section-heading">
             <div>
               <h2 ref={resultsHeading} tabIndex={-1}>
                 {query.trim()
                   ? "검색 결과"
-                  : view === "홈"
-                    ? "오늘, 이런 영어 어때요?"
+                  : category === "동물 동요"
+                    ? "동물 친구 영어 동요"
+                    : view === "홈"
+                    ? "보호자를 위한 일상 영어"
                     : view === "둘러보기"
                       ? "나에게 맞는 영어 찾기"
                       : view}
@@ -304,7 +309,9 @@ export function LearningWorkspace() {
               <p>
                 {query.trim()
                   ? `“${query}” · ${visible.length}개의 레슨`
-                  : view === "홈"
+                  : category === "동물 동요"
+                    ? `오리지널 영어 동요 ${songs.length}편 · 노래하고 함께 움직여요.`
+                    : view === "홈"
                     ? `Momo 영어 영상 ${lessons.length}개 · 상황별 핵심 문장 ${lessons.reduce((count, lesson) => count + lesson.phrases.length, 0)}개`
                     : `${visible.length}개의 레슨 · 조금씩, 꾸준히 함께해요.`}
               </p>
@@ -398,8 +405,7 @@ export function LearningWorkspace() {
                       <p>{lesson.creator}</p>
                       <p className="lesson-goal">{lesson.goal}</p>
                       <span className="lesson-meta">
-                        {lesson.level} <span>·</span> 문장{" "}
-                        {lesson.phrases.length}개
+                        {lesson.level} <span>·</span> {lesson.kind === "song" ? "동요 4구절" : `문장 ${lesson.phrases.length}개`}
                       </span>
                     </div>
                     <button

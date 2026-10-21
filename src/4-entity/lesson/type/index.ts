@@ -1,4 +1,7 @@
 export type Lesson = {
+  kind?: "lesson" | "song";
+  animal?: string;
+  animalName?: string;
   id: string;
   title: string;
   subtitle: string;

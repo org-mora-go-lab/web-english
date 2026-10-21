@@ -1,0 +1,65 @@
+{
+  "generator": "Built-in image_gen; no external paid image API",
+  "assets": [
+    {
+      "id": "bear",
+      "prompt": "Use the previously displayed 10-animal ensemble only as a style and character identity reference. Create a production animation character asset: ONLY the honey brown baby bear Momo with sage knitted scarf from that ensemble, one single full-body character, exactly one animal. Centered front-facing standing pose, arms slightly away from body so limbs are distinct, both feet fully visible, cheerful open smiling mouth, huge warm expressive eyes. Premium 3D tactile felt/plush and clay storybook animation, detailed soft fur, physically based soft studio lighting, gentle ambient occlusion on the body, very polished appealing toddler-friendly design, same material and proportions as the ensemble. Genuine transparent background, no stage, no ground, no scenery, no text, no letters, no logos, no other animal, no props beyond the described scarf if applicable. Ample transparent padding, square composition. All ears and tail completely inside frame.",
+      "tool": "built-in image_gen"
+    },
+    {
+      "id": "rabbit",
+      "prompt": "Use the previously displayed 10-animal ensemble only as a style and character identity reference. Create a production animation character asset: ONLY the cream baby rabbit with tall upright ears and pink inner ears from that ensemble, one single full-body character, exactly one animal. Centered front-facing standing pose, arms slightly away from body so limbs are distinct, both feet fully visible, cheerful open smiling mouth, huge warm expressive eyes. Premium 3D tactile felt/plush and clay storybook animation, detailed soft fur, physically based soft studio lighting, gentle ambient occlusion on the body, very polished appealing toddler-friendly design, same material and proportions as the ensemble. Genuine transparent background, no stage, no ground, no scenery, no text, no letters, no logos, no other animal, no props beyond the described scarf if applicable. Ample transparent padding, square composition. All ears and tail completely inside frame.",
+      "tool": "built-in image_gen"
+    },
+    {
+      "id": "duck",
+      "prompt": "Use the previously displayed 10-animal ensemble only as a style and character identity reference. Create a production animation character asset: ONLY the sunny yellow fluffy duckling with orange beak and tiny orange feet from that ensemble, one single full-body character, exactly one animal. Centered front-facing standing pose, arms slightly away from body so limbs are distinct, both feet fully visible, cheerful open smiling mouth, huge warm expressive eyes. Premium 3D tactile felt/plush and clay storybook animation, detailed soft fur, physically based soft studio lighting, gentle ambient occlusion on the body, very polished appealing toddler-friendly design, same material and proportions as the ensemble. Genuine transparent background, no stage, no ground, no scenery, no text, no letters, no logos, no other animal, no props beyond the described scarf if applicable. Ample transparent padding, square composition. All ears and tail completely inside frame.",
+      "tool": "built-in image_gen"
+    },
+    {
+      "id": "fox",
+      "prompt": "Use case: stylized-concept. Create one production character animation asset. The attached ensemble is a style reference only. ONLY the orange baby fox with cream muzzle, fluffy white-tipped tail and tiny sage neckerchief, one single animal, full body. Front-facing standing happy pose, limbs slightly apart, smiling open mouth, large warm expressive eyes, small toddler-friendly proportions. Match the premium physically rendered 3D felt/plush and clay textures, soft studio lighting and original character design language of the reference ensemble. Detailed tactile fur or soft felt skin appropriate to the species. Genuine transparent background, no ground, no shadows outside the body, no scenery, no text, no logo, no extra animal, no unrelated props. Centered square composition with ample padding, entire ears and tail inside frame.",
+      "tool": "built-in image_gen"
+    },
+    {
+      "id": "elephant",
+      "prompt": "Use case: stylized-concept. Create one production character animation asset. The attached ensemble is a style reference only. ONLY the lavender baby elephant with oversized round ears with soft pink insides and gently curled short trunk, one single animal, full body. Front-facing standing happy pose, limbs slightly apart, smiling open mouth, large warm expressive eyes, small toddler-friendly proportions. Match the premium physically rendered 3D felt/plush and clay textures, soft studio lighting and original character design language of the reference ensemble. Detailed tactile fur or soft felt skin appropriate to the species. Genuine transparent background, no ground, no shadows outside the body, no scenery, no text, no logo, no extra animal, no unrelated props. Centered square composition with ample padding, entire ears and tail inside frame.",
+      "tool": "built-in image_gen"
+    },
+    {
+      "id": "lion",
+      "prompt": "Use case: stylized-concept. Create one production character animation asset. The attached ensemble is a style reference only. ONLY the golden baby lion with a fluffy warm caramel mane and rounded friendly ears, one single animal, full body. Front-facing standing happy pose, limbs slightly apart, smiling open mouth, large warm expressive eyes, small toddler-friendly proportions. Match the premium physically rendered 3D felt/plush and clay textures, soft studio lighting and original character design language of the reference ensemble. Detailed tactile fur or soft felt skin appropriate to the species. Genuine transparent background, no ground, no shadows outside the body, no scenery, no text, no logo, no extra animal, no unrelated props. Centered square composition with ample padding, entire ears and tail inside frame.",
+      "tool": "built-in image_gen"
+    },
+    {
+      "id": "panda",
+      "prompt": "Use case: stylized-concept. Create one production character animation asset. The attached ensemble is a style reference only. ONLY the black-and-white baby giant panda with soft fluffy fur, round ears and pink cheeks, one single animal, full body. Front-facing standing happy pose, limbs slightly apart, smiling open mouth, large warm expressive eyes, small toddler-friendly proportions. Match the premium physically rendered 3D felt/plush and clay textures, soft studio lighting and original character design language of the reference ensemble. Detailed tactile fur or soft felt skin appropriate to the species. Genuine transparent background, no ground, no shadows outside the body, no scenery, no text, no logo, no extra animal, no unrelated props. Centered square composition with ample padding, entire ears and tail inside frame.",
+      "tool": "built-in image_gen"
+    },
+    {
+      "id": "turtle",
+      "prompt": "Use case: stylized-concept. One production animation character asset. The attached ensemble is a style reference. ONLY the mint teal baby turtle with a rounded honey-green patterned shell, little smiling beak, four soft legs and tiny tail, one single animal. Full-body front-facing happy pose, legs clearly separated, entire ears and tail visible, centered with generous transparent padding, smiling open mouth and very large warm expressive eyes. Match premium 3D tactile felt/plush and clay storybook rendering, soft natural studio lighting, appealing baby proportions, rich detailed soft textures and original toddler-friendly character design from the ensemble. Genuine transparent background, no stage, no scenery, no ground, no text, no logo, no additional animal. Square composition. Friendly and adorable, never scary.",
+      "tool": "built-in image_gen"
+    },
+    {
+      "id": "puppy",
+      "prompt": "Use case: stylized-concept. One production animation character asset. The attached ensemble is a style reference. ONLY the warm brown-and-cream baby puppy with floppy ears, fluffy fur, a small blue bandana and happy wagging tail, one single animal. Full-body front-facing happy pose, legs clearly separated, entire ears and tail visible, centered with generous transparent padding, smiling open mouth and very large warm expressive eyes. Match premium 3D tactile felt/plush and clay storybook rendering, soft natural studio lighting, appealing baby proportions, rich detailed soft textures and original toddler-friendly character design from the ensemble. Genuine transparent background, no stage, no scenery, no ground, no text, no logo, no additional animal. Square composition. Friendly and adorable, never scary.",
+      "tool": "built-in image_gen"
+    },
+    {
+      "id": "kitten",
+      "prompt": "Use case: stylized-concept. One production animation character asset. The attached ensemble is a style reference. ONLY the coral-peach baby kitten with cream belly, soft triangular pink ears, tiny whiskers and a curved fluffy tail, one single animal. Full-body front-facing happy pose, legs clearly separated, entire ears and tail visible, centered with generous transparent padding, smiling open mouth and very large warm expressive eyes. Match premium 3D tactile felt/plush and clay storybook rendering, soft natural studio lighting, appealing baby proportions, rich detailed soft textures and original toddler-friendly character design from the ensemble. Genuine transparent background, no stage, no scenery, no ground, no text, no logo, no additional animal. Square composition. Friendly and adorable, never scary.",
+      "tool": "built-in image_gen"
+    },
+    {
+      "id": "garden-day",
+      "prompt": "Create a premium 3D felt-and-clay storybook animation BACKGROUND PLATE for a toddler sing-along. The attached image is a visual style reference. Show sunny daytime, a soft blue sky, warm gentle sunlight, pastel flowers, a rainbow, toy-like green hills and a distant little waterfall. Wide 16:9 cinematic composition, physically based beautiful textured materials, gentle depth of field, polished animated feature rendering. Empty spacious pale wooden garden stage in the central and lower foreground, clear unobstructed space across the middle 75 percent to later composite dancing baby animals. Frame the scene with beautiful soft foliage at the far left and right edges. Rich layered depth, colorful but harmonious and calm. NO characters, NO animals, NO people, NO musical notes, NO words, NO text, NO logos, NO watermark. This must be a completely empty background plate, never include animal silhouettes.",
+      "tool": "built-in image_gen"
+    },
+    {
+      "id": "garden-night",
+      "prompt": "Create a premium 3D felt-and-clay storybook animation BACKGROUND PLATE for a toddler sing-along. The attached image is a visual style reference. Show a calm magical twilight garden, lavender-blue sky with soft twinkling stars and crescent moon, glowing fireflies, muted pastel flowers and rolling hills, warm cozy light. Wide 16:9 cinematic composition, physically based beautiful textured materials, gentle depth of field, polished animated feature rendering. Empty spacious pale wooden garden stage in the central and lower foreground, clear unobstructed space across the middle 75 percent to later composite dancing baby animals. Frame the scene with beautiful soft foliage at the far left and right edges. Rich layered depth, colorful but harmonious and calm. NO characters, NO animals, NO people, NO musical notes, NO words, NO text, NO logos, NO watermark. This must be a completely empty background plate, never include animal silhouettes.",
+      "tool": "built-in image_gen"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "animal": "lion",
+  "id": "leo-counts",
+  "name": "Leo",
+  "korean": "사자",
+  "title": "사자 Leo와 One Two Three! 숫자 놀이",
+  "topic": "숫자 놀이",
+  "bpm": 98,
+  "lyrics": [
+    "One two three roar",
+    "Clap clap one two",
+    "Three stars shine bright",
+    "Little lion count again"
+  ],
+  "translations": [
+    "하나 둘 셋, 어흥",
+    "짝짝, 하나 둘",
+    "별 세 개가 반짝여요",
+    "작은 사자야, 다시 세어 봐"
+  ],
+  "intro": "Hi! I'm Leo the lion. Let's count to three!",
+  "play": "Can you count with me? One, two, three!",
+  "outro": "Amazing counting! Give yourself a little clap.",
+  "word": "three",
+  "meaning": "셋",
+  "number": 6,
+  "notes": [
+    [
+      60,
+      64,
+      67,
+      72
+    ],
+    [
+      69,
+      67,
+      64,
+      67
+    ],
+    [
+      65,
+      69,
+      67,
+      64
+    ],
+    [
+      62,
+      65,
+      62,
+      60
+    ]
+  ],
+  "color": "#f5dda1",
+  "duration": 41.589795918367344,
+  "segments": [
+    {
+      "kind": "intro",
+      "text": "Hi! I'm Leo the lion. Let's count to three!",
+      "korean": "사자 Leo와 함께 노래해요!",
+      "start": 0.6,
+      "end": 4.064666666666667
+    },
+    {
+      "kind": "song",
+      "text": "One two three roar",
+      "korean": "하나 둘 셋, 어흥",
+      "start": 5,
+      "end": 7.961224489795919
+    },
+    {
+      "kind": "song",
+      "text": "Clap clap one two",
+      "korean": "짝짝, 하나 둘",
+      "start": 8.061224489795919,
+      "end": 11.022448979591838
+    },
+    {
+      "kind": "song",
+      "text": "Three stars shine bright",
+      "korean": "별 세 개가 반짝여요",
+      "start": 11.122448979591837,
+      "end": 14.083673469387756
+    },
+    {
+      "kind": "song",
+      "text": "Little lion count again",
+      "korean": "작은 사자야, 다시 세어 봐",
+      "start": 14.183673469387756,
+      "end": 17.144897959183673
+    },
+    {
+      "kind": "play",
+      "text": "Can you count with me? One, two, three!",
+      "korean": "함께 해 봐요: 셋",
+      "start": 18.544897959183675,
+      "end": 21.159564625850344
+    },
+    {
+      "kind": "repeat",
+      "text": "One two three roar",
+      "korean": "하나 둘 셋, 어흥",
+      "start": 24.044897959183675,
+      "end": 27.006122448979593
+    },
+    {
+      "kind": "repeat",
+      "text": "Clap clap one two",
+      "korean": "짝짝, 하나 둘",
+      "start": 27.106122448979594,
+      "end": 30.06734693877551
+    },
+    {
+      "kind": "repeat",
+      "text": "Three stars shine bright",
+      "korean": "별 세 개가 반짝여요",
+      "start": 30.167346938775513,
+      "end": 33.128571428571426
+    },
+    {
+      "kind": "repeat",
+      "text": "Little lion count again",
+      "korean": "작은 사자야, 다시 세어 봐",
+      "start": 33.22857142857143,
+      "end": 36.189795918367345
+    },
+    {
+      "kind": "outro",
+      "text": "Amazing counting! Give yourself a little clap.",
+      "korean": "잘했어요! 손을 흔들며 인사해요.",
+      "start": 37.38979591836734,
+      "end": 40.69712925170067
+    }
+  ],
+  "chapters": {
+    "intro": 0,
+    "song": 5,
+    "play": 18.044897959183675,
+    "repeat": 24.044897959183675,
+    "outro": 37.089795918367344
+  },
+  "synthesis": "Kokoro af_heart + WORLD score resynthesis",
+  "score": "Original melody, lyrics and arrangement",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30
+}

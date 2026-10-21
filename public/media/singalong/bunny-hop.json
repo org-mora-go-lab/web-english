@@ -1,0 +1,146 @@
+{
+  "animal": "rabbit",
+  "id": "bunny-hop",
+  "name": "Bibi",
+  "korean": "토끼",
+  "title": "토끼 Bibi의 Hop Hop! 멈춤 놀이",
+  "topic": "동작 놀이",
+  "bpm": 104,
+  "lyrics": [
+    "Little bunny hop hop",
+    "Hop hop stop stop",
+    "One two bunny hop",
+    "Hop hop sit down"
+  ],
+  "translations": [
+    "작은 토끼가 깡충깡충",
+    "깡충깡충, 멈춰 멈춰",
+    "하나 둘, 토끼가 깡충",
+    "깡충깡충, 앉아요"
+  ],
+  "intro": "Hello! I'm Bibi the bunny. Let's hop!",
+  "play": "Can you hop like a bunny? Hop, hop, and stop!",
+  "outro": "Wonderful hopping! See you next time.",
+  "word": "hop",
+  "meaning": "깡충 뛰기",
+  "number": 2,
+  "notes": [
+    [
+      64,
+      67,
+      72,
+      67
+    ],
+    [
+      64,
+      69,
+      67,
+      64
+    ],
+    [
+      60,
+      64,
+      67,
+      72
+    ],
+    [
+      69,
+      67,
+      64,
+      60
+    ]
+  ],
+  "color": "#f0dbe7",
+  "duration": 40.176923076923075,
+  "segments": [
+    {
+      "kind": "intro",
+      "text": "Hello! I'm Bibi the bunny. Let's hop!",
+      "korean": "토끼 Bibi와 함께 노래해요!",
+      "start": 0.6,
+      "end": 3.534666666666667
+    },
+    {
+      "kind": "song",
+      "text": "Little bunny hop hop",
+      "korean": "작은 토끼가 깡충깡충",
+      "start": 5,
+      "end": 7.7846153846153845
+    },
+    {
+      "kind": "song",
+      "text": "Hop hop stop stop",
+      "korean": "깡충깡충, 멈춰 멈춰",
+      "start": 7.884615384615384,
+      "end": 10.669230769230769
+    },
+    {
+      "kind": "song",
+      "text": "One two bunny hop",
+      "korean": "하나 둘, 토끼가 깡충",
+      "start": 10.769230769230768,
+      "end": 13.553846153846154
+    },
+    {
+      "kind": "song",
+      "text": "Hop hop sit down",
+      "korean": "깡충깡충, 앉아요",
+      "start": 13.653846153846153,
+      "end": 16.438461538461535
+    },
+    {
+      "kind": "play",
+      "text": "Can you hop like a bunny? Hop, hop, and stop!",
+      "korean": "함께 해 봐요: 깡충 뛰기",
+      "start": 17.838461538461537,
+      "end": 21.277128205128204
+    },
+    {
+      "kind": "repeat",
+      "text": "Little bunny hop hop",
+      "korean": "작은 토끼가 깡충깡충",
+      "start": 23.338461538461537,
+      "end": 26.12307692307692
+    },
+    {
+      "kind": "repeat",
+      "text": "Hop hop stop stop",
+      "korean": "깡충깡충, 멈춰 멈춰",
+      "start": 26.22307692307692,
+      "end": 29.007692307692302
+    },
+    {
+      "kind": "repeat",
+      "text": "One two bunny hop",
+      "korean": "하나 둘, 토끼가 깡충",
+      "start": 29.107692307692304,
+      "end": 31.892307692307686
+    },
+    {
+      "kind": "repeat",
+      "text": "Hop hop sit down",
+      "korean": "깡충깡충, 앉아요",
+      "start": 31.99230769230769,
+      "end": 34.776923076923076
+    },
+    {
+      "kind": "outro",
+      "text": "Wonderful hopping! See you next time.",
+      "korean": "잘했어요! 손을 흔들며 인사해요.",
+      "start": 35.97692307692307,
+      "end": 38.60025641025641
+    }
+  ],
+  "chapters": {
+    "intro": 0,
+    "song": 5,
+    "play": 17.338461538461537,
+    "repeat": 23.338461538461537,
+    "outro": 35.676923076923075
+  },
+  "synthesis": "Kokoro af_heart + WORLD score resynthesis",
+  "score": "Original melody, lyrics and arrangement",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30
+}

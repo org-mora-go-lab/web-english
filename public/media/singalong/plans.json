@@ -1,0 +1,542 @@
+[
+  {
+    "animal": "bear",
+    "id": "momo-hello",
+    "name": "Momo",
+    "korean": "곰",
+    "title": "곰 Momo와 손 흔들며 Hello!",
+    "topic": "인사 놀이",
+    "bpm": 96,
+    "lyrics": [
+      "Hello bear wave hello",
+      "Wave your paws hello",
+      "Hello friend clap clap",
+      "Clap clap wave goodbye"
+    ],
+    "translations": [
+      "안녕 곰아, 손 흔들며 인사해요",
+      "앞발을 흔들며 안녕",
+      "안녕 친구야, 짝짝",
+      "짝짝, 손 흔들며 잘 가"
+    ],
+    "intro": "Hello! I'm Momo the bear. Let's wave and sing!",
+    "play": "Can you wave? Wave your hands with me!",
+    "outro": "Great waving! Bye-bye, little friend.",
+    "word": "wave",
+    "meaning": "손 흔들기",
+    "number": 1,
+    "notes": [
+      [
+        60,
+        64,
+        67,
+        64
+      ],
+      [
+        62,
+        65,
+        69,
+        67
+      ],
+      [
+        64,
+        67,
+        69,
+        67
+      ],
+      [
+        65,
+        64,
+        62,
+        60
+      ]
+    ],
+    "color": "#f2d7b9"
+  },
+  {
+    "animal": "rabbit",
+    "id": "bunny-hop",
+    "name": "Bibi",
+    "korean": "토끼",
+    "title": "토끼 Bibi의 Hop Hop! 멈춤 놀이",
+    "topic": "동작 놀이",
+    "bpm": 104,
+    "lyrics": [
+      "Little bunny hop hop",
+      "Hop hop stop stop",
+      "One two bunny hop",
+      "Hop hop sit down"
+    ],
+    "translations": [
+      "작은 토끼가 깡충깡충",
+      "깡충깡충, 멈춰 멈춰",
+      "하나 둘, 토끼가 깡충",
+      "깡충깡충, 앉아요"
+    ],
+    "intro": "Hello! I'm Bibi the bunny. Let's hop!",
+    "play": "Can you hop like a bunny? Hop, hop, and stop!",
+    "outro": "Wonderful hopping! See you next time.",
+    "word": "hop",
+    "meaning": "깡충 뛰기",
+    "number": 2,
+    "notes": [
+      [
+        64,
+        67,
+        72,
+        67
+      ],
+      [
+        64,
+        69,
+        67,
+        64
+      ],
+      [
+        60,
+        64,
+        67,
+        72
+      ],
+      [
+        69,
+        67,
+        64,
+        60
+      ]
+    ],
+    "color": "#f0dbe7"
+  },
+  {
+    "animal": "duck",
+    "id": "ducky-quack",
+    "name": "Dodo",
+    "korean": "오리",
+    "title": "오리 Dodo와 Quack Quack 물놀이",
+    "topic": "동물 소리",
+    "bpm": 100,
+    "lyrics": [
+      "Little duck quack quack",
+      "Quack quack splash splash",
+      "One two three ducks",
+      "Wave goodbye little duck"
+    ],
+    "translations": [
+      "작은 오리가 꽥꽥",
+      "꽥꽥, 첨벙첨벙",
+      "하나 둘 셋, 오리들",
+      "작은 오리에게 손 흔들며 잘 가"
+    ],
+    "intro": "Hi! I'm Dodo the duck. Quack, quack!",
+    "play": "Can you say quack? Quack, quack, quack!",
+    "outro": "Lovely quacking! Bye-bye, little duck.",
+    "word": "quack",
+    "meaning": "꽥꽥 소리",
+    "number": 3,
+    "notes": [
+      [
+        67,
+        64,
+        67,
+        69
+      ],
+      [
+        67,
+        64,
+        62,
+        64
+      ],
+      [
+        60,
+        64,
+        67,
+        69
+      ],
+      [
+        67,
+        64,
+        62,
+        60
+      ]
+    ],
+    "color": "#f8e59d"
+  },
+  {
+    "animal": "fox",
+    "id": "foxy-colors",
+    "name": "Fifi",
+    "korean": "여우",
+    "title": "여우 Fifi의 빨강·파랑·노랑 색깔 노래",
+    "topic": "색깔 놀이",
+    "bpm": 94,
+    "lyrics": [
+      "Red fox red ball",
+      "Blue sky yellow sun",
+      "Red blue yellow green",
+      "Find red little fox"
+    ],
+    "translations": [
+      "빨간 여우, 빨간 공",
+      "파란 하늘, 노란 해",
+      "빨강 파랑 노랑 초록",
+      "작은 여우야, 빨강을 찾아봐"
+    ],
+    "intro": "Hello! I'm Fifi the fox. Let's find colors!",
+    "play": "Can you find something red? Point to red!",
+    "outro": "You found the colors! Great job, little friend.",
+    "word": "red",
+    "meaning": "빨강",
+    "number": 4,
+    "notes": [
+      [
+        60,
+        62,
+        64,
+        67
+      ],
+      [
+        64,
+        67,
+        69,
+        67
+      ],
+      [
+        65,
+        69,
+        72,
+        69
+      ],
+      [
+        67,
+        64,
+        62,
+        60
+      ]
+    ],
+    "color": "#f1cfb0"
+  },
+  {
+    "animal": "elephant",
+    "id": "ellie-big-small",
+    "name": "Ellie",
+    "korean": "코끼리",
+    "title": "코끼리 Ellie의 Big & Small 발걸음",
+    "topic": "반대말 놀이",
+    "bpm": 92,
+    "lyrics": [
+      "Big ears little toes",
+      "Stomp stomp tip toe",
+      "Up up down down",
+      "Big hug little friend"
+    ],
+    "translations": [
+      "큰 귀, 작은 발가락",
+      "쿵쿵, 살금살금",
+      "위로 위로, 아래로 아래로",
+      "작은 친구에게 큰 포옹"
+    ],
+    "intro": "Hello! I'm Ellie the elephant. Big ears, little toes!",
+    "play": "Can you make yourself big? Now make yourself small!",
+    "outro": "Big hugs! You did so well.",
+    "word": "big",
+    "meaning": "크다",
+    "number": 5,
+    "notes": [
+      [
+        60,
+        60,
+        64,
+        65
+      ],
+      [
+        67,
+        65,
+        64,
+        62
+      ],
+      [
+        64,
+        67,
+        65,
+        64
+      ],
+      [
+        62,
+        64,
+        62,
+        60
+      ]
+    ],
+    "color": "#ddd8ef"
+  },
+  {
+    "animal": "lion",
+    "id": "leo-counts",
+    "name": "Leo",
+    "korean": "사자",
+    "title": "사자 Leo와 One Two Three! 숫자 놀이",
+    "topic": "숫자 놀이",
+    "bpm": 98,
+    "lyrics": [
+      "One two three roar",
+      "Clap clap one two",
+      "Three stars shine bright",
+      "Little lion count again"
+    ],
+    "translations": [
+      "하나 둘 셋, 어흥",
+      "짝짝, 하나 둘",
+      "별 세 개가 반짝여요",
+      "작은 사자야, 다시 세어 봐"
+    ],
+    "intro": "Hi! I'm Leo the lion. Let's count to three!",
+    "play": "Can you count with me? One, two, three!",
+    "outro": "Amazing counting! Give yourself a little clap.",
+    "word": "three",
+    "meaning": "셋",
+    "number": 6,
+    "notes": [
+      [
+        60,
+        64,
+        67,
+        72
+      ],
+      [
+        69,
+        67,
+        64,
+        67
+      ],
+      [
+        65,
+        69,
+        67,
+        64
+      ],
+      [
+        62,
+        65,
+        62,
+        60
+      ]
+    ],
+    "color": "#f5dda1"
+  },
+  {
+    "animal": "panda",
+    "id": "panda-body",
+    "name": "Poco",
+    "korean": "판다",
+    "title": "판다 Poco와 Nose, Hands, Knees! 몸 놀이",
+    "topic": "몸 놀이",
+    "bpm": 92,
+    "lyrics": [
+      "Touch your little nose",
+      "Clap your little hands",
+      "Tap your little knees",
+      "Wave your hands goodbye"
+    ],
+    "translations": [
+      "작은 코를 톡 만져요",
+      "작은 손으로 짝짝",
+      "작은 무릎을 톡톡",
+      "손을 흔들며 잘 가"
+    ],
+    "intro": "Hello! I'm Poco the panda. Let's play together!",
+    "play": "Where is your nose? Touch your nose. There it is!",
+    "outro": "You found your nose! Well done.",
+    "word": "nose",
+    "meaning": "코",
+    "number": 7,
+    "notes": [
+      [
+        64,
+        62,
+        60,
+        64
+      ],
+      [
+        67,
+        69,
+        67,
+        64
+      ],
+      [
+        65,
+        64,
+        62,
+        65
+      ],
+      [
+        64,
+        62,
+        67,
+        60
+      ]
+    ],
+    "color": "#dce6d7"
+  },
+  {
+    "animal": "turtle",
+    "id": "toto-slow-fast",
+    "name": "Toto",
+    "korean": "거북이",
+    "title": "거북이 Toto의 Slow & Fast 산책",
+    "topic": "반대말 놀이",
+    "bpm": 88,
+    "lyrics": [
+      "Little turtle slow slow",
+      "Walk walk stop stop",
+      "Fast feet slow feet",
+      "Take one little breath"
+    ],
+    "translations": [
+      "작은 거북이가 천천히 천천히",
+      "걷고 걷고, 멈춰 멈춰",
+      "빠른 발, 느린 발",
+      "작게 숨을 한 번 쉬어요"
+    ],
+    "intro": "Hi! I'm Toto the turtle. Let's take a little walk!",
+    "play": "Can you walk slowly? Slow, slow. Now stop!",
+    "outro": "That was a lovely walk. Bye-bye!",
+    "word": "slow",
+    "meaning": "천천히",
+    "number": 8,
+    "notes": [
+      [
+        60,
+        62,
+        64,
+        62
+      ],
+      [
+        65,
+        64,
+        62,
+        60
+      ],
+      [
+        64,
+        65,
+        67,
+        65
+      ],
+      [
+        64,
+        62,
+        60,
+        60
+      ]
+    ],
+    "color": "#cce8df"
+  },
+  {
+    "animal": "puppy",
+    "id": "pip-dance",
+    "name": "Pip",
+    "korean": "강아지",
+    "title": "강아지 Pip의 Happy Dance! 신나는 춤",
+    "topic": "동작 놀이",
+    "bpm": 108,
+    "lyrics": [
+      "Happy puppy wag wag",
+      "Clap clap dance dance",
+      "Jump jump turn around",
+      "Sit down good puppy"
+    ],
+    "translations": [
+      "신난 강아지가 꼬리를 살랑살랑",
+      "짝짝, 춤춰 춤춰",
+      "콩콩, 빙글 돌아요",
+      "잘했어 강아지야, 앉아요"
+    ],
+    "intro": "Hello! I'm Pip the puppy. Let's do a happy dance!",
+    "play": "Can you clap your hands? Clap, clap, clap!",
+    "outro": "What a happy dance! Thank you, little friend.",
+    "word": "dance",
+    "meaning": "춤추기",
+    "number": 9,
+    "notes": [
+      [
+        67,
+        72,
+        69,
+        67
+      ],
+      [
+        64,
+        67,
+        72,
+        69
+      ],
+      [
+        65,
+        69,
+        67,
+        64
+      ],
+      [
+        62,
+        67,
+        64,
+        60
+      ]
+    ],
+    "color": "#d8e4f1"
+  },
+  {
+    "animal": "kitten",
+    "id": "kiki-goodnight",
+    "name": "Kiki",
+    "korean": "고양이",
+    "title": "고양이 Kiki와 Night Night 별빛 자장가",
+    "topic": "잘 자요",
+    "bpm": 76,
+    "lyrics": [
+      "Little kitten sleepy eyes",
+      "Twinkle stars night night",
+      "Close your eyes softly",
+      "Sweet dreams little friend"
+    ],
+    "translations": [
+      "작은 고양이의 졸린 눈",
+      "반짝이는 별들, 잘 자요",
+      "눈을 살며시 감아요",
+      "작은 친구야, 좋은 꿈 꿔"
+    ],
+    "intro": "Hello! I'm Kiki the kitten. Let's say goodnight.",
+    "play": "Can you give a little yawn? Stretch, and get cozy.",
+    "outro": "Night night, little friend. Sweet dreams.",
+    "word": "night",
+    "meaning": "밤",
+    "number": 10,
+    "notes": [
+      [
+        67,
+        64,
+        62,
+        60
+      ],
+      [
+        65,
+        64,
+        62,
+        64
+      ],
+      [
+        69,
+        67,
+        65,
+        64
+      ],
+      [
+        62,
+        64,
+        62,
+        60
+      ]
+    ],
+    "color": "#edd8e4"
+  }
+]

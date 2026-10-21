@@ -1,0 +1,962 @@
+{
+  "momo-hello": {
+    "src": "/media/singalong/momo-hello.mp4",
+    "poster": "/media/singalong/momo-hello-poster.webp",
+    "captions": "/media/singalong/momo-hello",
+    "seconds": 42.099999999999994,
+    "label": "0:43",
+    "segments": [
+      {
+        "kind": "intro",
+        "text": "Hello! I'm Momo the bear. Let's wave and sing!",
+        "korean": "곰 Momo와 함께 노래해요!",
+        "start": 0.6,
+        "end": 3.760625
+      },
+      {
+        "kind": "song",
+        "text": "Hello bear wave hello",
+        "korean": "안녕 곰아, 손 흔들며 인사해요",
+        "start": 5,
+        "end": 8.025
+      },
+      {
+        "kind": "song",
+        "text": "Wave your paws hello",
+        "korean": "앞발을 흔들며 안녕",
+        "start": 8.125,
+        "end": 11.15
+      },
+      {
+        "kind": "song",
+        "text": "Hello friend clap clap",
+        "korean": "안녕 친구야, 짝짝",
+        "start": 11.25,
+        "end": 14.275
+      },
+      {
+        "kind": "song",
+        "text": "Clap clap wave goodbye",
+        "korean": "짝짝, 손 흔들며 잘 가",
+        "start": 14.375,
+        "end": 17.4
+      },
+      {
+        "kind": "play",
+        "text": "Can you wave? Wave your hands with me!",
+        "korean": "함께 해 봐요: 손 흔들기",
+        "start": 18.8,
+        "end": 21.371958333333335
+      },
+      {
+        "kind": "repeat",
+        "text": "Hello bear wave hello",
+        "korean": "안녕 곰아, 손 흔들며 인사해요",
+        "start": 24.3,
+        "end": 27.325
+      },
+      {
+        "kind": "repeat",
+        "text": "Wave your paws hello",
+        "korean": "앞발을 흔들며 안녕",
+        "start": 27.425,
+        "end": 30.45
+      },
+      {
+        "kind": "repeat",
+        "text": "Hello friend clap clap",
+        "korean": "안녕 친구야, 짝짝",
+        "start": 30.55,
+        "end": 33.574999999999996
+      },
+      {
+        "kind": "repeat",
+        "text": "Clap clap wave goodbye",
+        "korean": "짝짝, 손 흔들며 잘 가",
+        "start": 33.675,
+        "end": 36.699999999999996
+      },
+      {
+        "kind": "outro",
+        "text": "Great waving! Bye-bye, little friend.",
+        "korean": "잘했어요! 손을 흔들며 인사해요.",
+        "start": 37.89999999999999,
+        "end": 40.655291666666656
+      }
+    ],
+    "chapters": {
+      "intro": 0,
+      "song": 5,
+      "play": 18.3,
+      "repeat": 24.3,
+      "outro": 37.599999999999994
+    },
+    "width": 1920,
+    "height": 1080,
+    "fps": 30
+  },
+  "bunny-hop": {
+    "src": "/media/singalong/bunny-hop.mp4",
+    "poster": "/media/singalong/bunny-hop-poster.webp",
+    "captions": "/media/singalong/bunny-hop",
+    "seconds": 40.176923076923075,
+    "label": "0:41",
+    "segments": [
+      {
+        "kind": "intro",
+        "text": "Hello! I'm Bibi the bunny. Let's hop!",
+        "korean": "토끼 Bibi와 함께 노래해요!",
+        "start": 0.6,
+        "end": 3.534666666666667
+      },
+      {
+        "kind": "song",
+        "text": "Little bunny hop hop",
+        "korean": "작은 토끼가 깡충깡충",
+        "start": 5,
+        "end": 7.7846153846153845
+      },
+      {
+        "kind": "song",
+        "text": "Hop hop stop stop",
+        "korean": "깡충깡충, 멈춰 멈춰",
+        "start": 7.884615384615384,
+        "end": 10.669230769230769
+      },
+      {
+        "kind": "song",
+        "text": "One two bunny hop",
+        "korean": "하나 둘, 토끼가 깡충",
+        "start": 10.769230769230768,
+        "end": 13.553846153846154
+      },
+      {
+        "kind": "song",
+        "text": "Hop hop sit down",
+        "korean": "깡충깡충, 앉아요",
+        "start": 13.653846153846153,
+        "end": 16.438461538461535
+      },
+      {
+        "kind": "play",
+        "text": "Can you hop like a bunny? Hop, hop, and stop!",
+        "korean": "함께 해 봐요: 깡충 뛰기",
+        "start": 17.838461538461537,
+        "end": 21.277128205128204
+      },
+      {
+        "kind": "repeat",
+        "text": "Little bunny hop hop",
+        "korean": "작은 토끼가 깡충깡충",
+        "start": 23.338461538461537,
+        "end": 26.12307692307692
+      },
+      {
+        "kind": "repeat",
+        "text": "Hop hop stop stop",
+        "korean": "깡충깡충, 멈춰 멈춰",
+        "start": 26.22307692307692,
+        "end": 29.007692307692302
+      },
+      {
+        "kind": "repeat",
+        "text": "One two bunny hop",
+        "korean": "하나 둘, 토끼가 깡충",
+        "start": 29.107692307692304,
+        "end": 31.892307692307686
+      },
+      {
+        "kind": "repeat",
+        "text": "Hop hop sit down",
+        "korean": "깡충깡충, 앉아요",
+        "start": 31.99230769230769,
+        "end": 34.776923076923076
+      },
+      {
+        "kind": "outro",
+        "text": "Wonderful hopping! See you next time.",
+        "korean": "잘했어요! 손을 흔들며 인사해요.",
+        "start": 35.97692307692307,
+        "end": 38.60025641025641
+      }
+    ],
+    "chapters": {
+      "intro": 0,
+      "song": 5,
+      "play": 17.338461538461537,
+      "repeat": 23.338461538461537,
+      "outro": 35.676923076923075
+    },
+    "width": 1920,
+    "height": 1080,
+    "fps": 30
+  },
+  "ducky-quack": {
+    "src": "/media/singalong/ducky-quack.mp4",
+    "poster": "/media/singalong/ducky-quack-poster.webp",
+    "captions": "/media/singalong/ducky-quack",
+    "seconds": 41.099999999999994,
+    "label": "0:42",
+    "segments": [
+      {
+        "kind": "intro",
+        "text": "Hi! I'm Dodo the duck. Quack, quack!",
+        "korean": "오리 Dodo와 함께 노래해요!",
+        "start": 0.6,
+        "end": 3.5493333333333332
+      },
+      {
+        "kind": "song",
+        "text": "Little duck quack quack",
+        "korean": "작은 오리가 꽥꽥",
+        "start": 5,
+        "end": 7.9
+      },
+      {
+        "kind": "song",
+        "text": "Quack quack splash splash",
+        "korean": "꽥꽥, 첨벙첨벙",
+        "start": 8,
+        "end": 10.9
+      },
+      {
+        "kind": "song",
+        "text": "One two three ducks",
+        "korean": "하나 둘 셋, 오리들",
+        "start": 11,
+        "end": 13.9
+      },
+      {
+        "kind": "song",
+        "text": "Wave goodbye little duck",
+        "korean": "작은 오리에게 손 흔들며 잘 가",
+        "start": 14,
+        "end": 16.9
+      },
+      {
+        "kind": "play",
+        "text": "Can you say quack? Quack, quack, quack!",
+        "korean": "함께 해 봐요: 꽥꽥 소리",
+        "start": 18.3,
+        "end": 21.126
+      },
+      {
+        "kind": "repeat",
+        "text": "Little duck quack quack",
+        "korean": "작은 오리가 꽥꽥",
+        "start": 23.8,
+        "end": 26.7
+      },
+      {
+        "kind": "repeat",
+        "text": "Quack quack splash splash",
+        "korean": "꽥꽥, 첨벙첨벙",
+        "start": 26.8,
+        "end": 29.7
+      },
+      {
+        "kind": "repeat",
+        "text": "One two three ducks",
+        "korean": "하나 둘 셋, 오리들",
+        "start": 29.8,
+        "end": 32.699999999999996
+      },
+      {
+        "kind": "repeat",
+        "text": "Wave goodbye little duck",
+        "korean": "작은 오리에게 손 흔들며 잘 가",
+        "start": 32.8,
+        "end": 35.699999999999996
+      },
+      {
+        "kind": "outro",
+        "text": "Lovely quacking! Bye-bye, little duck.",
+        "korean": "잘했어요! 손을 흔들며 인사해요.",
+        "start": 36.89999999999999,
+        "end": 39.66266666666666
+      }
+    ],
+    "chapters": {
+      "intro": 0,
+      "song": 5,
+      "play": 17.8,
+      "repeat": 23.8,
+      "outro": 36.599999999999994
+    },
+    "width": 1920,
+    "height": 1080,
+    "fps": 30
+  },
+  "foxy-colors": {
+    "src": "/media/singalong/foxy-colors.mp4",
+    "poster": "/media/singalong/foxy-colors-poster.webp",
+    "captions": "/media/singalong/foxy-colors",
+    "seconds": 42.63191489361702,
+    "label": "0:43",
+    "segments": [
+      {
+        "kind": "intro",
+        "text": "Hello! I'm Fifi the fox. Let's find colors!",
+        "korean": "여우 Fifi와 함께 노래해요!",
+        "start": 0.6,
+        "end": 4.036666666666666
+      },
+      {
+        "kind": "song",
+        "text": "Red fox red ball",
+        "korean": "빨간 여우, 빨간 공",
+        "start": 5,
+        "end": 8.091489361702129
+      },
+      {
+        "kind": "song",
+        "text": "Blue sky yellow sun",
+        "korean": "파란 하늘, 노란 해",
+        "start": 8.191489361702128,
+        "end": 11.282978723404257
+      },
+      {
+        "kind": "song",
+        "text": "Red blue yellow green",
+        "korean": "빨강 파랑 노랑 초록",
+        "start": 11.382978723404255,
+        "end": 14.474468085106382
+      },
+      {
+        "kind": "song",
+        "text": "Find red little fox",
+        "korean": "작은 여우야, 빨강을 찾아봐",
+        "start": 14.574468085106384,
+        "end": 17.66595744680851
+      },
+      {
+        "kind": "play",
+        "text": "Can you find something red? Point to red!",
+        "korean": "함께 해 봐요: 빨강",
+        "start": 19.06595744680851,
+        "end": 21.84258244680851
+      },
+      {
+        "kind": "repeat",
+        "text": "Red fox red ball",
+        "korean": "빨간 여우, 빨간 공",
+        "start": 24.56595744680851,
+        "end": 27.657446808510638
+      },
+      {
+        "kind": "repeat",
+        "text": "Blue sky yellow sun",
+        "korean": "파란 하늘, 노란 해",
+        "start": 27.75744680851064,
+        "end": 30.848936170212767
+      },
+      {
+        "kind": "repeat",
+        "text": "Red blue yellow green",
+        "korean": "빨강 파랑 노랑 초록",
+        "start": 30.948936170212768,
+        "end": 34.04042553191489
+      },
+      {
+        "kind": "repeat",
+        "text": "Find red little fox",
+        "korean": "작은 여우야, 빨강을 찾아봐",
+        "start": 34.14042553191489,
+        "end": 37.23191489361702
+      },
+      {
+        "kind": "outro",
+        "text": "You found the colors! Great job, little friend.",
+        "korean": "잘했어요! 손을 흔들며 인사해요.",
+        "start": 38.43191489361702,
+        "end": 41.67924822695035
+      }
+    ],
+    "chapters": {
+      "intro": 0,
+      "song": 5,
+      "play": 18.56595744680851,
+      "repeat": 24.56595744680851,
+      "outro": 38.13191489361702
+    },
+    "width": 1920,
+    "height": 1080,
+    "fps": 30
+  },
+  "ellie-big-small": {
+    "src": "/media/singalong/ellie-big-small.mp4",
+    "poster": "/media/singalong/ellie-big-small-poster.webp",
+    "captions": "/media/singalong/ellie-big-small",
+    "seconds": 44.186956521739134,
+    "label": "0:45",
+    "segments": [
+      {
+        "kind": "intro",
+        "text": "Hello! I'm Ellie the elephant. Big ears, little toes!",
+        "korean": "코끼리 Ellie와 함께 노래해요!",
+        "start": 0.6,
+        "end": 4.616666666666666
+      },
+      {
+        "kind": "song",
+        "text": "Big ears little toes",
+        "korean": "큰 귀, 작은 발가락",
+        "start": 6,
+        "end": 9.160869565217391
+      },
+      {
+        "kind": "song",
+        "text": "Stomp stomp tip toe",
+        "korean": "쿵쿵, 살금살금",
+        "start": 9.26086956521739,
+        "end": 12.421739130434782
+      },
+      {
+        "kind": "song",
+        "text": "Up up down down",
+        "korean": "위로 위로, 아래로 아래로",
+        "start": 12.521739130434783,
+        "end": 15.682608695652176
+      },
+      {
+        "kind": "song",
+        "text": "Big hug little friend",
+        "korean": "작은 친구에게 큰 포옹",
+        "start": 15.782608695652174,
+        "end": 18.943478260869565
+      },
+      {
+        "kind": "play",
+        "text": "Can you make yourself big? Now make yourself small!",
+        "korean": "함께 해 봐요: 크다",
+        "start": 20.343478260869567,
+        "end": 23.674769927536232
+      },
+      {
+        "kind": "repeat",
+        "text": "Big ears little toes",
+        "korean": "큰 귀, 작은 발가락",
+        "start": 25.843478260869567,
+        "end": 29.004347826086956
+      },
+      {
+        "kind": "repeat",
+        "text": "Stomp stomp tip toe",
+        "korean": "쿵쿵, 살금살금",
+        "start": 29.104347826086958,
+        "end": 32.26521739130435
+      },
+      {
+        "kind": "repeat",
+        "text": "Up up down down",
+        "korean": "위로 위로, 아래로 아래로",
+        "start": 32.36521739130435,
+        "end": 35.52608695652174
+      },
+      {
+        "kind": "repeat",
+        "text": "Big hug little friend",
+        "korean": "작은 친구에게 큰 포옹",
+        "start": 35.62608695652174,
+        "end": 38.78695652173913
+      },
+      {
+        "kind": "outro",
+        "text": "Big hugs! You did so well.",
+        "korean": "잘했어요! 손을 흔들며 인사해요.",
+        "start": 39.98695652173913,
+        "end": 42.21958152173913
+      }
+    ],
+    "chapters": {
+      "intro": 0,
+      "song": 6,
+      "play": 19.843478260869567,
+      "repeat": 25.843478260869567,
+      "outro": 39.686956521739134
+    },
+    "width": 1920,
+    "height": 1080,
+    "fps": 30
+  },
+  "leo-counts": {
+    "src": "/media/singalong/leo-counts.mp4",
+    "poster": "/media/singalong/leo-counts-poster.webp",
+    "captions": "/media/singalong/leo-counts",
+    "seconds": 41.589795918367344,
+    "label": "0:42",
+    "segments": [
+      {
+        "kind": "intro",
+        "text": "Hi! I'm Leo the lion. Let's count to three!",
+        "korean": "사자 Leo와 함께 노래해요!",
+        "start": 0.6,
+        "end": 4.064666666666667
+      },
+      {
+        "kind": "song",
+        "text": "One two three roar",
+        "korean": "하나 둘 셋, 어흥",
+        "start": 5,
+        "end": 7.961224489795919
+      },
+      {
+        "kind": "song",
+        "text": "Clap clap one two",
+        "korean": "짝짝, 하나 둘",
+        "start": 8.061224489795919,
+        "end": 11.022448979591838
+      },
+      {
+        "kind": "song",
+        "text": "Three stars shine bright",
+        "korean": "별 세 개가 반짝여요",
+        "start": 11.122448979591837,
+        "end": 14.083673469387756
+      },
+      {
+        "kind": "song",
+        "text": "Little lion count again",
+        "korean": "작은 사자야, 다시 세어 봐",
+        "start": 14.183673469387756,
+        "end": 17.144897959183673
+      },
+      {
+        "kind": "play",
+        "text": "Can you count with me? One, two, three!",
+        "korean": "함께 해 봐요: 셋",
+        "start": 18.544897959183675,
+        "end": 21.159564625850344
+      },
+      {
+        "kind": "repeat",
+        "text": "One two three roar",
+        "korean": "하나 둘 셋, 어흥",
+        "start": 24.044897959183675,
+        "end": 27.006122448979593
+      },
+      {
+        "kind": "repeat",
+        "text": "Clap clap one two",
+        "korean": "짝짝, 하나 둘",
+        "start": 27.106122448979594,
+        "end": 30.06734693877551
+      },
+      {
+        "kind": "repeat",
+        "text": "Three stars shine bright",
+        "korean": "별 세 개가 반짝여요",
+        "start": 30.167346938775513,
+        "end": 33.128571428571426
+      },
+      {
+        "kind": "repeat",
+        "text": "Little lion count again",
+        "korean": "작은 사자야, 다시 세어 봐",
+        "start": 33.22857142857143,
+        "end": 36.189795918367345
+      },
+      {
+        "kind": "outro",
+        "text": "Amazing counting! Give yourself a little clap.",
+        "korean": "잘했어요! 손을 흔들며 인사해요.",
+        "start": 37.38979591836734,
+        "end": 40.69712925170067
+      }
+    ],
+    "chapters": {
+      "intro": 0,
+      "song": 5,
+      "play": 18.044897959183675,
+      "repeat": 24.044897959183675,
+      "outro": 37.089795918367344
+    },
+    "width": 1920,
+    "height": 1080,
+    "fps": 30
+  },
+  "panda-body": {
+    "src": "/media/singalong/panda-body.mp4",
+    "poster": "/media/singalong/panda-body-poster.webp",
+    "captions": "/media/singalong/panda-body",
+    "seconds": 43.186956521739134,
+    "label": "0:44",
+    "segments": [
+      {
+        "kind": "intro",
+        "text": "Hello! I'm Poco the panda. Let's play together!",
+        "korean": "판다 Poco와 함께 노래해요!",
+        "start": 0.6,
+        "end": 4.058
+      },
+      {
+        "kind": "song",
+        "text": "Touch your little nose",
+        "korean": "작은 코를 톡 만져요",
+        "start": 5,
+        "end": 8.160869565217391
+      },
+      {
+        "kind": "song",
+        "text": "Clap your little hands",
+        "korean": "작은 손으로 짝짝",
+        "start": 8.26086956521739,
+        "end": 11.421739130434782
+      },
+      {
+        "kind": "song",
+        "text": "Tap your little knees",
+        "korean": "작은 무릎을 톡톡",
+        "start": 11.521739130434783,
+        "end": 14.682608695652176
+      },
+      {
+        "kind": "song",
+        "text": "Wave your hands goodbye",
+        "korean": "손을 흔들며 잘 가",
+        "start": 14.782608695652174,
+        "end": 17.943478260869565
+      },
+      {
+        "kind": "play",
+        "text": "Where is your nose? Touch your nose. There it is!",
+        "korean": "함께 해 봐요: 코",
+        "start": 19.343478260869567,
+        "end": 22.637478260869567
+      },
+      {
+        "kind": "repeat",
+        "text": "Touch your little nose",
+        "korean": "작은 코를 톡 만져요",
+        "start": 24.843478260869567,
+        "end": 28.004347826086956
+      },
+      {
+        "kind": "repeat",
+        "text": "Clap your little hands",
+        "korean": "작은 손으로 짝짝",
+        "start": 28.104347826086958,
+        "end": 31.265217391304347
+      },
+      {
+        "kind": "repeat",
+        "text": "Tap your little knees",
+        "korean": "작은 무릎을 톡톡",
+        "start": 31.36521739130435,
+        "end": 34.52608695652174
+      },
+      {
+        "kind": "repeat",
+        "text": "Wave your hands goodbye",
+        "korean": "손을 흔들며 잘 가",
+        "start": 34.62608695652174,
+        "end": 37.78695652173913
+      },
+      {
+        "kind": "outro",
+        "text": "You found your nose! Well done.",
+        "korean": "잘했어요! 손을 흔들며 인사해요.",
+        "start": 38.98695652173913,
+        "end": 41.28895652173913
+      }
+    ],
+    "chapters": {
+      "intro": 0,
+      "song": 5,
+      "play": 18.843478260869567,
+      "repeat": 24.843478260869567,
+      "outro": 38.686956521739134
+    },
+    "width": 1920,
+    "height": 1080,
+    "fps": 30
+  },
+  "toto-slow-fast": {
+    "src": "/media/singalong/toto-slow-fast.mp4",
+    "poster": "/media/singalong/toto-slow-fast-poster.webp",
+    "captions": "/media/singalong/toto-slow-fast",
+    "seconds": 44.37272727272727,
+    "label": "0:45",
+    "segments": [
+      {
+        "kind": "intro",
+        "text": "Hi! I'm Toto the turtle. Let's take a little walk!",
+        "korean": "거북이 Toto와 함께 노래해요!",
+        "start": 0.6,
+        "end": 4.005333333333334
+      },
+      {
+        "kind": "song",
+        "text": "Little turtle slow slow",
+        "korean": "작은 거북이가 천천히 천천히",
+        "start": 5,
+        "end": 8.309090909090909
+      },
+      {
+        "kind": "song",
+        "text": "Walk walk stop stop",
+        "korean": "걷고 걷고, 멈춰 멈춰",
+        "start": 8.409090909090908,
+        "end": 11.718181818181817
+      },
+      {
+        "kind": "song",
+        "text": "Fast feet slow feet",
+        "korean": "빠른 발, 느린 발",
+        "start": 11.818181818181817,
+        "end": 15.127272727272725
+      },
+      {
+        "kind": "song",
+        "text": "Take one little breath",
+        "korean": "작게 숨을 한 번 쉬어요",
+        "start": 15.227272727272727,
+        "end": 18.536363636363635
+      },
+      {
+        "kind": "play",
+        "text": "Can you walk slowly? Slow, slow. Now stop!",
+        "korean": "함께 해 봐요: 천천히",
+        "start": 19.936363636363634,
+        "end": 23.223696969696967
+      },
+      {
+        "kind": "repeat",
+        "text": "Little turtle slow slow",
+        "korean": "작은 거북이가 천천히 천천히",
+        "start": 25.436363636363634,
+        "end": 28.745454545454542
+      },
+      {
+        "kind": "repeat",
+        "text": "Walk walk stop stop",
+        "korean": "걷고 걷고, 멈춰 멈춰",
+        "start": 28.845454545454544,
+        "end": 32.15454545454545
+      },
+      {
+        "kind": "repeat",
+        "text": "Fast feet slow feet",
+        "korean": "빠른 발, 느린 발",
+        "start": 32.25454545454545,
+        "end": 35.563636363636355
+      },
+      {
+        "kind": "repeat",
+        "text": "Take one little breath",
+        "korean": "작게 숨을 한 번 쉬어요",
+        "start": 35.66363636363636,
+        "end": 38.97272727272726
+      },
+      {
+        "kind": "outro",
+        "text": "That was a lovely walk. Bye-bye!",
+        "korean": "잘했어요! 손을 흔들며 인사해요.",
+        "start": 40.172727272727265,
+        "end": 42.746060606060595
+      }
+    ],
+    "chapters": {
+      "intro": 0,
+      "song": 5,
+      "play": 19.436363636363634,
+      "repeat": 25.436363636363634,
+      "outro": 39.87272727272727
+    },
+    "width": 1920,
+    "height": 1080,
+    "fps": 30
+  },
+  "pip-dance": {
+    "src": "/media/singalong/pip-dance.mp4",
+    "poster": "/media/singalong/pip-dance-poster.webp",
+    "captions": "/media/singalong/pip-dance",
+    "seconds": 39.32222222222222,
+    "label": "0:40",
+    "segments": [
+      {
+        "kind": "intro",
+        "text": "Hello! I'm Pip the puppy. Let's do a happy dance!",
+        "korean": "강아지 Pip와 함께 노래해요!",
+        "start": 0.6,
+        "end": 3.9926666666666666
+      },
+      {
+        "kind": "song",
+        "text": "Happy puppy wag wag",
+        "korean": "신난 강아지가 꼬리를 살랑살랑",
+        "start": 5,
+        "end": 7.677777777777778
+      },
+      {
+        "kind": "song",
+        "text": "Clap clap dance dance",
+        "korean": "짝짝, 춤춰 춤춰",
+        "start": 7.777777777777778,
+        "end": 10.455555555555556
+      },
+      {
+        "kind": "song",
+        "text": "Jump jump turn around",
+        "korean": "콩콩, 빙글 돌아요",
+        "start": 10.555555555555555,
+        "end": 13.233333333333333
+      },
+      {
+        "kind": "song",
+        "text": "Sit down good puppy",
+        "korean": "잘했어 강아지야, 앉아요",
+        "start": 13.333333333333334,
+        "end": 16.01111111111111
+      },
+      {
+        "kind": "play",
+        "text": "Can you clap your hands? Clap, clap, clap!",
+        "korean": "함께 해 봐요: 춤추기",
+        "start": 17.41111111111111,
+        "end": 20.485777777777777
+      },
+      {
+        "kind": "repeat",
+        "text": "Happy puppy wag wag",
+        "korean": "신난 강아지가 꼬리를 살랑살랑",
+        "start": 22.91111111111111,
+        "end": 25.58888888888889
+      },
+      {
+        "kind": "repeat",
+        "text": "Clap clap dance dance",
+        "korean": "짝짝, 춤춰 춤춰",
+        "start": 25.68888888888889,
+        "end": 28.366666666666667
+      },
+      {
+        "kind": "repeat",
+        "text": "Jump jump turn around",
+        "korean": "콩콩, 빙글 돌아요",
+        "start": 28.46666666666667,
+        "end": 31.144444444444446
+      },
+      {
+        "kind": "repeat",
+        "text": "Sit down good puppy",
+        "korean": "잘했어 강아지야, 앉아요",
+        "start": 31.244444444444447,
+        "end": 33.922222222222224
+      },
+      {
+        "kind": "outro",
+        "text": "What a happy dance! Thank you, little friend.",
+        "korean": "잘했어요! 손을 흔들며 인사해요.",
+        "start": 35.12222222222222,
+        "end": 37.922888888888885
+      }
+    ],
+    "chapters": {
+      "intro": 0,
+      "song": 5,
+      "play": 16.91111111111111,
+      "repeat": 22.91111111111111,
+      "outro": 34.82222222222222
+    },
+    "width": 1920,
+    "height": 1080,
+    "fps": 30
+  },
+  "kiki-goodnight": {
+    "src": "/media/singalong/kiki-goodnight.mp4",
+    "poster": "/media/singalong/kiki-goodnight-poster.webp",
+    "captions": "/media/singalong/kiki-goodnight",
+    "seconds": 48.67894736842105,
+    "label": "0:49",
+    "segments": [
+      {
+        "kind": "intro",
+        "text": "Hello! I'm Kiki the kitten. Let's say goodnight.",
+        "korean": "고양이 Kiki와 함께 노래해요!",
+        "start": 0.6,
+        "end": 3.876
+      },
+      {
+        "kind": "song",
+        "text": "Little kitten sleepy eyes",
+        "korean": "작은 고양이의 졸린 눈",
+        "start": 5,
+        "end": 8.847368421052632
+      },
+      {
+        "kind": "song",
+        "text": "Twinkle stars night night",
+        "korean": "반짝이는 별들, 잘 자요",
+        "start": 8.947368421052632,
+        "end": 12.794736842105264
+      },
+      {
+        "kind": "song",
+        "text": "Close your eyes softly",
+        "korean": "눈을 살며시 감아요",
+        "start": 12.894736842105264,
+        "end": 16.742105263157896
+      },
+      {
+        "kind": "song",
+        "text": "Sweet dreams little friend",
+        "korean": "작은 친구야, 좋은 꿈 꿔",
+        "start": 16.842105263157897,
+        "end": 20.689473684210526
+      },
+      {
+        "kind": "play",
+        "text": "Can you give a little yawn? Stretch, and get cozy.",
+        "korean": "함께 해 봐요: 밤",
+        "start": 22.089473684210528,
+        "end": 25.564765350877195
+      },
+      {
+        "kind": "repeat",
+        "text": "Little kitten sleepy eyes",
+        "korean": "작은 고양이의 졸린 눈",
+        "start": 27.589473684210528,
+        "end": 31.43684210526316
+      },
+      {
+        "kind": "repeat",
+        "text": "Twinkle stars night night",
+        "korean": "반짝이는 별들, 잘 자요",
+        "start": 31.536842105263162,
+        "end": 35.38421052631579
+      },
+      {
+        "kind": "repeat",
+        "text": "Close your eyes softly",
+        "korean": "눈을 살며시 감아요",
+        "start": 35.48421052631579,
+        "end": 39.33157894736842
+      },
+      {
+        "kind": "repeat",
+        "text": "Sweet dreams little friend",
+        "korean": "작은 친구야, 좋은 꿈 꿔",
+        "start": 39.43157894736842,
+        "end": 43.27894736842105
+      },
+      {
+        "kind": "outro",
+        "text": "Night night, little friend. Sweet dreams.",
+        "korean": "잘했어요! 손을 흔들며 인사해요.",
+        "start": 44.478947368421046,
+        "end": 47.329614035087715
+      }
+    ],
+    "chapters": {
+      "intro": 0,
+      "song": 5,
+      "play": 21.589473684210528,
+      "repeat": 27.589473684210528,
+      "outro": 44.17894736842105
+    },
+    "width": 1920,
+    "height": 1080,
+    "fps": 30
+  }
+}

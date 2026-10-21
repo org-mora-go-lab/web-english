@@ -1,0 +1,146 @@
+{
+  "animal": "puppy",
+  "id": "pip-dance",
+  "name": "Pip",
+  "korean": "강아지",
+  "title": "강아지 Pip의 Happy Dance! 신나는 춤",
+  "topic": "동작 놀이",
+  "bpm": 108,
+  "lyrics": [
+    "Happy puppy wag wag",
+    "Clap clap dance dance",
+    "Jump jump turn around",
+    "Sit down good puppy"
+  ],
+  "translations": [
+    "신난 강아지가 꼬리를 살랑살랑",
+    "짝짝, 춤춰 춤춰",
+    "콩콩, 빙글 돌아요",
+    "잘했어 강아지야, 앉아요"
+  ],
+  "intro": "Hello! I'm Pip the puppy. Let's do a happy dance!",
+  "play": "Can you clap your hands? Clap, clap, clap!",
+  "outro": "What a happy dance! Thank you, little friend.",
+  "word": "dance",
+  "meaning": "춤추기",
+  "number": 9,
+  "notes": [
+    [
+      67,
+      72,
+      69,
+      67
+    ],
+    [
+      64,
+      67,
+      72,
+      69
+    ],
+    [
+      65,
+      69,
+      67,
+      64
+    ],
+    [
+      62,
+      67,
+      64,
+      60
+    ]
+  ],
+  "color": "#d8e4f1",
+  "duration": 39.32222222222222,
+  "segments": [
+    {
+      "kind": "intro",
+      "text": "Hello! I'm Pip the puppy. Let's do a happy dance!",
+      "korean": "강아지 Pip와 함께 노래해요!",
+      "start": 0.6,
+      "end": 3.9926666666666666
+    },
+    {
+      "kind": "song",
+      "text": "Happy puppy wag wag",
+      "korean": "신난 강아지가 꼬리를 살랑살랑",
+      "start": 5,
+      "end": 7.677777777777778
+    },
+    {
+      "kind": "song",
+      "text": "Clap clap dance dance",
+      "korean": "짝짝, 춤춰 춤춰",
+      "start": 7.777777777777778,
+      "end": 10.455555555555556
+    },
+    {
+      "kind": "song",
+      "text": "Jump jump turn around",
+      "korean": "콩콩, 빙글 돌아요",
+      "start": 10.555555555555555,
+      "end": 13.233333333333333
+    },
+    {
+      "kind": "song",
+      "text": "Sit down good puppy",
+      "korean": "잘했어 강아지야, 앉아요",
+      "start": 13.333333333333334,
+      "end": 16.01111111111111
+    },
+    {
+      "kind": "play",
+      "text": "Can you clap your hands? Clap, clap, clap!",
+      "korean": "함께 해 봐요: 춤추기",
+      "start": 17.41111111111111,
+      "end": 20.485777777777777
+    },
+    {
+      "kind": "repeat",
+      "text": "Happy puppy wag wag",
+      "korean": "신난 강아지가 꼬리를 살랑살랑",
+      "start": 22.91111111111111,
+      "end": 25.58888888888889
+    },
+    {
+      "kind": "repeat",
+      "text": "Clap clap dance dance",
+      "korean": "짝짝, 춤춰 춤춰",
+      "start": 25.68888888888889,
+      "end": 28.366666666666667
+    },
+    {
+      "kind": "repeat",
+      "text": "Jump jump turn around",
+      "korean": "콩콩, 빙글 돌아요",
+      "start": 28.46666666666667,
+      "end": 31.144444444444446
+    },
+    {
+      "kind": "repeat",
+      "text": "Sit down good puppy",
+      "korean": "잘했어 강아지야, 앉아요",
+      "start": 31.244444444444447,
+      "end": 33.922222222222224
+    },
+    {
+      "kind": "outro",
+      "text": "What a happy dance! Thank you, little friend.",
+      "korean": "잘했어요! 손을 흔들며 인사해요.",
+      "start": 35.12222222222222,
+      "end": 37.922888888888885
+    }
+  ],
+  "chapters": {
+    "intro": 0,
+    "song": 5,
+    "play": 16.91111111111111,
+    "repeat": 22.91111111111111,
+    "outro": 34.82222222222222
+  },
+  "synthesis": "Kokoro af_heart + WORLD score resynthesis",
+  "score": "Original melody, lyrics and arrangement",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30
+}

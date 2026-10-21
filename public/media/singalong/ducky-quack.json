@@ -1,0 +1,146 @@
+{
+  "animal": "duck",
+  "id": "ducky-quack",
+  "name": "Dodo",
+  "korean": "오리",
+  "title": "오리 Dodo와 Quack Quack 물놀이",
+  "topic": "동물 소리",
+  "bpm": 100,
+  "lyrics": [
+    "Little duck quack quack",
+    "Quack quack splash splash",
+    "One two three ducks",
+    "Wave goodbye little duck"
+  ],
+  "translations": [
+    "작은 오리가 꽥꽥",
+    "꽥꽥, 첨벙첨벙",
+    "하나 둘 셋, 오리들",
+    "작은 오리에게 손 흔들며 잘 가"
+  ],
+  "intro": "Hi! I'm Dodo the duck. Quack, quack!",
+  "play": "Can you say quack? Quack, quack, quack!",
+  "outro": "Lovely quacking! Bye-bye, little duck.",
+  "word": "quack",
+  "meaning": "꽥꽥 소리",
+  "number": 3,
+  "notes": [
+    [
+      67,
+      64,
+      67,
+      69
+    ],
+    [
+      67,
+      64,
+      62,
+      64
+    ],
+    [
+      60,
+      64,
+      67,
+      69
+    ],
+    [
+      67,
+      64,
+      62,
+      60
+    ]
+  ],
+  "color": "#f8e59d",
+  "duration": 41.099999999999994,
+  "segments": [
+    {
+      "kind": "intro",
+      "text": "Hi! I'm Dodo the duck. Quack, quack!",
+      "korean": "오리 Dodo와 함께 노래해요!",
+      "start": 0.6,
+      "end": 3.5493333333333332
+    },
+    {
+      "kind": "song",
+      "text": "Little duck quack quack",
+      "korean": "작은 오리가 꽥꽥",
+      "start": 5,
+      "end": 7.9
+    },
+    {
+      "kind": "song",
+      "text": "Quack quack splash splash",
+      "korean": "꽥꽥, 첨벙첨벙",
+      "start": 8,
+      "end": 10.9
+    },
+    {
+      "kind": "song",
+      "text": "One two three ducks",
+      "korean": "하나 둘 셋, 오리들",
+      "start": 11,
+      "end": 13.9
+    },
+    {
+      "kind": "song",
+      "text": "Wave goodbye little duck",
+      "korean": "작은 오리에게 손 흔들며 잘 가",
+      "start": 14,
+      "end": 16.9
+    },
+    {
+      "kind": "play",
+      "text": "Can you say quack? Quack, quack, quack!",
+      "korean": "함께 해 봐요: 꽥꽥 소리",
+      "start": 18.3,
+      "end": 21.126
+    },
+    {
+      "kind": "repeat",
+      "text": "Little duck quack quack",
+      "korean": "작은 오리가 꽥꽥",
+      "start": 23.8,
+      "end": 26.7
+    },
+    {
+      "kind": "repeat",
+      "text": "Quack quack splash splash",
+      "korean": "꽥꽥, 첨벙첨벙",
+      "start": 26.8,
+      "end": 29.7
+    },
+    {
+      "kind": "repeat",
+      "text": "One two three ducks",
+      "korean": "하나 둘 셋, 오리들",
+      "start": 29.8,
+      "end": 32.699999999999996
+    },
+    {
+      "kind": "repeat",
+      "text": "Wave goodbye little duck",
+      "korean": "작은 오리에게 손 흔들며 잘 가",
+      "start": 32.8,
+      "end": 35.699999999999996
+    },
+    {
+      "kind": "outro",
+      "text": "Lovely quacking! Bye-bye, little duck.",
+      "korean": "잘했어요! 손을 흔들며 인사해요.",
+      "start": 36.89999999999999,
+      "end": 39.66266666666666
+    }
+  ],
+  "chapters": {
+    "intro": 0,
+    "song": 5,
+    "play": 17.8,
+    "repeat": 23.8,
+    "outro": 36.599999999999994
+  },
+  "synthesis": "Kokoro af_heart + WORLD score resynthesis",
+  "score": "Original melody, lyrics and arrangement",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30
+}
