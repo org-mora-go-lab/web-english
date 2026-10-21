@@ -1,0 +1,33 @@
+{
+  "duration": 19.898,
+  "fps": 24,
+  "width": 1280,
+  "height": 720,
+  "voice": "Microsoft Zira Desktop",
+  "segments": [
+    {
+      "text": "Hi! I'm Momo, your English buddy.",
+      "korean": "안녕! 나는 너의 영어 친구 Momo야.",
+      "start": 0.5,
+      "end": 4.4995
+    },
+    {
+      "text": "A little practice every day goes a long way.",
+      "korean": "매일 조금씩 연습하면 큰 변화가 생겨.",
+      "start": 4.8995,
+      "end": 7.959
+    },
+    {
+      "text": "Let's try it together. Hello! How are you?",
+      "korean": "함께 해 보자. 안녕! 어떻게 지내?",
+      "start": 8.359,
+      "end": 13.1685
+    },
+    {
+      "text": "Great job! Let's learn, one small step at a time.",
+      "korean": "잘했어! 한 걸음씩 함께 배워 보자.",
+      "start": 13.5685,
+      "end": 18.498
+    }
+  ]
+}

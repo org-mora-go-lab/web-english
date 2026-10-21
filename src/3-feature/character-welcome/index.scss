@@ -1,0 +1,133 @@
+.character-welcome {
+  flex: 1.15;
+  width: 52%;
+  min-width: 0;
+  align-self: center;
+  padding: 22px 24px 22px 0;
+  .video-stage {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #edf0e3;
+    box-shadow: 0 7px 24px #62593d12;
+  }
+  video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+    background: #f9f5eb;
+  }
+  .video-badge {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    pointer-events: none;
+    font-size: 8px;
+    letter-spacing: 1px;
+    background: #fffdf3e6;
+    color: #8e7b5e;
+    padding: 5px 7px;
+    border-radius: 5px;
+  }
+  .video-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 12px 1px 0;
+    > div {
+      min-width: 0;
+    }
+    strong {
+      display: block;
+      font-size: 11px;
+      color: #625f54;
+    }
+    span {
+      display: block;
+      font-size: 9px;
+      color: #969080;
+      margin-top: 5px;
+    }
+    button {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: #637f6c;
+      color: white;
+      border: 0;
+      border-radius: 7px;
+      padding: 10px 12px;
+      font-size: 10px;
+      min-height: 36px;
+    }
+  }
+  .video-message {
+    color: #9a563e;
+    line-height: 1.7;
+    font-size: 11px;
+  }
+  .video-transcript {
+    margin-top: 12px;
+    font-size: 10px;
+    color: #918978;
+    summary {
+      cursor: pointer;
+      padding: 3px 0;
+    }
+    ol {
+      padding-left: 18px;
+      margin-bottom: 0;
+    }
+    li {
+      margin: 10px 0;
+      line-height: 1.7;
+      p {
+        font-size: 12px;
+        color: #575f50;
+        margin: 0 0 3px;
+      }
+      span {
+        font-size: 10px;
+      }
+    }
+  }
+}
+@media (max-width: 940px) and (min-width: 701px) {
+  .character-welcome {
+    padding: 20px 16px 20px 0;
+    .video-actions {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 8px;
+    }
+  }
+}
+@media (max-width: 700px) {
+  .learning-workspace .hero {
+    flex-direction: column;
+  }
+  .learning-workspace .hero .hero-copy {
+    padding-bottom: 22px;
+  }
+  .character-welcome {
+    width: 100%;
+    padding: 0 18px 18px;
+    .video-actions strong {
+      font-size: 10px;
+    }
+    .video-actions span {
+      font-size: 9px;
+    }
+    .video-actions button {
+      font-size: 10px;
+      padding: 9px 10px;
+    }
+    .video-transcript {
+      margin-top: 10px;
+    }
+  }
+}
