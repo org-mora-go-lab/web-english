@@ -36,6 +36,7 @@ next-env.d.ts
 
 /test-results/
 /playwright-report/
+/.tmp/
 
 # Python media tooling
 __pycache__/

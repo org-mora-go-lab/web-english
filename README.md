@@ -1,15 +1,17 @@
 # Mora English
 
-YouTube의 탐색 패턴을 참고한 영어 학습 앱. `org-mora-go-lab/web-notepad`의 Next.js 16, React 19, TypeScript, SCSS와 번호 계층 구조를 참고했습니다.
+YouTube의 탐색 패턴을 참고한 영어 학습 앱. 기존 영상 레슨에 회원 계정, 블로그형 CMS, Paul 콘텐츠 가져오기와 Turso 학습 동기화를 추가했습니다. [구현 계획](docs/implementation-plan.md)을 참고하세요.
 
 ## 실행
 
 ```bash
 npm ci
+cp .env.example .env.local
+npm run db:migrate
 npm run dev
 ```
 
-http://localhost:3200 에서 실행합니다. 환경 변수와 API 키는 필요하지 않습니다.
+http://localhost:3200 에서 실행합니다. `.env.local`의 `AUTH_SECRET`을 새 난수로 바꾸세요. 로컬 개발은 파일 DB와 `EMAIL_CAPTURE_DIR`에 저장되는 인증 링크를 사용합니다. 실제 기기 간 동기화는 Turso URL과 토큰을 지정해야 합니다.
 
 ## 구조
 
@@ -28,7 +30,23 @@ http://localhost:3200 에서 실행합니다. 환경 변수와 API 키는 필요
 
 동요 10개와 기존 회화 레슨 15개를 합쳐 전체 25개 콘텐츠의 저장·최근 학습·완료를 관리합니다. 자막 끄기·언어 선택은 localStorage에 저장해 영상 이동·새로고침·새 탭과 홈 인사 영상에서도 유지합니다.
 
-기록은 브라우저 localStorage에 저장하며 같은 브라우저의 여러 창에서 동기화됩니다. 탐색 상태는 sessionStorage와 메모리에서 유지합니다. 계정 동기화는 포함하지 않습니다.
+비회원 기록은 브라우저 localStorage에 저장하며 같은 브라우저의 여러 창에서 동기화됩니다. 회원 기록과 새 글 학습 진도는 Turso에 저장되어 같은 계정의 기기 간 동기화됩니다. 탐색 상태는 sessionStorage와 메모리에서 유지합니다.
+
+## 계정과 글
+
+`/signup`에서 이메일 인증 후 로그인합니다. `/settings/account`에서 닉네임·이메일·비밀번호를 변경하거나 계정과 연관 데이터를 삭제할 수 있습니다. `/studio`에서 Tiptap으로 글을 작성하고, 자동 저장·미리보기·발행·비공개 설정·버전 기록을 사용합니다. `/studio/import`는 Paul 또는 외부 Markdown/JSON을 비공개 임시 글로 가져옵니다. `/posts/[slug]/context`에서 Paul에게 붙여 넣을 학습 컨텍스트와 공유 URL을 복사할 수 있습니다.
+
+이미지는 Vercel **비공개** Blob 저장소에 업로드하며 5MB 이하의 PNG/JPEG/WebP만 허용합니다. 공개 글에서 쓰는 이미지만 비회원에게 서버 경유로 제공됩니다. 별도 OpenAI GPT API는 사용하지 않습니다.
+
+## 운영 환경과 배포
+
+Vercel Production Branch는 `main`입니다. 개발/운영 Turso 데이터베이스를 따로 만들고 각각의 `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`을 설정하세요. Vercel에는 `AUTH_SECRET`, `AUTH_URL`(운영 HTTPS 주소), `RESEND_API_KEY`, `EMAIL_FROM`(검증된 발신 도메인), 비공개 Vercel Blob 스토어의 `BLOB_READ_WRITE_TOKEN`을 서버 전용 환경 변수로 설정합니다. `EMAIL_CAPTURE_DIR`은 운영에 설정하지 않습니다. Vercel Production 빌드는 Drizzle 마이그레이션을 먼저 적용하고 Next.js를 빌드합니다. Preview는 운영 DB를 변경하지 않습니다.
+
+관리자 계정은 일반 회원가입으로 만들 수 없습니다. 이메일 인증을 마친 운영 계정의 `users.role`을 Turso 관리 콘솔에서 `admin`으로 설정한 뒤 다시 로그인하세요. 회원 탈퇴는 소유 글·학습 기록과 Blob 파일을 삭제합니다. 기존 브라우저의 비회원 기록은 로그인 시 자동으로 계정에 합치지 않습니다.
+
+Resend의 현재 무료 범위는 월 3,000건·일 100건이며, 초과 사용과 도메인 설정은 [Resend 요금 페이지](https://resend.com/pricing)에서 확인하세요. Turso 무료 요금 범위는 [Turso 요금 페이지](https://turso.tech/pricing)에서 확인하세요. Vercel Blob의 저장·전송 비용은 [Vercel Blob 요금 문서](https://vercel.com/docs/vercel-blob/usage-and-pricing)를 확인하세요.
+
+Dot Paul의 외부 POST API 직접 호출은 이 프로젝트에서 구성하지 않았습니다. 현재 기본 경로는 Markdown/JSON 가져오기입니다. 향후 Paul이 공식 플러그인으로 이 사이트에 쓰려면 계정별 인증·권한 승인과 공개된 도구 인터페이스를 별도 설계해야 합니다.
 
 15개 레슨 모두 Momo가 영어를 말하는 오리지널 MP4로 제공합니다. 영상마다 어휘 3개, 핵심 문장 5개, 대화 4문장과 복습을 담습니다. 영어 음성은 파일에 포함되어 브라우저 음성 합성 기능 없이 재생됩니다. 재생·일시 정지·탐색·속도·영어/한국어 자막·챕터·문장별 구간 이동을 지원합니다. 시청 페이지에는 대본, 해석, 퀴즈와 관련 영상이 있습니다.
 

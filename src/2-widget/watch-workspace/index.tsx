@@ -13,7 +13,7 @@ import type { WatchWorkspaceProps } from "./type";
 export function WatchWorkspace({ lesson }: WatchWorkspaceProps) {
   const video = useRef<HTMLVideoElement>(null);
   const media = lessonVideos[lesson.id];
-  const { library, ready, hydrate, update } = useLibrary();
+  const { library, ready, hydrate, update, syncError } = useLibrary();
   const [failed, setFailed] = useState(false);
   const [message, setMessage] = useState("");
   const [rate, setRate] = useState(1);
@@ -24,10 +24,13 @@ export function WatchWorkspace({ lesson }: WatchWorkspaceProps) {
     // A prerendered video can fail before React attaches its event handlers.
     queueMicrotask(() => { if (video.current?.error) setFailed(true); });
     if (!useCaptionPreference.getState().ready) hydrateCaptions();
-    if (!useLibrary.getState().ready) hydrate();
-    const current = useLibrary.getState().library;
-    if (!update({ ...current, history: [lesson.id, ...current.history.filter(id => id !== lesson.id)] }))
-      queueMicrotask(() => setMessage("저장 공간을 사용할 수 없어 이번 세션에서만 유지됩니다."));
+    const recordView = () => {
+      const current = useLibrary.getState().library;
+      if (!update({ ...current, history: [lesson.id, ...current.history.filter(id => id !== lesson.id)] }))
+        setMessage("저장 공간을 사용할 수 없어 이번 세션에서만 유지됩니다.");
+    };
+    if (!useLibrary.getState().ready) void hydrate().then(recordView);
+    else recordView();
     function sync(event: StorageEvent) {
       if (event.key === "mora-english-library" || event.key === null) hydrate();
     }
@@ -94,7 +97,7 @@ export function WatchWorkspace({ lesson }: WatchWorkspaceProps) {
           <button disabled={!ready} className={completed ? "done" : "complete"} onClick={() => updateList("completed")}>{completed ? <RotateCcw size={17} /> : <Check size={17} />}{completed ? "학습 완료 취소" : "오늘의 학습 완료"}</button>
         </div>
         <div className="watch-description"><strong>{lesson.subtitle}</strong><p>{lesson.goal}</p><p>{lesson.scenario}</p><span>{lesson.kind === "song" ? "인사 · 동요 · 따라 하기 · 다시 부르기" : "어휘 3개 · 핵심 문장 5개 · 예시 대화 · 복습"}</span></div>
-        {message && <p role="status">{message}</p>}
+        {(message || syncError) && <p role="status">{message || "학습 기록을 서버에 동기화하지 못했습니다. 연결을 확인해 주세요."}</p>}
         <section className="video-chapters" aria-label="영상 구간"><h2>필요한 순간부터 다시 듣기</h2><div>{chapterNames.map(([kind, title]) => { const segment = media.segments.find(item => item.kind === kind)!; return <button key={kind} disabled={failed} onClick={() => seek(segment.start)}><Play size={13} /><span>{title}</span><small>{Math.floor(segment.start / 60)}:{String(Math.floor(segment.start % 60)).padStart(2, "0")}</small></button>; })}</div></section>
         {lesson.kind === "song" ? <SingalongPractice lesson={lesson} onSeek={seek} /> : <LessonPractice lesson={lesson} onSeek={seek} />}
       </div>
