@@ -1,1 +1,1 @@
-export { createVerifiedAccount, defaultPassword, login, waitForMail } from "./account";
+export { createAccount, defaultPassword, login } from "./account";

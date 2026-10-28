@@ -8,6 +8,13 @@
       "when": 1793187117430,
       "tag": "0000_absurd_talon",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1793193555155,
+      "tag": "0001_friendly_santa_claus",
+      "breakpoints": true
     }
   ]
 }

@@ -2,7 +2,7 @@ import { del } from "@vercel/blob";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
-import { changePassword, getActor, normalizeEmail, passwordChangeSchema, publicUser, requestEmailChange, verifyPassword } from "@/src/4-entity/account";
+import { changeEmail, changePassword, getActor, normalizeEmail, passwordChangeSchema, publicUser, verifyPassword } from "@/src/4-entity/account";
 import { getDb, schema } from "@/src/5-shared/db";
 import { jsonError, sameOrigin } from "@/src/5-shared/http";
 
@@ -25,9 +25,11 @@ export async function PATCH(request: Request) {
   if (body?.type === "email") {
     let email: string;
     try { email = normalizeEmail(body.email); } catch { return jsonError("이메일 형식을 확인해 주세요."); }
-    if (email === actor.email) return Response.json({ ok: true });
-    await requestEmailChange(actor.id, email);
-    return Response.json({ message: "사용 가능한 주소라면 인증 이메일을 발송했습니다." });
+    if (typeof body.currentPassword !== "string") return jsonError("현재 비밀번호를 입력해 주세요.");
+    const result = await changeEmail(actor.id, body.currentPassword, email);
+    if (result === "invalid_password") return jsonError("현재 비밀번호가 올바르지 않습니다.", 403);
+    if (result === "unavailable") return jsonError("이메일을 변경할 수 없습니다.", 409);
+    return Response.json({ message: "이메일을 변경했습니다. 다시 로그인해 주세요." });
   }
   if (body?.type === "password") {
     const parsed = passwordChangeSchema.safeParse(body);

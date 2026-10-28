@@ -6,7 +6,7 @@
 
 ## 단계별 구현
 
-1. **인증과 데이터베이스:** Turso/libSQL + Drizzle 스키마와 마이그레이션, Auth.js Credentials, Argon2id, 이메일 인증, 비밀번호 재설정, 계정 설정, 로그인 제한과 권한 검사.
+1. **인증과 데이터베이스:** Turso/libSQL + Drizzle 스키마와 마이그레이션, Auth.js Credentials, Argon2id, 즉시 활성화 회원가입, 계정 설정, 로그인 제한과 권한 검사.
 2. **CMS:** Tiptap 에디터, 글 CRUD, 자동 저장, 발행, 공개 범위, 버전 기록, 카테고리·태그, 비공개 Blob 이미지.
 3. **Paul 연결:** 학습 컨텍스트 복사·URL 공유, Markdown/JSON 가져오기와 미리보기 후 발행. Dot Paul의 외부 POST는 사용자 계정과 공식 플러그인 기능이 확인될 때 별도 통합합니다.
 4. **학습:** 글 학습·퀴즈·진도, 기존 영상 레슨 라이브러리의 계정별 Turso 동기화.
@@ -14,7 +14,7 @@
 
 ## 운영 결정
 
-- Auth.js는 Credentials와 암호화된 JWT 쿠키를 사용합니다. `auth_sessions` 테이블은 필요하지 않습니다. 비밀번호 변경·재설정·이메일 변경 시 `session_version`을 올려 기존 세션의 서버 접근을 차단합니다.
+- Auth.js는 Credentials와 암호화된 JWT 쿠키를 사용합니다. `auth_sessions` 테이블은 필요하지 않습니다. 비밀번호·이메일 변경 시 `session_version`을 올려 기존 세션의 서버 접근을 차단합니다. 이메일 소유권을 확인하지 않으므로 향후 카카오 계정은 이메일만으로 자동 연결하지 않습니다.
 - 회원 탈퇴 시 DB의 글·버전·미디어 메타데이터·학습 진도를 외래 키 cascade로 삭제합니다. 비공개 Blob 원본은 삭제 후 계정 행을 삭제합니다.
 - 직접 OpenAI API를 호출하지 않습니다. Paul의 공식 플러그인 연결 및 계정별 승인 방식은 운영 환경에서 검증되지 않아 직접 POST는 제공하지 않습니다.
-- 실제 Turso, Resend, Vercel Blob 자격 증명이 제공되지 않은 환경에서는 로컬 libSQL과 개발용 메일 캡처로 E2E를 검증합니다. 운영 연결은 배포 담당자가 키를 설정한 뒤 확인해야 합니다.
+- 로컬 E2E는 파일 libSQL로 검증합니다. 운영 Turso와 Vercel Blob은 별도 Production 환경 변수로 연결합니다. 메일 발송과 비밀번호 찾기는 제공하지 않습니다.

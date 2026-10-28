@@ -1,9 +1,9 @@
 import { expect, test } from "@playwright/test";
 
-import { createVerifiedAccount, login } from "../../__util__";
+import { createAccount, login } from "../../__util__";
 
 test("비밀번호 변경 뒤 다른 브라우저 세션을 무효화한다", async ({ browser, page }) => {
-  const { email, password } = await createVerifiedAccount(page);
+  const { email, password } = await createAccount(page);
   const other = await browser.newPage();
   await login(other, email, password);
   await page.goto("/settings/account");
