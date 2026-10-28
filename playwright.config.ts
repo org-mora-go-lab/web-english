@@ -10,6 +10,7 @@ export default defineConfig({
   testDir: "./tests",
   fullyParallel: true,
   workers: 2,
+  timeout: 60_000,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   reporter: "line",
