@@ -52,7 +52,7 @@ export function LearningWorkspace() {
   const setLevel = (level: string) => change({ level, scroll: 0 });
   const setSort = (sort: string) => change({ sort, scroll: 0 });
   const [sidebar, setSidebar] = useState(false);
-  const { library, ready, hydrate, update } = useLibrary();
+  const { library, ready, hydrate, update, syncError } = useLibrary();
   const [notice, setNotice] = useState("");
   useEffect(() => {
     if (!useLibrary.getState().ready) hydrate();
@@ -174,6 +174,8 @@ export function LearningWorkspace() {
           </button>
         </form>
         <div className="header-right">
+          <Link href="/posts" className="content-link">학습 글</Link>
+          <Link href="/studio" className="content-link">스튜디오</Link>
           <span className="daily-note">
             <span /> A little, every day
           </span>
@@ -211,6 +213,7 @@ export function LearningWorkspace() {
             </button>
           ))}
         </nav>
+        <div className="account-links"><Link href="/posts">학습 글</Link><Link href="/studio">내 스튜디오</Link><Link href="/login">로그인</Link></div>
         <div className="sidebar-card">
           <span className="mini-spark">
             <Sparkles size={19} />
@@ -245,7 +248,7 @@ export function LearningWorkspace() {
         <footer>
           <span>mora-go-lab</span>
           <p>Made for your everyday English.</p>
-          <span>© {new Date().getFullYear()} Mora English · v1.0.5</span>
+          <span>© {new Date().getFullYear()} Mora English · v1.0.7</span>
         </footer>
       </aside>
       <main id="content" tabIndex={-1}>
@@ -458,9 +461,9 @@ export function LearningWorkspace() {
           <span>오늘도 한 걸음 더.</span>
         </div>
       </main>
-      {notice && (
+      {(notice || syncError) && (
         <div className="notice" role="status">
-          {notice}
+          {notice || "학습 기록을 서버에 동기화하지 못했습니다. 연결을 확인해 주세요."}
           <button aria-label="알림 닫기" onClick={() => setNotice("")}>
             <X size={16} />
           </button>

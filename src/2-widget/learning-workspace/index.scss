@@ -189,6 +189,7 @@
     display: flex;
     align-items: center;
     gap: 24px;
+    .content-link { font-size: 12px; white-space: nowrap; text-decoration: none; }
     .daily-note {
       color: #777;
       font-size: 11px;
@@ -1199,3 +1200,7 @@
 }
 
 .learning-workspace .hero-copy > a.parent-start { background: transparent; color: #8d8a7b; padding: 8px 0; font-size: 11px; margin-left: 15px; }
+
+.learning-workspace .account-links { display: flex; flex-direction: column; gap: 12px; padding: 18px 24px; border-top: 1px solid #eee; font-size: 12px; }
+.learning-workspace .account-links a { text-decoration: none; }
+@media (max-width: 700px) { .learning-workspace .header-right .content-link { display: none; } }
