@@ -22,7 +22,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (!(await checkRateLimit(request, "login", email, 10, 15 * 60_000))) return null;
       const user = await findUserByEmail(email);
       const valid = await verifyPassword(user?.passwordHash ?? await dummyHash, password);
-      if (!valid || !user || user.status !== "active" || !user.emailVerifiedAt) return null;
+      if (!valid || !user || user.status !== "active") return null;
       return { id: user.id, email: user.email, name: user.displayName, role: user.role, sessionVersion: user.sessionVersion };
     },
   })],

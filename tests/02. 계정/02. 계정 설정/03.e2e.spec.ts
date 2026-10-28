@@ -1,9 +1,9 @@
 import { expect, test } from "@playwright/test";
 
-import { createVerifiedAccount } from "../../__util__";
+import { createAccount } from "../../__util__";
 
 test("회원 탈퇴 시 글과 학습 데이터를 삭제한다", async ({ page }) => {
-  const { password } = await createVerifiedAccount(page);
+  const { password } = await createAccount(page);
   const created = await page.evaluate(async () => {
     const response = await fetch("/api/posts", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ title: "삭제될 학습 글", contentJson: { type: "doc", content: [{ type: "paragraph", content: [{ type: "text", text: "Delete me" }] }] }, visibility: "public" }) });
     return response.json();

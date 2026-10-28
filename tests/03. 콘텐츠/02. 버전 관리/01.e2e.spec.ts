@@ -1,9 +1,9 @@
 import { expect, test } from "@playwright/test";
 
-import { createVerifiedAccount } from "../../__util__";
+import { createAccount } from "../../__util__";
 
 test("이전 본문 버전을 복원한다", async ({ page }) => {
-  await createVerifiedAccount(page);
+  await createAccount(page);
   await page.goto("/studio/posts/new");
   await page.getByLabel("제목").fill("버전 기록 글");
   await page.locator(".tiptap").fill("첫 번째 문장");

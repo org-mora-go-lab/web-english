@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   if (!(await checkRateLimit(request, "signup", parsed.data.email, 5, 60 * 60_000))) return jsonError("잠시 후 다시 시도해 주세요.", 429);
   try {
     await register(parsed.data);
-    return Response.json({ message: "계정이 생성될 수 있다면 인증 이메일을 발송했습니다." });
+    return Response.json({ message: "가입 요청을 처리했습니다." });
   } catch (error) {
     console.error("Signup failed", error);
     return jsonError("가입 요청을 처리하지 못했습니다.", 503);

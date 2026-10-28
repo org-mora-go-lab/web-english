@@ -1,9 +1,9 @@
 import "server-only";
 
-import { createHash, createHmac, randomBytes, randomUUID } from "node:crypto";
+import { createHmac, randomUUID } from "node:crypto";
 
 import argon2 from "argon2";
-import { and, eq, gt, isNull, sql } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { z } from "zod";
 
 import { getDb, schema } from "@/src/5-shared/db";
@@ -23,18 +23,8 @@ export const passwordChangeSchema = z.object({
   newPassword: passwordSchema,
 });
 
-export const resetSchema = z.object({ token: z.string().min(20), password: passwordSchema });
-
 export function normalizeEmail(value: string) {
   return emailSchema.parse(value);
-}
-
-export function hashToken(token: string) {
-  return createHash("sha256").update(token).digest("hex");
-}
-
-function newToken() {
-  return randomBytes(32).toString("base64url");
 }
 
 export function publicUser(user: typeof schema.users.$inferSelect) {
@@ -71,111 +61,29 @@ export async function checkRateLimit(request: Request, action: string, identifie
   return (row?.count ?? 0) <= limit;
 }
 
-function emailConfigReady() {
-  return Boolean(process.env.RESEND_API_KEY && process.env.EMAIL_FROM) ||
-    (process.env.NODE_ENV !== "production" && Boolean(process.env.EMAIL_CAPTURE_DIR));
-}
-
-async function sendEmail(to: string, subject: string, url: string) {
-  if (process.env.NODE_ENV !== "production" && process.env.EMAIL_CAPTURE_DIR) {
-    const { mkdir, writeFile } = await import("node:fs/promises");
-    const { join } = await import("node:path");
-    await mkdir(process.env.EMAIL_CAPTURE_DIR, { recursive: true });
-    await writeFile(join(process.env.EMAIL_CAPTURE_DIR, `${Date.now()}-${randomUUID()}.json`), JSON.stringify({ to, subject, url }));
-    return;
-  }
-  const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.EMAIL_FROM;
-  if (!apiKey || !from) throw new Error("Email delivery is not configured");
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ from, to, subject, text: `${subject}\n\n${url}\n\n이 링크는 일정 시간이 지나면 만료됩니다.` }),
-  });
-  if (!response.ok) throw new Error(`Email delivery failed: ${response.status}`);
-}
-
-function appUrl(path: string) {
-  const base = process.env.AUTH_URL ?? process.env.NEXTAUTH_URL;
-  if (!base) throw new Error("AUTH_URL is required");
-  return new URL(path, base).toString();
-}
-
 export async function register(input: z.infer<typeof signupSchema>) {
-  if (!emailConfigReady()) throw new Error("Email delivery is not configured");
   const db = getDb();
   const existing = await findUserByEmail(input.email);
   if (existing?.status === "active" || existing?.status === "disabled") return;
-  const token = newToken();
   const now = Date.now();
-  let userId = existing?.id;
   if (!existing) {
-    userId = randomUUID();
     await db.insert(schema.users).values({
-      id: userId, email: input.email, displayName: input.displayName,
-      passwordHash: await hashPassword(input.password), role: "user", status: "pending",
+      id: randomUUID(), email: input.email, displayName: input.displayName,
+      passwordHash: await hashPassword(input.password), role: "user", status: "active",
       createdAt: now, updatedAt: now,
-    });
+    }).onConflictDoNothing();
   } else {
-    await db.update(schema.users).set({ displayName: input.displayName, passwordHash: await hashPassword(input.password), updatedAt: now }).where(eq(schema.users.id, existing.id));
-    await db.delete(schema.verificationTokens).where(and(eq(schema.verificationTokens.userId, existing.id), eq(schema.verificationTokens.purpose, "signup")));
+    await db.update(schema.users).set({ displayName: input.displayName, passwordHash: await hashPassword(input.password), status: "active", updatedAt: now }).where(eq(schema.users.id, existing.id));
   }
-  await db.insert(schema.verificationTokens).values({
-    id: randomUUID(), userId: userId!, tokenHash: hashToken(token), purpose: "signup", expiresAt: now + 24 * 60 * 60_000,
-  });
-  await sendEmail(input.email, "Mora English 이메일 인증", appUrl(`/verify-email?token=${token}`));
 }
 
-export async function verifyEmail(token: string) {
-  const db = getDb();
-  const now = Date.now();
-  const record = await db.query.verificationTokens.findFirst({ where: and(eq(schema.verificationTokens.tokenHash, hashToken(token)), isNull(schema.verificationTokens.consumedAt), gt(schema.verificationTokens.expiresAt, now)) });
-  if (!record) return false;
-  return db.transaction(async (tx) => {
-    const consumed = await tx.update(schema.verificationTokens).set({ consumedAt: now }).where(and(eq(schema.verificationTokens.id, record.id), isNull(schema.verificationTokens.consumedAt))).returning({ id: schema.verificationTokens.id });
-    if (!consumed.length) return false;
-    if (record.purpose === "email_change") {
-      if (!record.pendingEmail) return false;
-      const exists = await tx.query.users.findFirst({ where: eq(schema.users.email, record.pendingEmail) });
-      if (exists && exists.id !== record.userId) return false;
-      await tx.update(schema.users).set({ email: record.pendingEmail, emailVerifiedAt: now, updatedAt: now, sessionVersion: sql`${schema.users.sessionVersion} + 1` }).where(eq(schema.users.id, record.userId));
-    } else {
-      await tx.update(schema.users).set({ status: "active", emailVerifiedAt: now, updatedAt: now }).where(and(eq(schema.users.id, record.userId), eq(schema.users.status, "pending")));
-    }
-    return true;
-  });
-}
-
-export async function requestPasswordReset(email: string) {
-  if (!emailConfigReady()) throw new Error("Email delivery is not configured");
-  const user = await findUserByEmail(email);
-  if (!user || user.status !== "active") return;
-  const token = newToken();
-  await getDb().insert(schema.passwordResetTokens).values({ id: randomUUID(), userId: user.id, tokenHash: hashToken(token), expiresAt: Date.now() + 60 * 60_000 });
-  await sendEmail(email, "Mora English 비밀번호 재설정", appUrl(`/reset-password?token=${token}`));
-}
-
-export async function resetPassword(token: string, password: string) {
-  const db = getDb();
-  const now = Date.now();
-  const record = await db.query.passwordResetTokens.findFirst({ where: and(eq(schema.passwordResetTokens.tokenHash, hashToken(token)), isNull(schema.passwordResetTokens.consumedAt), gt(schema.passwordResetTokens.expiresAt, now)) });
-  if (!record) return false;
-  const passwordHash = await hashPassword(password);
-  return db.transaction(async (tx) => {
-    const consumed = await tx.update(schema.passwordResetTokens).set({ consumedAt: now }).where(and(eq(schema.passwordResetTokens.id, record.id), isNull(schema.passwordResetTokens.consumedAt))).returning({ id: schema.passwordResetTokens.id });
-    if (!consumed.length) return false;
-    await tx.update(schema.users).set({ passwordHash, updatedAt: now, sessionVersion: sql`${schema.users.sessionVersion} + 1` }).where(eq(schema.users.id, record.userId));
-    return true;
-  });
-}
-
-export async function requestEmailChange(userId: string, email: string) {
-  if (!emailConfigReady()) throw new Error("Email delivery is not configured");
-  const existing = await findUserByEmail(email);
-  if (existing) return;
-  const token = newToken();
-  await getDb().insert(schema.verificationTokens).values({ id: randomUUID(), userId, tokenHash: hashToken(token), purpose: "email_change", pendingEmail: email, expiresAt: Date.now() + 24 * 60 * 60_000 });
-  await sendEmail(email, "Mora English 새 이메일 인증", appUrl(`/verify-email?token=${token}`));
+export async function changeEmail(userId: string, currentPassword: string, email: string) {
+  const user = await findUserById(userId);
+  if (!user || !(await verifyPassword(user.passwordHash, currentPassword))) return "invalid_password" as const;
+  if (email === user.email) return "ok" as const;
+  if (await findUserByEmail(email)) return "unavailable" as const;
+  const changed = await getDb().update(schema.users).set({ email, emailVerifiedAt: null, updatedAt: Date.now(), sessionVersion: user.sessionVersion + 1 }).where(eq(schema.users.id, userId)).returning({ id: schema.users.id });
+  return changed.length ? "ok" as const : "unavailable" as const;
 }
 
 export async function changePassword(userId: string, currentPassword: string, newPassword: string) {

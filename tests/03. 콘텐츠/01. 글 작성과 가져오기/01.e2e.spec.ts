@@ -1,9 +1,9 @@
 import { expect, test } from "@playwright/test";
 
-import { createVerifiedAccount } from "../../__util__";
+import { createAccount } from "../../__util__";
 
 test("글을 작성해 공개 발행한다", async ({ page }) => {
-  await createVerifiedAccount(page);
+  await createAccount(page);
   const title = `공개 학습 글 ${Date.now()}`;
   await page.goto("/studio/posts/new");
   await page.getByLabel("제목").fill(title);

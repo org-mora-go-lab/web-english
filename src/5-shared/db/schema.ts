@@ -13,24 +13,6 @@ export const users = sqliteTable("users", {
   updatedAt: integer("updated_at").notNull(),
 }, (table) => [uniqueIndex("users_email_unique").on(table.email)]);
 
-export const verificationTokens = sqliteTable("verification_tokens", {
-  id: text("id").primaryKey(),
-  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-  tokenHash: text("token_hash").notNull(),
-  purpose: text("purpose", { enum: ["signup", "email_change"] }).notNull(),
-  pendingEmail: text("pending_email"),
-  expiresAt: integer("expires_at").notNull(),
-  consumedAt: integer("consumed_at"),
-}, (table) => [uniqueIndex("verification_token_hash_unique").on(table.tokenHash), index("verification_user_idx").on(table.userId)]);
-
-export const passwordResetTokens = sqliteTable("password_reset_tokens", {
-  id: text("id").primaryKey(),
-  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-  tokenHash: text("token_hash").notNull(),
-  expiresAt: integer("expires_at").notNull(),
-  consumedAt: integer("consumed_at"),
-}, (table) => [uniqueIndex("reset_token_hash_unique").on(table.tokenHash), index("reset_user_idx").on(table.userId)]);
-
 export const rateLimits = sqliteTable("rate_limits", {
   key: text("key").primaryKey(),
   count: integer("count").notNull(),
