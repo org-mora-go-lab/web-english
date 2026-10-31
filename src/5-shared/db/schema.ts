@@ -5,13 +5,15 @@ export const users = sqliteTable("users", {
   email: text("email").notNull(),
   displayName: text("display_name").notNull(),
   passwordHash: text("password_hash").notNull(),
+  kakaoId: text("kakao_id"),
+  profileImageUrl: text("profile_image_url"),
   role: text("role", { enum: ["user", "admin"] }).notNull().default("user"),
   status: text("status", { enum: ["pending", "active", "disabled"] }).notNull().default("pending"),
   emailVerifiedAt: integer("email_verified_at"),
   sessionVersion: integer("session_version").notNull().default(0),
   createdAt: integer("created_at").notNull(),
   updatedAt: integer("updated_at").notNull(),
-}, (table) => [uniqueIndex("users_email_unique").on(table.email)]);
+}, (table) => [uniqueIndex("users_email_unique").on(table.email), uniqueIndex("users_kakao_id_unique").on(table.kakaoId)]);
 
 export const rateLimits = sqliteTable("rate_limits", {
   key: text("key").primaryKey(),

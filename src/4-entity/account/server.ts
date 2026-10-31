@@ -1,6 +1,6 @@
 import "server-only";
 
-import { createHmac, randomUUID } from "node:crypto";
+import { createHmac, randomBytes, randomUUID } from "node:crypto";
 
 import argon2 from "argon2";
 import { eq, sql } from "drizzle-orm";
@@ -28,7 +28,40 @@ export function normalizeEmail(value: string) {
 }
 
 export function publicUser(user: typeof schema.users.$inferSelect) {
-  return { id: user.id, email: user.email, displayName: user.displayName, role: user.role, status: user.status };
+  return { id: user.id, email: user.kakaoId ? null : user.email, displayName: user.displayName, profileImageUrl: user.profileImageUrl, provider: user.kakaoId ? "kakao" : "credentials", role: user.role, status: user.status };
+}
+
+function kakaoImage(value: string | null | undefined) {
+  if (!value) return null;
+  try {
+    const url = new URL(value);
+    if (!(["https:", "http:"].includes(url.protocol) && (url.hostname === "kakaocdn.net" || url.hostname.endsWith(".kakaocdn.net")))) return null;
+    url.protocol = "https:";
+    return url.toString();
+  } catch { return null; }
+}
+
+export async function upsertKakaoUser(kakaoId: string, name: string | null | undefined, image: string | null | undefined) {
+  if (!/^\d{1,24}$/.test(kakaoId)) throw new Error("Invalid Kakao account ID");
+  const db = getDb();
+  const now = Date.now();
+  const displayName = name?.trim().slice(0, 40) || "카카오 사용자";
+  const profileImageUrl = kakaoImage(image);
+  const existing = await db.query.users.findFirst({ where: eq(schema.users.kakaoId, kakaoId) });
+  if (existing) {
+    if (existing.status !== "active") throw new Error("Account is disabled");
+    await db.update(schema.users).set({ displayName, profileImageUrl, updatedAt: now }).where(eq(schema.users.id, existing.id));
+    return { ...existing, displayName, profileImageUrl };
+  }
+  const syntheticEmail = `kakao-${kakaoId}@oauth.web-english.invalid`;
+  await db.insert(schema.users).values({
+    id: randomUUID(), email: syntheticEmail, displayName,
+    passwordHash: await hashPassword(randomBytes(32).toString("hex")),
+    kakaoId, profileImageUrl, role: "user", status: "active", createdAt: now, updatedAt: now,
+  }).onConflictDoNothing();
+  const user = await db.query.users.findFirst({ where: eq(schema.users.kakaoId, kakaoId) });
+  if (!user || user.status !== "active") throw new Error("Kakao account could not be created");
+  return user;
 }
 
 export async function findUserByEmail(email: string) {
