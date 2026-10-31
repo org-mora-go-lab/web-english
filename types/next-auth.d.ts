@@ -9,6 +9,7 @@ declare module "next-auth" {
     user: {
       id: string;
       sessionVersion: number;
+      signedInAt: number;
       name?: string | null;
       email?: string | null;
       image?: string | null;
@@ -20,5 +21,6 @@ declare module "next-auth/jwt" {
   interface JWT {
     userId?: string;
     sessionVersion?: number;
+    signedInAt?: number;
   }
 }

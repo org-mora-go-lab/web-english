@@ -23,6 +23,9 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 import { CharacterWelcome, SingalongGallery } from "@/src/3-feature";
 import { categories, lessons, lessonVideos, songs, useBrowse, useLibrary } from "@/src/4-entity";
+import { AccountIdentity } from "@/src/4-entity/account/client";
+
+import type { LearningWorkspaceProps } from "./type";
 
 const navigation = [
   { name: "홈", icon: Home },
@@ -41,7 +44,7 @@ function isMobile() {
   return window.matchMedia("(max-width: 700px)").matches;
 }
 
-export function LearningWorkspace() {
+export function LearningWorkspace({ viewer }: LearningWorkspaceProps) {
   const catalog = [...lessons, ...songs];
   const resultsHeading = useRef<HTMLHeadingElement | null>(null);
   const mobile = useSyncExternalStore(subscribeMobile, isMobile, () => false);
@@ -176,6 +179,7 @@ export function LearningWorkspace() {
         <div className="header-right">
           <Link href="/posts" className="content-link">학습 글</Link>
           <Link href="/studio" className="content-link">스튜디오</Link>
+          {viewer ? <Link href="/settings/account" className="home-account-link text-sm" aria-label={`${viewer.displayName} 계정 설정`}><AccountIdentity displayName={viewer.displayName} profileImageUrl={viewer.profileImageUrl} compact /></Link> : <Link href="/login" className="content-link">로그인</Link>}
           <span className="daily-note">
             <span /> A little, every day
           </span>
@@ -213,7 +217,7 @@ export function LearningWorkspace() {
             </button>
           ))}
         </nav>
-        <div className="account-links"><Link href="/posts">학습 글</Link><Link href="/studio">내 스튜디오</Link><Link href="/login">로그인</Link></div>
+        <div className="account-links"><Link href="/posts">학습 글</Link><Link href="/studio">내 스튜디오</Link>{viewer ? <Link href="/settings/account"><AccountIdentity displayName={viewer.displayName} profileImageUrl={viewer.profileImageUrl} compact /></Link> : <Link href="/login">로그인</Link>}</div>
         <div className="sidebar-card">
           <span className="mini-spark">
             <Sparkles size={19} />

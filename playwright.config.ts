@@ -4,6 +4,8 @@ const testEnv = {
   TURSO_DATABASE_URL: "file:./.tmp/e2e.sqlite",
   AUTH_SECRET: "e2e-test-only-secret-with-at-least-32-characters",
   AUTH_URL: "http://localhost:3200",
+  AUTH_KAKAO_ID: "e2e-kakao-client-id",
+  AUTH_KAKAO_SECRET: "e2e-kakao-client-secret",
 };
 
 export default defineConfig({

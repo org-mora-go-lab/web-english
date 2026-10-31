@@ -34,13 +34,13 @@ http://localhost:3200 에서 실행합니다. `.env.local`의 `AUTH_SECRET`을 �
 
 ## 계정과 글
 
-`/signup`에서 이메일과 비밀번호로 가입하면 바로 로그인합니다. 메일 발송과 비밀번호 찾기는 제공하지 않으므로 비밀번호를 안전하게 보관해야 합니다. `/settings/account`에서 닉네임·로그인 이메일·비밀번호를 변경하거나 계정과 연관 데이터를 삭제할 수 있습니다. 이메일 변경에는 현재 비밀번호가 필요하며, 변경 후 다시 로그인합니다. 향후 카카오 로그인은 이메일 주소만으로 기존 계정에 자동 연결하지 않습니다. `/studio`에서 Tiptap으로 글을 작성하고, 자동 저장·미리보기·발행·비공개 설정·버전 기록을 사용합니다. `/studio/import`는 Paul 또는 외부 Markdown/JSON을 비공개 임시 글로 가져옵니다. `/posts/[slug]/context`에서 Paul에게 붙여 넣을 학습 컨텍스트와 공유 URL을 복사할 수 있습니다.
+`/signup`에서 이메일과 비밀번호로 가입하면 바로 로그인합니다. `AUTH_KAKAO_ID`와 `AUTH_KAKAO_SECRET`을 설정하면 `/login`과 `/signup`에 카카오 로그인 버튼이 나타납니다. 카카오 계정은 카카오 ID로 식별하고 프로필 이름·사진을 표시합니다. 카카오 이메일이 기존 이메일 계정과 같아도 자동 연결하지 않으므로 기존 글·학습 기록은 별도 계정에 남습니다. 메일 발송과 비밀번호 찾기는 제공하지 않으므로 이메일 계정 비밀번호를 안전하게 보관해야 합니다. `/settings/account`에서 이메일 계정은 닉네임·로그인 이메일·비밀번호를 변경할 수 있고, 카카오 계정은 카카오 프로필에서 이름·사진을 변경할 수 있습니다. 카카오 계정 탈퇴는 다시 로그인한 뒤 10분 안에 가능합니다. `/studio`에서 Tiptap으로 글을 작성하고, 자동 저장·미리보기·발행·비공개 설정·버전 기록을 사용합니다. `/studio/import`는 Paul 또는 외부 Markdown/JSON을 비공개 임시 글로 가져옵니다. `/posts/[slug]/context`에서 Paul에게 붙여 넣을 학습 컨텍스트와 공유 URL을 복사할 수 있습니다.
 
 이미지는 Vercel **비공개** Blob 저장소에 업로드하며 5MB 이하의 PNG/JPEG/WebP만 허용합니다. 공개 글에서 쓰는 이미지만 비회원에게 서버 경유로 제공됩니다. 별도 OpenAI GPT API는 사용하지 않습니다.
 
 ## 운영 환경과 배포
 
-Vercel Production Branch는 `main`입니다. 개발/운영 Turso 데이터베이스를 따로 만들고 각각의 `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`을 설정하세요. Vercel에는 `AUTH_SECRET`, `AUTH_URL`(운영 HTTPS 주소), 비공개 Vercel Blob 스토어의 `BLOB_READ_WRITE_TOKEN`을 서버 전용 환경 변수로 설정합니다. Vercel Production 빌드는 Drizzle 마이그레이션을 먼저 적용하고 Next.js를 빌드합니다. Preview는 운영 DB를 변경하지 않습니다.
+Vercel Production Branch는 `main`입니다. 개발/운영 Turso 데이터베이스를 따로 만들고 각각의 `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`을 설정하세요. Vercel에는 `AUTH_SECRET`, `AUTH_URL`(운영 HTTPS 주소), 비공개 Vercel Blob 스토어의 `BLOB_READ_WRITE_TOKEN`을 서버 전용 환경 변수로 설정합니다. 카카오 로그인을 쓰려면 Kakao Developers에서 웹 플랫폼 도메인과 `https://web-english-pi.vercel.app/api/auth/callback/kakao` 리디렉션 URI를 등록하고 Vercel Production에 `AUTH_KAKAO_ID`(REST API 키), `AUTH_KAKAO_SECRET`(카카오 로그인 Client Secret)을 추가해야 합니다. 로컬 개발에서는 `http://localhost:3200/api/auth/callback/kakao`도 등록합니다. Vercel Production 빌드는 Drizzle 마이그레이션을 먼저 적용하고 Next.js를 빌드합니다. Preview는 운영 DB를 변경하지 않습니다.
 
 관리자 계정은 일반 회원가입으로 만들 수 없습니다. 운영 계정의 `users.role`을 Turso 관리 콘솔에서 `admin`으로 설정한 뒤 다시 로그인하세요. 회원 탈퇴는 소유 글·학습 기록과 Blob 파일을 삭제합니다. 기존 브라우저의 비회원 기록은 로그인 시 자동으로 계정에 합치지 않습니다.
 

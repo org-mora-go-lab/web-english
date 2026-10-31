@@ -8,5 +8,5 @@ export const dynamic = "force-dynamic";
 export default async function Page() {
   const actor = await getActor();
   if (!actor) redirect("/login?callbackUrl=%2Fstudio");
-  return <Studio displayName={actor.displayName} posts={await listPosts("mine", actor)} />;
+  return <Studio displayName={actor.displayName} profileImageUrl={actor.profileImageUrl} posts={await listPosts("mine", actor)} />;
 }

@@ -1,9 +1,11 @@
 import { LearningWorkspace } from "@/src/2-widget";
 
-export function Home() {
+import type { HomeProps } from "./type";
+
+export function Home({ viewer }: HomeProps) {
   return (
     <div className="home">
-      <LearningWorkspace />
+      <LearningWorkspace viewer={viewer} />
     </div>
   );
 }
