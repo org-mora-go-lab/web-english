@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 
 import type { AccountProps } from "./type";
 
@@ -28,6 +28,7 @@ export function Account({ mode, returnTo = "/studio", kakaoEnabled = false }: Ac
   const [password, setPassword] = useState("");
   const [confirmation, setConfirmation] = useState("");
   const [displayName, setDisplayName] = useState("");
+  const hydrated = useSyncExternalStore(() => () => {}, () => true, () => false);
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -60,13 +61,13 @@ export function Account({ mode, returnTo = "/studio", kakaoEnabled = false }: Ac
         <p className="mt-2 text-sm text-slate-600">{headings[mode][1]}</p>
         {error && <p role="alert" className="mt-5 rounded-xl bg-red-50 p-3 text-sm text-red-700">{error}</p>}
         {message && <p role="status" className="mt-5 rounded-xl bg-green-50 p-3 text-sm text-green-800">{message}</p>}
-        {kakaoEnabled && <><button type="button" disabled={busy} onClick={() => void signIn("kakao", { callbackUrl: returnTo.startsWith("/") && !returnTo.startsWith("//") ? returnTo : "/studio" })} className="mt-7 w-full rounded-xl bg-[#FEE500] px-4 py-3 font-semibold text-slate-950 hover:bg-[#f7dc00] disabled:opacity-50">카카오로 계속하기</button><p className="mt-3 text-center text-xs text-slate-500">기존 이메일 계정과 자동으로 합쳐지지 않습니다.</p><div className="my-5 flex items-center gap-3 text-xs text-slate-500"><span className="h-px flex-1 bg-slate-200"/>또는 이메일로 계속<span className="h-px flex-1 bg-slate-200"/></div></>}
+        {kakaoEnabled && <><button type="button" disabled={busy || !hydrated} onClick={() => void signIn("kakao", { callbackUrl: returnTo.startsWith("/") && !returnTo.startsWith("//") ? returnTo : "/studio" })} className="mt-7 w-full rounded-xl bg-[#FEE500] px-4 py-3 font-semibold text-slate-950 hover:bg-[#f7dc00] disabled:opacity-50">카카오로 계속하기</button><p className="mt-3 text-center text-xs text-slate-500">기존 이메일 계정과 자동으로 합쳐지지 않습니다.</p><div className="my-5 flex items-center gap-3 text-xs text-slate-500"><span className="h-px flex-1 bg-slate-200"/>또는 이메일로 계속<span className="h-px flex-1 bg-slate-200"/></div></>}
           <form onSubmit={submit} className="mt-7 space-y-4">
-            <label className="block text-sm font-medium">이메일<input type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3" /></label>
-            {mode === "signup" && <label className="block text-sm font-medium">닉네임<input required minLength={2} maxLength={40} autoComplete="nickname" value={displayName} onChange={(event) => setDisplayName(event.target.value)} className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3" /></label>}
-            <label className="block text-sm font-medium">비밀번호<input type="password" aria-label="비밀번호" required minLength={mode === "login" ? 1 : 12} autoComplete={mode === "login" ? "current-password" : "new-password"} value={password} onChange={(event) => setPassword(event.target.value)} className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3" />{mode === "signup" && <span className="mt-1 block text-xs text-slate-500">12자 이상, 영문·숫자·특수문자를 포함하세요.</span>}</label>
-            {mode === "signup" && <label className="block text-sm font-medium">비밀번호 확인<input type="password" required autoComplete="new-password" value={confirmation} onChange={(event) => setConfirmation(event.target.value)} className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3" /></label>}
-            <button disabled={busy} className="w-full rounded-xl bg-orange-600 px-4 py-3 font-semibold text-white hover:bg-orange-700 disabled:opacity-50">{busy ? "처리 중…" : mode === "signup" ? "가입하기" : "로그인"}</button>
+            <label className="block text-sm font-medium">이메일<input type="email" required disabled={!hydrated} autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3" /></label>
+            {mode === "signup" && <label className="block text-sm font-medium">닉네임<input required disabled={!hydrated} minLength={2} maxLength={40} autoComplete="nickname" value={displayName} onChange={(event) => setDisplayName(event.target.value)} className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3" /></label>}
+            <label className="block text-sm font-medium">비밀번호<input type="password" aria-label="비밀번호" required disabled={!hydrated} minLength={mode === "login" ? 1 : 12} autoComplete={mode === "login" ? "current-password" : "new-password"} value={password} onChange={(event) => setPassword(event.target.value)} className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3" />{mode === "signup" && <span className="mt-1 block text-xs text-slate-500">12자 이상, 영문·숫자·특수문자를 포함하세요.</span>}</label>
+            {mode === "signup" && <label className="block text-sm font-medium">비밀번호 확인<input type="password" required disabled={!hydrated} autoComplete="new-password" value={confirmation} onChange={(event) => setConfirmation(event.target.value)} className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3" /></label>}
+            <button disabled={busy || !hydrated} className="w-full rounded-xl bg-orange-600 px-4 py-3 font-semibold text-white hover:bg-orange-700 disabled:opacity-50">{busy ? "처리 중…" : mode === "signup" ? "가입하기" : "로그인"}</button>
           </form>
         {mode === "signup" && <p className="mt-4 text-xs text-slate-500">이메일 인증과 비밀번호 찾기는 제공되지 않습니다. 비밀번호를 안전하게 보관해 주세요.</p>}
         <div className="mt-6 flex flex-wrap gap-4 text-sm text-slate-600">
