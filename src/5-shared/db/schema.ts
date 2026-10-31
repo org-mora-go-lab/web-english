@@ -104,3 +104,22 @@ export const quizAttempts = sqliteTable("quiz_attempts", {
   isCorrect: integer("is_correct", { mode: "boolean" }).notNull(),
   createdAt: integer("created_at").notNull(),
 }, (table) => [index("quiz_user_post_idx").on(table.userId, table.postId)]);
+
+export const childProfiles = sqliteTable("child_profiles", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  ageMonths: integer("age_months").notNull().default(16),
+  createdAt: integer("created_at").notNull(),
+  updatedAt: integer("updated_at").notNull(),
+}, (table) => [uniqueIndex("child_profiles_user_unique").on(table.userId)]);
+
+export const playRecords = sqliteTable("play_records", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  ageMonths: integer("age_months").notNull(),
+  activityId: text("activity_id").notNull(),
+  reaction: text("reaction", { enum: ["enjoyed", "noticed", "retry"] }).notNull(),
+  note: text("note").notNull().default(""),
+  playedAt: integer("played_at").notNull(),
+  createdAt: integer("created_at").notNull(),
+}, (table) => [index("play_records_user_date_idx").on(table.userId, table.playedAt)]);

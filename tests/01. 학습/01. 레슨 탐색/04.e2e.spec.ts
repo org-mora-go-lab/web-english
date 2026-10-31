@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("사이드 탭 5개", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/library");
   const navigation = page.getByRole("navigation", { name: "주 메뉴" });
   await expect(navigation.getByRole("button")).toHaveCount(5);
   await expect(navigation.getByRole("button")).toHaveText([

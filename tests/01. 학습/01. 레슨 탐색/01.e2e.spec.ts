@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("검색과 빈 결과", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/library");
   await page.getByRole("textbox", { name: "레슨 검색" }).fill("스몰토크");
   await expect(page.getByRole("article")).toHaveCount(1);
   await expect(page.getByRole("article")).toContainText("스몰토크");

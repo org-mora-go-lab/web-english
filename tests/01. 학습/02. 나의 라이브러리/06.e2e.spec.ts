@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
 test("여러 창의 기록 동기화", async ({ page, context }) => {
-  await page.goto("/");
+  await page.goto("/library");
   const other = await context.newPage();
-  await other.goto("/");
+  await other.goto("/library");
   await page.getByRole("button", { name: "저장한 레슨", exact: true }).click();
   await other
     .getByRole("button", {

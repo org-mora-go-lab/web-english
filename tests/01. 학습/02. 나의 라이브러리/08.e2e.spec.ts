@@ -10,7 +10,7 @@ test("잘못된 저장 기록 정규화", async ({ page }) => {
       }),
     ),
   );
-  await page.goto("/");
+  await page.goto("/library");
   await page.getByRole("button", { name: "저장한 레슨" }).click();
   await expect(page.getByRole("article")).toHaveCount(1);
   await expect(page.getByRole("progressbar")).toHaveAttribute(

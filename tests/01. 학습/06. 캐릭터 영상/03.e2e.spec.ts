@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 test("Momo 목소리 켜기와 음소거", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/library");
   const video = page.getByTestId("momo-video");
   await expect
     .poll(() =>

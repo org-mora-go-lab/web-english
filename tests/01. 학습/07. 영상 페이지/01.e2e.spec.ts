@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("목록 전체 영상 썸네일", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/library");
   const cards = page.getByRole("article");
   await expect(cards).toHaveCount(15);
   for (const card of await cards.all()) {
