@@ -70,4 +70,6 @@ GitHub Actions에서 PR과 main을 검증합니다. Vercel의 Production Branch�
 
 ## 부모용 영어 놀이 허브
 
-첫 화면 `/`은 16~17개월 준비와 18~36개월 3개월 단위 커리큘럼을 보여주는 부모용 허브입니다. 부모가 활동 카드의 영어 한마디와 방법을 20초 내 확인하고 아이와는 화면 밖에서 놀이합니다. 카카오 또는 이메일로 로그인한 부모는 아이 개월수, 놀이 반응, 한 줄 메모를 Turso에 저장하고 기기 간 확인할 수 있습니다. 기록은 로그인 계정별로 분리되며 계정 탈퇴 시 함께 삭제됩니다. 기존 영상 레슨은 `/library`에서 볼 수 있습니다.
+첫 화면 `/`은 16~17개월 준비와 18~36개월 3개월 단위 커리큘럼을 보여주는 부모용 허브입니다. 각 단계마다 일상, 장난감, 그림책, 노래·몸짓, 산책의 다섯 주제로 8개 놀이씩 총 64개를 제공합니다. 부모가 활동 카드의 영어 한마디와 방법을 20초 내 확인하고 아이와는 화면 밖에서 놀이합니다. 카카오 또는 이메일로 로그인한 부모는 아이 개월수, 놀이 반응, 한 줄 메모를 Turso에 저장하고 기기 간 확인할 수 있습니다. 기록은 로그인 계정별로 분리되며 계정 탈퇴 시 함께 삭제됩니다. 기존 영상 레슨은 `/library`에서 볼 수 있습니다.
+
+개월수별 놀이는 발달 평가 기준이 아닙니다. 그림책 보기, 실물 놀이, 몸짓, 역할놀이의 구성에는 [CDC 18개월 놀이 안내](https://www.cdc.gov/act-early/milestones-in-action/18-months.html), [CDC 30개월 놀이 안내](https://www.cdc.gov/act-early/milestones/30-months.html), [CDC 3세 놀이 안내](https://www.cdc.gov/act-early/milestones/3-years.html)를 참고했습니다. 작은 소품을 피하는 안전 안내에는 [미국소아과학회 질식 예방 지침](https://www.healthychildren.org/English/health-issues/injuries-emergencies/Pages/Choking-Prevention.aspx/)을 참고했습니다.
