@@ -27,7 +27,7 @@ export function WatchWorkspace({ lesson }: WatchWorkspaceProps) {
     const recordView = () => {
       const current = useLibrary.getState().library;
       if (!update({ ...current, history: [lesson.id, ...current.history.filter(id => id !== lesson.id)] }))
-        setMessage("저장 공간을 사용할 수 없어 이번 세션에서만 유지됩니다.");
+        setMessage(current => current || "저장 공간을 사용할 수 없어 이번 세션에서만 유지됩니다.");
     };
     if (!useLibrary.getState().ready) void hydrate().then(recordView);
     else recordView();
@@ -53,7 +53,7 @@ export function WatchWorkspace({ lesson }: WatchWorkspaceProps) {
   function updateList(key: "saved" | "completed") {
     const current = useLibrary.getState().library;
     if (!update({ ...current, [key]: current[key].includes(lesson.id) ? current[key].filter(id => id !== lesson.id) : [...current[key], lesson.id] }))
-      setMessage("저장 공간을 사용할 수 없어 이번 세션에서만 유지됩니다.");
+      setMessage(current => current || "저장 공간을 사용할 수 없어 이번 세션에서만 유지됩니다.");
   }
   function seek(seconds: number) {
     if (!video.current || failed) return;
@@ -72,8 +72,8 @@ export function WatchWorkspace({ lesson }: WatchWorkspaceProps) {
   const related = [...catalog.filter(item => item.id !== lesson.id && item.category === lesson.category), ...catalog.filter(item => item.id !== lesson.id && item.category !== lesson.category)];
   return <div className="watch-workspace" inert={!ready || !captionReady} aria-busy={!ready || !captionReady}>
     <header className="watch-header">
-      <Link href="/" className="back-link" aria-label="목록으로 돌아가기"><ArrowLeft size={20} /><span>목록으로</span></Link>
-      <Link href="/" className="watch-brand">mora<span>english</span><sup>EN</sup></Link>
+      <Link href="/library" className="back-link" aria-label="목록으로 돌아가기"><ArrowLeft size={20} /><span>목록으로</span></Link>
+      <Link href="/library" className="watch-brand">mora<span>english</span><sup>EN</sup></Link>
       <span className="watch-motto">A little, every day</span>
     </header>
     <main className="watch-layout">

@@ -5,7 +5,7 @@ test("저장소 사용 불가 안내", async ({ page }) => {
       throw new DOMException("Blocked", "SecurityError");
     };
   });
-  await page.goto("/");
+  await page.goto("/library");
   await page
     .getByRole("button", {
       name: "어색한 침묵은 이제 그만, 스몰토크 시작하기 저장",

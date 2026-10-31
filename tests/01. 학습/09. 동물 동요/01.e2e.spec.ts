@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("홈 동물 동요 10편 프리뷰", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/library");
   const gallery = page.getByRole("region", { name: "동물 친구 영어 동요" });
   await expect(gallery.locator(".singalong-card")).toHaveCount(10);
   await expect(gallery.getByRole("link", { name: /동요 보기$/ })).toHaveCount(10);

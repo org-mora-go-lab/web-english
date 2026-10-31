@@ -6,6 +6,6 @@ test("시청 페이지 새로고침과 직접 접근", async ({ page }) => {
   await page.reload();
   await expect(page.getByTestId("lesson-video")).toHaveAttribute("src", "/media/lessons/airport.mp4");
   await page.getByRole("link", { name: "목록으로 돌아가기" }).click();
-  await expect(page).toHaveURL("/");
+  await expect(page).toHaveURL("/library");
   await expect(page.getByRole("article")).toHaveCount(15);
 });

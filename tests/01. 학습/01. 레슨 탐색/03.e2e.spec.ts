@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 test("모바일 메뉴", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/");
+  await page.goto("/library");
   await expect
     .poll(() =>
       page.evaluate(

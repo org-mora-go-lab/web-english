@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 test("레슨 정렬", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/library");
   await page
     .getByRole("combobox", { name: "레슨 정렬" })
     .selectOption("짧은순");

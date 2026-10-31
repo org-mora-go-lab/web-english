@@ -22,6 +22,13 @@
       "when": 1793416736246,
       "tag": "0002_mighty_argent",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1793421038065,
+      "tag": "0003_lush_scarlet_witch",
+      "breakpoints": true
     }
   ]
 }

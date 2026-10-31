@@ -6,6 +6,6 @@ test("모바일 시청 페이지", async ({ page }) => {
   await expect(page.getByTestId("lesson-video")).toBeInViewport();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.getByRole("link", { name: "목록으로 돌아가기" }).click();
-  await expect(page).toHaveURL("/");
-  await expect(page).toHaveURL("/");
+  await expect(page).toHaveURL("/library");
+  await expect(page).toHaveURL("/library");
 });

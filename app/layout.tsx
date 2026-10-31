@@ -1,6 +1,7 @@
 import "@/src/5-shared/style/global.scss";
 import "@/src/5-shared/style/tailwind.css";
 import "@/src/1-page/home/index.scss";
+import "@/src/1-page/family-hub/index.scss";
 import "@/src/1-page/watch/index.scss";
 import "@/src/1-page/account/index.scss";
 import "@/src/1-page/account-settings/index.scss";
@@ -20,9 +21,9 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  title: "Mora English · A little English, every day",
+  title: "Mora Little English · 아이와 함께하는 영어 놀이",
   description:
-    "나의 일상에 영어를 더하는 공간. 짧은 영어 레슨을 탐색하고, 듣고, 저장하세요.",
+    "16~36개월 아이의 영어 놀이 커리큘럼과 가족의 놀이 기록, 부모 가이드.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

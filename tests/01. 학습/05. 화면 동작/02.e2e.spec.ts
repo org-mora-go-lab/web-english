@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 test("헤더 학습 현황과 홈 복귀", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/library");
   await page
     .getByRole("button", { name: "나의 완료한 레슨", exact: true })
     .click();

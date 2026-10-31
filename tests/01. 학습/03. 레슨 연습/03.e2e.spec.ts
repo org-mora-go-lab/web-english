@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 test("모든 레슨의 학습 콘텐츠", async ({ page }) => {
   test.setTimeout(120000);
-  await page.goto("/");
+  await page.goto("/library");
   const cards = page.getByRole("link", { name: /레슨 열기$/ });
   await expect(cards).toHaveCount(15);
   for (let index = 0; index < 15; index++) {
@@ -22,7 +22,7 @@ test("모든 레슨의 학습 콘텐츠", async ({ page }) => {
         .getByRole("button"),
     ).toHaveCount(3);
     await page.getByRole("link", { name: "목록으로 돌아가기" }).click();
-    await expect(page).toHaveURL("/");
+    await expect(page).toHaveURL("/library");
     await expect(page.getByRole("article")).toHaveCount(15);
   }
 });

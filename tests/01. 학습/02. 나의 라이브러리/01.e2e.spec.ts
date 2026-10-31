@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("저장 유지와 취소", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/library");
   await page
     .getByRole("button", {
       name: "어색한 침묵은 이제 그만, 스몰토크 시작하기 저장",

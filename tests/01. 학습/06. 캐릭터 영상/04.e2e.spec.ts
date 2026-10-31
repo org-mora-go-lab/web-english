@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 test("영상 일시 정지와 시간 이동", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/library");
   const video = page.getByTestId("momo-video");
   await expect
     .poll(() =>
