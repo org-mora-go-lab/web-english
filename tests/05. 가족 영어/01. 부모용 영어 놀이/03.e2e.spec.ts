@@ -2,10 +2,10 @@ import { expect, test } from "@playwright/test";
 
 import { createAccount } from "../../__util__";
 
-test("부모가 월령과 놀이 반응을 저장한다", async ({ page }) => {
+test("부모가 아이 개월수와 놀이 반응을 저장한다", async ({ page }) => {
   await createAccount(page);
   await page.goto("/");
-  await page.getByRole("combobox", { name: "아이 월령" }).selectOption("21");
+  await page.getByRole("combobox", { name: "아이 개월수" }).selectOption("21");
   await expect(page.getByText("21–23개월", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: /오늘의 놀이 보기/ }).click();
   await page.getByRole("button", { name: /관심 보였어요/ }).click();
