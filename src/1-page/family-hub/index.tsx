@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { signOut } from "next-auth/react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { AccountIdentity } from "@/src/4-entity/account/client";
 import type { PlayActivity } from "@/src/4-entity/family";
@@ -19,6 +19,7 @@ const viewLabels: { id: View; label: string; icon: string }[] = [{ id: "today", 
 export function FamilyHub({ viewer }: FamilyHubProps) {
   const [view, setView] = useState<View>("today");
   const [age, setAge] = useState(16);
+  const ageRef = useRef(16);
   const [period, setPeriod] = useState("prep");
   const [records, setRecords] = useState<RecordItem[]>([]);
   const [selected, setSelected] = useState<PlayActivity | null>(null);
@@ -30,9 +31,11 @@ export function FamilyHub({ viewer }: FamilyHubProps) {
   const [message, setMessage] = useState("");
   useEffect(() => {
     if (!viewer) return;
-    fetch("/api/family").then(response => response.ok ? response.json() : null).then(data => {
-      if (data) { setAge(data.ageMonths); setPeriod(periodForAge(data.ageMonths)); setRecords(data.records); }
-    }).catch(() => setMessage("기록을 불러오지 못했습니다. 새로고침해 주세요.")).finally(() => setProfileReady(true));
+    const controller = new AbortController();
+    fetch("/api/family", { signal: controller.signal }).then(response => response.ok ? response.json() : null).then(data => {
+      if (!controller.signal.aborted && data) { ageRef.current = data.ageMonths; setAge(data.ageMonths); setPeriod(periodForAge(data.ageMonths)); setRecords(data.records); }
+    }).catch(() => { if (!controller.signal.aborted) setMessage("기록을 불러오지 못했습니다. 새로고침해 주세요."); }).finally(() => { if (!controller.signal.aborted) setProfileReady(true); });
+    return () => controller.abort();
   }, [viewer]);
   const currentPeriod = agePeriods.find(item => item.id === periodForAge(age))!;
   const todayActivities = playActivities.filter(item => item.months === currentPeriod.id);
@@ -41,6 +44,7 @@ export function FamilyHub({ viewer }: FamilyHubProps) {
   const activeDays = useMemo(() => new Set(records.map(item => new Date(item.playedAt).toDateString())).size, [records]);
 
   async function saveAge(value: number) {
+    ageRef.current = value;
     setAge(value); setPeriod(periodForAge(value));
     if (!viewer) return;
     setAgeSaving(true);
@@ -68,11 +72,12 @@ export function FamilyHub({ viewer }: FamilyHubProps) {
     else setMessage("기록 삭제에 실패했습니다.");
   }
   function openActivity(activity: PlayActivity) { setSelected(activity); setReaction("enjoyed"); setNote(""); }
+  function openTodayActivity() { const activity = playActivities.find(item => item.months === periodForAge(ageRef.current)); if (activity) openActivity(activity); }
   return <div className="family-hub">
     <header className="family-header"><Link href="/" className="family-brand"><span className="brand-mark">m.</span><span>mora <b>little english</b></span></Link><nav aria-label="주 메뉴">{viewLabels.map(item => <button key={item.id} className={view === item.id ? "active" : ""} onClick={() => setView(item.id)}>{item.label}</button>)}</nav><div className="family-account">{viewer ? <><Link href="/settings/account"><AccountIdentity displayName={viewer.displayName} profileImageUrl={viewer.profileImageUrl} compact /></Link><button onClick={() => signOut({ callbackUrl: "/login" })}>로그아웃</button></> : <Link className="login-link" href="/login?callbackUrl=/">부모 로그인</Link>}</div></header>
     <main className="family-main">
       {message && <p role="status" className="family-message">{message}</p>}
-      {view === "today" && <><section className="family-hero"><div><span className="eyebrow">TODAY&apos;S LITTLE MOMENT · 부모를 위한 영어 놀이</span><h1>하루 한 장,<br /><em>아이와 영어 한마디.</em></h1><p>부모가 먼저 읽고, 화면을 내려놓으세요.<br />아이와 함께한 순간만 가볍게 남기면 충분합니다.</p><button className="primary-button" disabled={ageSaving || !profileReady} onClick={() => openActivity(todayActivities[0])}>오늘의 놀이 보기 <span>↗</span></button></div><div className="hero-art" aria-hidden="true"><span className="sun">☀</span><span className="speech speech-one">Hi!</span><span className="speech speech-two">♡</span><div className="art-face"><span>●　●</span><strong>⌣</strong></div><div className="art-floor" /></div></section>
+      {view === "today" && <><section className="family-hero"><div><span className="eyebrow">TODAY&apos;S LITTLE MOMENT · 부모를 위한 영어 놀이</span><h1>하루 한 장,<br /><em>아이와 영어 한마디.</em></h1><p>부모가 먼저 읽고, 화면을 내려놓으세요.<br />아이와 함께한 순간만 가볍게 남기면 충분합니다.</p><button className="primary-button" disabled={ageSaving || !profileReady} onClick={openTodayActivity}>오늘의 놀이 보기 <span>↗</span></button></div><div className="hero-art" aria-hidden="true"><span className="sun">☀</span><span className="speech speech-one">Hi!</span><span className="speech speech-two">♡</span><div className="art-face"><span>●　●</span><strong>⌣</strong></div><div className="art-floor" /></div></section>
         <section className="family-overview"><div className="section-heading"><div><span className="eyebrow">OUR LITTLE JOURNEY</span><h2>우리 아이의 지금</h2></div><span className="soft-tag">평가 없이, 우리 속도로</span></div><div className="overview-grid"><div className="overview-card age-card"><span className="card-icon">◌</span><h3>현재 월령</h3><div className="age-select"><select aria-label="아이 월령" value={age} disabled={!profileReady || ageSaving} onChange={event => void saveAge(Number(event.target.value))}>{Array.from({ length: 21 }, (_, index) => index + 16).map(month => <option key={month} value={month}>{month}개월</option>)}</select><span>⌄</span></div><p>아이의 월령에 맞는 놀이를 보여드려요.</p></div><div className="overview-card"><span className="card-icon">✦</span><h3>이번 단계</h3><strong>{currentPeriod.label}</strong><p>{currentPeriod.focus}</p></div><div className="overview-card"><span className="card-icon">♡</span><h3>함께한 날</h3><strong>{viewer ? `${activeDays}일` : "—"}</strong><p>{viewer ? "기록한 놀이 날짜를 세었어요." : "로그인 후 기록을 저장할 수 있어요."}</p></div></div></section>
         <section className="family-section"><div className="section-heading"><div><span className="eyebrow">READY IN 20 SECONDS</span><h2>이번 월령의 놀이 카드</h2></div><button className="text-button" onClick={() => setView("curriculum")}>전체 커리큘럼 →</button></div><div className="activity-grid">{todayActivities.map(activity => <ActivityCard key={activity.id} activity={activity} onOpen={openActivity} />)}</div></section>
         <section className="parent-promise"><span className="promise-icon">✳</span><div><h2>아이가 말하지 않아도 괜찮아요.</h2><p>오늘은 부모의 목소리, 몸짓, 기다림만으로 충분합니다. 영어는 놀이를 돕는 작은 도구예요.</p></div><button onClick={() => setView("guide")}>부모 가이드 보기 →</button></section></>}
