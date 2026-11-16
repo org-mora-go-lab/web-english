@@ -1,1 +1,1 @@
-export type AiChatProps = { signedIn: boolean };
+export type AiChatProps = { signedIn: boolean; embedded?: boolean };

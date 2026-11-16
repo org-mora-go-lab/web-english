@@ -1,0 +1,1 @@
+ALTER TABLE `ai_voice_sessions` ADD `voice` text DEFAULT 'marin' NOT NULL;

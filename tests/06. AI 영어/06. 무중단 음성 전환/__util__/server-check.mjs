@@ -31,10 +31,11 @@ globalThis.fetch = async (url, init) => {
   assert.equal(String(url), 'https://api.openai.com/v1/realtime/calls');
   const form = JSON.parse(init.body.get('session')); forms.push(form);
   assert.equal(form.model, 'gpt-realtime-2.1'); assert.equal(form.audio.output.voice, 'marin');
+  if (scenario === 'warm') assert.ok(form.instructions.includes('kitten-like'));
   return new Response('v=0\r\nm=audio 9 UDP/TLS/RTP/SAVPF 111\r\n', { status: 201, headers: { location: `/v1/realtime/calls/rtc_test_${forms.length}` } });
 };
 const controllers = []; const pumps = [];
-const input = { sdp: 'v=0\r\nm=audio 9 UDP/TLS/RTP/SAVPF 111\r\n', conversationId: randomUUID(), revision: 0, mode: 'practice', voice: 'marin' };
+const input = { sdp: 'v=0\r\nm=audio 9 UDP/TLS/RTP/SAVPF 111\r\n', conversationId: randomUUID(), revision: 0, mode: 'practice', voice: scenario === 'warm' ? 'cat' : 'marin' };
 const wait = async predicate => { const deadline = Date.now() + 8000; while (!predicate()) { if (Date.now() > deadline) throw new Error('Voice protocol condition timed out'); await new Promise(resolve => setTimeout(resolve, 20)); } };
 async function watch(connection, previousObserverId) {
   const controller = new AbortController(); controllers.push(controller);
@@ -88,7 +89,7 @@ try {
     const quota = (await db.execute('SELECT key,count FROM rate_limits ORDER BY key')).rows;
     const next = await api.startRealtime('owner', { ...input, revision: 1, continuationOf: call.id }, new AbortController().signal);
     const child = await api.getOwnedVoiceSession('owner', next.sessionId);
-    assert.equal(child.status, 'standby'); assert.equal((await api.getOwnedVoiceSession('owner', call.id)).status, 'active');
+    assert.equal(child.voice, 'cat'); assert.equal(child.status, 'standby'); assert.equal((await api.getOwnedVoiceSession('owner', call.id)).status, 'active');
     const standby = await watch(next); await wait(() => standby.events.some(event => event.kind === 'ready'));
     await api.prepareWarmCall('owner', child.id, { action: 'context', revision: 1 });
     await wait(() => standby.events.some(event => event.kind === 'warm-ready' && event.revision === 1));

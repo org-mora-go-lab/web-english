@@ -27,7 +27,7 @@ export default defineConfig({
       use: { ...devices["iPhone 13"] },
       testMatch: [
         "**/02. 계정/01. 회원 인증/01.e2e.spec.ts",
-        "**/03. 콘텐츠/03. 모바일 편집/01.e2e.spec.ts",
+        "**/05. 가족 영어/01. 부모용 영어 놀이/06.e2e.spec.ts",
         "**/04. 계정 학습/01. 학습 진도/01.e2e.spec.ts",
         "**/06. AI 영어/01. AI 대화/07.e2e.spec.ts",
       ],

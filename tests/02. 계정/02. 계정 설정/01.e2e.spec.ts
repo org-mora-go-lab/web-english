@@ -14,5 +14,5 @@ test("현재 비밀번호를 확인한 뒤 닉네임과 로그인 이메일을 �
   await page.getByRole("button", { name: "이메일 변경" }).click();
   await expect(page).toHaveURL(/\/login$/);
   await login(page, email, password);
-  await expect(page.getByRole("heading", { name: "새 닉네임님의 스튜디오" })).toBeVisible();
+  await expect(page.getByRole("link", { name: /새 닉네임/ })).toBeVisible();
 });

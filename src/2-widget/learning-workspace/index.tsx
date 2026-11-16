@@ -179,7 +179,7 @@ export function LearningWorkspace({ viewer }: LearningWorkspaceProps) {
         <div className="header-right">
           <Link href="/ai" className="content-link ai-coach-link">AI 영어 도우미</Link>
           <Link href="/posts" className="content-link">학습 글</Link>
-          <Link href="/studio" className="content-link">스튜디오</Link>
+
           {viewer ? <Link href="/settings/account" className="home-account-link text-sm" aria-label={`${viewer.displayName} 계정 설정`}><AccountIdentity displayName={viewer.displayName} profileImageUrl={viewer.profileImageUrl} compact /></Link> : <Link href="/login" className="content-link">로그인</Link>}
           <span className="daily-note">
             <span /> A little, every day
@@ -218,7 +218,7 @@ export function LearningWorkspace({ viewer }: LearningWorkspaceProps) {
             </button>
           ))}
         </nav>
-        <div className="account-links"><Link href="/posts">학습 글</Link><Link href="/studio">내 스튜디오</Link>{viewer ? <Link href="/settings/account"><AccountIdentity displayName={viewer.displayName} profileImageUrl={viewer.profileImageUrl} compact /></Link> : <Link href="/login">로그인</Link>}</div>
+        <div className="account-links"><Link href="/posts">학습 글</Link>{viewer ? <Link href="/settings/account"><AccountIdentity displayName={viewer.displayName} profileImageUrl={viewer.profileImageUrl} compact /></Link> : <Link href="/login">로그인</Link>}</div>
         <div className="sidebar-card">
           <span className="mini-spark">
             <Sparkles size={19} />

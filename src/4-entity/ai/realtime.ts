@@ -76,8 +76,8 @@ export async function startRealtime(userId: string, input: z.infer<typeof voiceS
   form.set("sdp", input.sdp);
   form.set("session", JSON.stringify({
     type: "realtime", model: REALTIME_MODEL, output_modalities: ["audio"], max_output_tokens: 1200, reasoning: { effort: "low" },
-    instructions: voiceInstructions(input.mode, recentAiContext(previous?.messages ?? [])),
-    audio: { input: { transcription: { model: "gpt-realtime-whisper", language: input.mode === "practice" ? "en" : "ko", delay: "low" }, noise_reduction: { type: "near_field" }, turn_detection: { type: "semantic_vad", eagerness: "medium", create_response: true, interrupt_response: true } }, output: { voice: input.voice } },
+    instructions: voiceInstructions(input.mode, recentAiContext(previous?.messages ?? []), input.voice),
+    audio: { input: { transcription: { model: "gpt-realtime-whisper", language: input.mode === "practice" ? "en" : "ko", delay: "low" }, noise_reduction: { type: "near_field" }, turn_detection: { type: "semantic_vad", eagerness: "medium", create_response: true, interrupt_response: true } }, output: { voice: input.voice === "cat" ? "marin" : input.voice } },
   }));
   let response: Response;
   try {
@@ -92,7 +92,7 @@ export async function startRealtime(userId: string, input: z.infer<typeof voiceS
   try {
     const sdp = await response.text(); const id = randomUUID();
     if (!sdp.startsWith("v=0") || signal.aborted) throw new Error("Invalid or cancelled answer");
-    await getDb().insert(table).values({ id, userId, conversationId: input.conversationId, callId, mode: input.mode, revision: input.revision, continuationOf: input.continuationOf, status: standby ? "standby" : "created", warmPending: standby, createdAt: now, expiresAt: now + VOICE_SESSION_MS });
+    await getDb().insert(table).values({ id, userId, conversationId: input.conversationId, callId, mode: input.mode, voice: input.voice, revision: input.revision, continuationOf: input.continuationOf, status: standby ? "standby" : "created", warmPending: standby, createdAt: now, expiresAt: now + VOICE_SESSION_MS });
     return { sessionId: id, sdp, model: REALTIME_MODEL, voice: input.voice, expiresAt: now + VOICE_SESSION_MS };
   } catch (error) { await hangupRealtimeCall(callId).catch(() => {}); throw error; }
 }

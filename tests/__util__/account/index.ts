@@ -12,7 +12,7 @@ export async function createAccount(page: Page) {
   await page.getByLabel("비밀번호", { exact: true }).fill(defaultPassword);
   await page.getByLabel("비밀번호 확인").fill(defaultPassword);
   await page.getByRole("button", { name: "가입하기" }).click();
-  await expect(page).toHaveURL(/\/studio$/, { timeout: 20_000 });
+  await expect(page).toHaveURL(/\/$/, { timeout: 20_000 });
   return { email, password: defaultPassword };
 }
 
@@ -21,5 +21,5 @@ export async function login(page: Page, email: string, password: string) {
   await page.getByLabel("이메일").fill(email);
   await page.getByLabel("비밀번호").fill(password);
   await page.getByRole("button", { name: "로그인", exact: true }).click();
-  await expect(page).toHaveURL(/\/studio$/);
+  await expect(page).toHaveURL(/\/$/);
 }
