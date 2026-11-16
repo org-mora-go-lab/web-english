@@ -42,12 +42,20 @@ export const aiVoiceSessions = sqliteTable("ai_voice_sessions", {
   callId: text("call_id").notNull(),
   mode: text("mode", { enum: ["parent", "practice"] }).notNull(),
   revision: integer("revision").notNull(),
-  status: text("status", { enum: ["created", "active", "ended"] }).notNull().default("created"),
+  status: text("status", { enum: ["created", "active", "standby", "retiring", "ended"] }).notNull().default("created"),
   renewable: integer("renewable", { mode: "boolean" }).notNull().default(false),
   continuationOf: text("continuation_of"),
+  observerId: text("observer_id"),
+  nextObserverId: text("next_observer_id"),
+  nextObserverReady: integer("next_observer_ready", { mode: "boolean" }).notNull().default(false),
+  nextObserverAt: integer("next_observer_at").notNull().default(0),
+  observerStateJson: text("observer_state_json").notNull().default(""),
+  warmPending: integer("warm_pending", { mode: "boolean" }).notNull().default(false),
+  warmRequestId: text("warm_request_id"),
+  warmReady: integer("warm_ready", { mode: "boolean" }).notNull().default(false),
   createdAt: integer("created_at").notNull(),
   expiresAt: integer("expires_at").notNull(),
-}, (table) => [index("ai_voice_sessions_user_expiry_idx").on(table.userId, table.expiresAt), uniqueIndex("ai_voice_sessions_user_active_unique").on(table.userId).where(sql`status != 'ended'`), uniqueIndex("ai_voice_sessions_continuation_unique").on(table.continuationOf)]);
+}, (table) => [index("ai_voice_sessions_user_expiry_idx").on(table.userId, table.expiresAt), uniqueIndex("ai_voice_sessions_user_active_unique").on(table.userId).where(sql`status in ('created', 'active')`), uniqueIndex("ai_voice_sessions_continuation_unique").on(table.continuationOf)]);
 
 export const categories = sqliteTable("categories", {
   id: text("id").primaryKey(),

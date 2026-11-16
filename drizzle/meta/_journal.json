@@ -50,6 +50,20 @@
       "when": 1794807456390,
       "tag": "0006_breezy_lady_vermin",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1794810591911,
+      "tag": "0007_smiling_randall_flagg",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1794811379324,
+      "tag": "0008_keen_santa_claus",
+      "breakpoints": true
     }
   ]
 }

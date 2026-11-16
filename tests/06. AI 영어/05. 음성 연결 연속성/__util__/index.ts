@@ -15,14 +15,14 @@ export async function seedLongVoiceConversation(email: string) {
   } finally { client.close(); }
 }
 
-export async function seedEndedVoice(email: string, renewable = false, reused = false) {
+export async function seedEndedVoice(email: string, renewable = false, reused = false, conversationId = randomUUID()) {
   const client = createClient({ url: "file:./.tmp/e2e.sqlite", timeout: 5000 });
   try {
     const account = await client.execute({ sql: "SELECT id FROM users WHERE email = ?", args: [email] });
-    const id = randomUUID(); const conversationId = randomUUID();
+    const id = randomUUID();
     const insert = async (sessionId: string, parent: string | null) => client.execute({
-      sql: "INSERT INTO ai_voice_sessions (id, user_id, conversation_id, call_id, mode, revision, status, renewable, continuation_of, created_at, expires_at) VALUES (?, ?, ?, 'rtc_test', 'parent', 0, 'ended', ?, ?, ?, ?)",
-      args: [sessionId, String(account.rows[0].id), conversationId, Number(renewable), parent, Date.now(), Date.now() + 210_000],
+      sql: "INSERT INTO ai_voice_sessions (id, user_id, conversation_id, call_id, mode, revision, status, renewable, continuation_of, observer_state_json, created_at, expires_at) VALUES (?, ?, ?, 'rtc_test', 'parent', 0, 'ended', ?, ?, ?, ?, ?)",
+      args: [sessionId, String(account.rows[0].id), conversationId, Number(renewable), parent, JSON.stringify({ privateTranscript: "private voice fixture" }), Date.now(), Date.now() + 210_000],
     });
     await insert(id, null);
     if (reused) await insert(randomUUID(), id);
