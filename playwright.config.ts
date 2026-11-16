@@ -2,6 +2,9 @@ import { defineConfig, devices } from "@playwright/test";
 
 const testEnv = {
   TURSO_DATABASE_URL: "file:./.tmp/e2e.sqlite",
+  TURSO_AUTH_TOKEN: "",
+  OPENAI_API_KEY: "",
+  OPENAI_ALLOWED_MODELS: "",
   AUTH_SECRET: "e2e-test-only-secret-with-at-least-32-characters",
   AUTH_URL: "http://localhost:3200",
   AUTH_KAKAO_ID: "e2e-kakao-client-id",
@@ -26,14 +29,15 @@ export default defineConfig({
         "**/02. 계정/01. 회원 인증/01.e2e.spec.ts",
         "**/03. 콘텐츠/03. 모바일 편집/01.e2e.spec.ts",
         "**/04. 계정 학습/01. 학습 진도/01.e2e.spec.ts",
+        "**/06. AI 영어/01. AI 대화/07.e2e.spec.ts",
       ],
     },
   ],
   webServer: {
-    command: "mkdir -p .tmp && npm run db:migrate && npm run dev",
+    command: "node scripts/start-e2e.mjs",
     url: "http://localhost:3200",
     env: testEnv,
     reuseExistingServer: false,
-    timeout: 120_000,
+    timeout: 240_000,
   },
 });

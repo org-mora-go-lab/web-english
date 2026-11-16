@@ -36,7 +36,22 @@ http://localhost:3200 에서 실행합니다. `.env.local`의 `AUTH_SECRET`을 �
 
 `/signup`에서 이메일과 비밀번호로 가입하면 바로 로그인합니다. `AUTH_KAKAO_ID`와 `AUTH_KAKAO_SECRET`을 설정하면 `/login`과 `/signup`에 카카오 로그인 버튼이 나타납니다. 카카오 계정은 카카오 ID로 식별하고 프로필 이름·사진을 표시합니다. 카카오 이메일이 기존 이메일 계정과 같아도 자동 연결하지 않으므로 기존 글·학습 기록은 별도 계정에 남습니다. 메일 발송과 비밀번호 찾기는 제공하지 않으므로 이메일 계정 비밀번호를 안전하게 보관해야 합니다. `/settings/account`에서 이메일 계정은 닉네임·로그인 이메일·비밀번호를 변경할 수 있고, 카카오 계정은 카카오 프로필에서 이름·사진을 변경할 수 있습니다. 카카오 계정 탈퇴는 다시 로그인한 뒤 10분 안에 가능합니다. `/studio`에서 Tiptap으로 글을 작성하고, 자동 저장·미리보기·발행·비공개 설정·버전 기록을 사용합니다. `/studio/import`는 Paul 또는 외부 Markdown/JSON을 비공개 임시 글로 가져옵니다. `/posts/[slug]/context`에서 Paul에게 붙여 넣을 학습 컨텍스트와 공유 URL을 복사할 수 있습니다.
 
-이미지는 Vercel **비공개** Blob 저장소에 업로드하며 5MB 이하의 PNG/JPEG/WebP만 허용합니다. 공개 글에서 쓰는 이미지만 비회원에게 서버 경유로 제공됩니다. 별도 OpenAI GPT API는 사용하지 않습니다.
+이미지는 Vercel **비공개** Blob 저장소에 업로드하며 5MB 이하의 PNG/JPEG/WebP만 허용합니다. 공개 글에서 쓰는 이미지만 비회원에게 서버 경유로 제공됩니다.
+
+## AI 영어 도우미
+
+`/ai`에서 로그인한 보호자가 영어 놀이 아이디어를 묻거나 영어 대화를 연습할 수 있습니다. 화면에서 GPT-6 Luna, GPT-6 Sol, GPT-6 Astra 중 운영자가 허용한 모델을 선택합니다. 기본 모델은 GPT-6 Luna이며 선택만 브라우저에 기억합니다. 대화는 현재 화면에서만 유지하고, 새 대화 또는 모드 변경으로 초기화합니다. 아이의 프로필과 놀이 기록을 자동으로 보내지 않습니다. 사용자가 입력한 대화는 답변 생성을 위해 OpenAI에 전송됩니다.
+
+운영 연결 방법:
+
+1. [OpenAI Platform](https://platform.openai.com/api-keys)에서 이 앱용 API 키를 만듭니다. Responses API를 호출할 수 있는 권한이 필요합니다. 키는 채팅, 소스 코드, 브라우저 저장소에 붙여 넣지 마세요.
+2. Vercel 프로젝트의 Settings → Environment Variables에서 **Production**의 `OPENAI_API_KEY`에 키를 저장합니다. 로컬 개발은 Git에서 제외된 `.env.local`에만 저장합니다. `NEXT_PUBLIC_` 접두사를 사용하지 않습니다.
+3. 선택적으로 `OPENAI_ALLOWED_MODELS=gpt-6-luna,gpt-6-sol,gpt-6-astra`를 설정합니다. 처음에는 `gpt-6-luna` 하나만 허용해도 됩니다. 계정에서 해당 모델을 사용할 수 있어야 합니다.
+4. 환경 변수를 저장한 뒤 Production을 다시 배포하고 `/ai`에서 로그인하여 확인합니다. 키가 없으면 안내 화면이 표시되며 외부 API를 호출하지 않습니다.
+
+서버는 [Responses API](https://developers.openai.com/api/docs/guides/text)를 사용합니다. API 키를 클라이언트에 전달하지 않고 로그인·요청 출처·허용 모델·입력 길이를 검사합니다. 계정별 분당 5회/일 30회와 전체 일 100회 제한을 DB에 저장합니다. 전체 일 제한은 `OPENAI_GLOBAL_DAILY_LIMIT`으로 1~1000 범위에서 조정할 수 있습니다. 제한은 요청 횟수이며 금액 한도가 아닙니다. 답변은 최대 1200 출력 토큰, 요청 시간은 45초로 제한하며 서버가 자동으로 재시도하지 않습니다. 클라이언트 중지는 이미 처리된 요청의 비용을 취소하지 않습니다.
+
+OpenAI API는 무료 도구가 아니며 계정의 크레딧과 사용량 요금이 적용됩니다. 키 생성과 앱 연결은 크레딧 구매를 수행하지 않습니다. OpenAI 프로젝트의 사용 한도와 [API 요금](https://openai.com/api/pricing/)을 별도로 확인하세요. 요청에는 `store: false`를 사용하지만, 이는 OpenAI의 모든 데이터 보관을 해제한다는 뜻은 아닙니다. 테스트는 로컬 DB와 모의 응답을 사용하며 실제 유료 API를 호출하지 않습니다.
 
 ## 운영 환경과 배포
 
@@ -61,6 +76,8 @@ npm run build
 npx playwright install chromium webkit
 npm run test:e2e
 ```
+
+E2E 실행은 테스트 전용 로컬 DB를 마이그레이션하고 해당 환경으로 앱을 빌드한 뒤 운영 서버를 시작합니다. 테스트 중에는 운영 DB와 OpenAI API 키를 사용하지 않습니다.
 
 ## 버전 및 배포
 

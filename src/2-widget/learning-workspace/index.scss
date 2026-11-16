@@ -1205,3 +1205,7 @@
 .learning-workspace .account-links a { text-decoration: none; }
 @media (max-width: 700px) { .learning-workspace .home-account-link .account-identity-name { display: none; } }
 @media (max-width: 700px) { .learning-workspace .header-right .content-link { display: none; } }
+
+.learning-workspace .header-right .ai-coach-link { color: #486a41; background: #edf3e7; border-radius: 8px; padding: 8px 10px; }
+@media (max-width: 1150px) { .learning-workspace .header-right { gap: 14px; } }
+@media (max-width: 700px) { .learning-workspace .header-right { gap: 8px; } .learning-workspace .header-right .ai-coach-link { display: inline-flex; font-size: 10px; padding: 8px; } }
