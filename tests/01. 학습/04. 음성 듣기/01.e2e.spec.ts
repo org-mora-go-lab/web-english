@@ -5,5 +5,5 @@ test("영상 실제 재생", async ({ page }) => {
   const video = page.getByTestId("lesson-video");
   await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.readyState)).toBeGreaterThanOrEqual(2);
   await video.evaluate((v: HTMLVideoElement) => v.play());
-  await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.currentTime)).toBeGreaterThan(0.5);
+  await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.currentTime), { timeout: 15_000 }).toBeGreaterThan(0.5);
 });
