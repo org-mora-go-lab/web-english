@@ -21,6 +21,19 @@ export const rateLimits = sqliteTable("rate_limits", {
   expiresAt: integer("expires_at").notNull(),
 });
 
+export const aiConversations = sqliteTable("ai_conversations", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  title: text("title").notNull(),
+  mode: text("mode", { enum: ["parent", "practice"] }).notNull(),
+  model: text("model").notNull(),
+  messagesJson: text("messages_json").notNull(),
+  revision: integer("revision").notNull().default(1),
+  lastTurnId: text("last_turn_id").notNull(),
+  createdAt: integer("created_at").notNull(),
+  updatedAt: integer("updated_at").notNull(),
+}, (table) => [index("ai_conversations_user_updated_idx").on(table.userId, table.updatedAt)]);
+
 export const categories = sqliteTable("categories", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),

@@ -14,3 +14,9 @@ export type ChatMessage = {
   content: string;
   model?: string;
 };
+
+export type SavedConversation = {
+  id: string; title: string; mode: ChatMode; model: string;
+  messages: ChatMessage[]; revision: number; updatedAt: number;
+};
+export type ConversationSummary = Omit<SavedConversation, "messages">;

@@ -14,6 +14,9 @@ const MAX_BODY_BYTES = 64 * 1024;
 const UPSTREAM_TIMEOUT_MS = 45_000;
 
 const chatSchema = z.strictObject({
+  conversationId: z.uuid().optional(),
+  revision: z.number().int().min(0).max(100).optional(),
+  turnId: z.uuid().optional(),
   model: z.string().min(1).max(80),
   mode: z.enum(["parent", "practice"]),
   messages: z.array(z.strictObject({
@@ -24,7 +27,8 @@ const chatSchema = z.strictObject({
   messages.reduce((total, message) => total + message.content.length, 0) <= 12_000
   && messages.every((message, index) => message.role === (index % 2 === 0 ? "user" : "assistant"))
   && messages.at(-1)?.role === "user"
-));
+)).refine(value => [value.conversationId, value.revision, value.turnId].every(item => item === undefined)
+  || [value.conversationId, value.revision, value.turnId].every(item => item !== undefined));
 
 const responseSchema = z.object({
   status: z.string(),
