@@ -43,9 +43,11 @@ export const aiVoiceSessions = sqliteTable("ai_voice_sessions", {
   mode: text("mode", { enum: ["parent", "practice"] }).notNull(),
   revision: integer("revision").notNull(),
   status: text("status", { enum: ["created", "active", "ended"] }).notNull().default("created"),
+  renewable: integer("renewable", { mode: "boolean" }).notNull().default(false),
+  continuationOf: text("continuation_of"),
   createdAt: integer("created_at").notNull(),
   expiresAt: integer("expires_at").notNull(),
-}, (table) => [index("ai_voice_sessions_user_expiry_idx").on(table.userId, table.expiresAt), uniqueIndex("ai_voice_sessions_user_active_unique").on(table.userId).where(sql`status != 'ended'`)]);
+}, (table) => [index("ai_voice_sessions_user_expiry_idx").on(table.userId, table.expiresAt), uniqueIndex("ai_voice_sessions_user_active_unique").on(table.userId).where(sql`status != 'ended'`), uniqueIndex("ai_voice_sessions_continuation_unique").on(table.continuationOf)]);
 
 export const categories = sqliteTable("categories", {
   id: text("id").primaryKey(),

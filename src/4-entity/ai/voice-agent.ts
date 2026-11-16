@@ -4,7 +4,9 @@ import type { AiMode } from "./type";
 
 export const REALTIME_MODEL = "gpt-realtime-2.1";
 export const REALTIME_VOICES = ["marin", "cedar"] as const;
-export const VOICE_SESSION_MS = 180_000;
+// Rotate the underlying serverless connection, not the user's conversation.
+export const VOICE_SESSION_MS = 210_000;
+export const VOICE_RENEW_AFTER_MS = 150_000;
 
 // The agent has no external tools or permissions; its role is English coaching.
 export function englishVoiceAgent(mode: AiMode) {

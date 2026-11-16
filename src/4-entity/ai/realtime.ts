@@ -14,7 +14,8 @@ import { englishVoiceAgent, REALTIME_MODEL, REALTIME_VOICES, VOICE_SESSION_MS } 
 const table = schema.aiVoiceSessions;
 export const voiceStartSchema = z.strictObject({
   sdp: z.string().min(10).max(50_000).refine(value => value.startsWith("v=0") && value.includes("m=audio")),
-  conversationId: z.uuid(), revision: z.number().int().min(0).max(99),
+  conversationId: z.uuid(), revision: z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER),
+  continuationOf: z.uuid().optional(),
   mode: z.enum(["parent", "practice"]), voice: z.enum(REALTIME_VOICES),
 });
 
@@ -45,6 +46,7 @@ export async function hangupRealtimeCall(callId: string) {
     method: "POST", headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY?.trim()}` }, signal: AbortSignal.timeout(8_000),
   });
   await response.body?.cancel();
+  if (!response.ok && response.status !== 404) throw new Error("Realtime hangup failed");
 }
 
 export async function startRealtime(userId: string, input: z.infer<typeof voiceStartSchema>, signal: AbortSignal) {
@@ -55,12 +57,19 @@ export async function startRealtime(userId: string, input: z.infer<typeof voiceS
   const collision = await getDb().query.aiConversations.findFirst({ where: eq(schema.aiConversations.id, input.conversationId), columns: { userId: true } });
   if (collision && collision.userId !== userId) throw new AiError("대화를 찾을 수 없습니다.", 404, "CONVERSATION_NOT_FOUND");
   if ((previous?.revision ?? 0) !== input.revision || (previous && previous.mode !== input.mode)) throw new AiError("대화가 변경됐어요. 내역을 다시 불러와 주세요.", 409, "CONVERSATION_CONFLICT");
-  if (!process.env.OPENAI_API_KEY?.trim()) throw new AiError("고급 음성 연결을 준비하고 있어요.", 503, "NOT_CONFIGURED");
   const now = Date.now();
   const existing = await getDb().query.aiVoiceSessions.findFirst({ where: and(eq(table.userId, userId), ne(table.status, "ended")) });
   if (existing && existing.expiresAt <= now) await endVoiceSession(userId, existing.id);
   else if (existing) throw new AiError("기존 음성 연결을 종료한 뒤 다시 시작해 주세요.", 409, "VOICE_ALREADY_ACTIVE");
-  await reserveAiRequest(userId);
+  if (input.continuationOf) {
+    const parent = await getOwnedVoiceSession(userId, input.continuationOf);
+    const child = await getDb().query.aiVoiceSessions.findFirst({ where: eq(table.continuationOf, parent.id), columns: { id: true } });
+    if (!parent.renewable || parent.status !== "ended" || parent.conversationId !== input.conversationId || parent.mode !== input.mode || parent.expiresAt + 60_000 < now || child) {
+      throw new AiError("음성 연결 갱신 정보를 확인하지 못했어요. 다시 시작해 주세요.", 409, "VOICE_RENEWAL_INVALID");
+    }
+  }
+  if (!process.env.OPENAI_API_KEY?.trim()) throw new AiError("고급 음성 연결을 준비하고 있어요.", 503, "NOT_CONFIGURED");
+  if (!input.continuationOf) await reserveAiRequest(userId);
   const agent = englishVoiceAgent(input.mode);
   const form = new FormData();
   form.set("sdp", input.sdp);
@@ -82,7 +91,7 @@ export async function startRealtime(userId: string, input: z.infer<typeof voiceS
   try {
     const sdp = await response.text(); const id = randomUUID();
     if (!sdp.startsWith("v=0") || signal.aborted) throw new Error("Invalid or cancelled answer");
-    await getDb().insert(table).values({ id, userId, conversationId: input.conversationId, callId, mode: input.mode, revision: input.revision, createdAt: now, expiresAt: now + VOICE_SESSION_MS });
+    await getDb().insert(table).values({ id, userId, conversationId: input.conversationId, callId, mode: input.mode, revision: input.revision, continuationOf: input.continuationOf, createdAt: now, expiresAt: now + VOICE_SESSION_MS });
     return { sessionId: id, sdp, model: REALTIME_MODEL, voice: input.voice, expiresAt: now + VOICE_SESSION_MS };
   } catch (error) { await hangupRealtimeCall(callId).catch(() => {}); throw error; }
 }
@@ -95,6 +104,6 @@ export async function getOwnedVoiceSession(userId: string, id: string) {
 
 export async function endVoiceSession(userId: string, id: string) {
   const session = await getOwnedVoiceSession(userId, id);
-  await getDb().update(table).set({ status: "ended" }).where(eq(table.id, session.id));
+  await getDb().update(table).set({ status: "ended", renewable: false }).where(eq(table.id, session.id));
   await hangupRealtimeCall(session.callId).catch(() => {});
 }
