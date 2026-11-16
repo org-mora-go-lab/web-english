@@ -254,7 +254,7 @@ export function AiChat({ signedIn }: AiChatProps) {
         {voice.audioBlocked && <button type="button" onClick={voice.resumeAudio}>소리 재생 허용</button>}
         <span role="status">{voice.status}</span>
         {voice.muted && <span>마이크가 꺼져 있어요.</span>}
-        <small>{voice.available ? "AI가 생성하는 음성입니다. 마이크 음성은 OpenAI로 전송되며 전사문과 완료된 답변을 내 계정에 저장합니다. 3분 제한 없이 대화할 수 있어요. 연결 갱신 시 잠시 기다리면 같은 대화를 자동으로 이어갑니다. 고급 음성은 전용 모델을 사용하며 아래 모델 선택은 텍스트 대화에 적용됩니다. API 사용료가 적용됩니다. 종료하거나 화면을 벗어나면 마이크를 끕니다." : "이 브라우저에서는 고급 음성을 지원하지 않아요. HTTPS의 Chrome에서 시도하거나 텍스트로 대화해 주세요."}</small>
+        <small>{voice.available ? "AI가 생성하는 음성입니다. 마이크 음성은 OpenAI로 전송되며 전사문과 완료된 답변을 내 계정에 저장합니다. 3분 제한 없이 대화할 수 있어요. 저장 연결이 갱신되는 동안에도 듣고 말하기를 계속합니다. 장시간 대화는 다음 음성 연결을 미리 준비해 답변을 마친 뒤 이어갑니다. 고급 음성은 전용 모델을 사용하며 아래 모델 선택은 텍스트 대화에 적용됩니다. API 사용료가 적용됩니다. 종료하거나 화면을 벗어나면 마이크를 끕니다." : "이 브라우저에서는 고급 음성을 지원하지 않아요. HTTPS의 Chrome에서 시도하거나 텍스트로 대화해 주세요."}</small>
       </div>
       <div className="ai-chat-model-row">
         <div className="ai-chat-model-choice">

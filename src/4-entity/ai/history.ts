@@ -8,6 +8,7 @@ import { getDb, schema } from "@/src/5-shared/db";
 
 import { AiError } from "./server";
 import type { AiChatInput, AiChatReply, AiConversation, SavedAiMessage } from "./type";
+import { hangupRealtimeCall } from "./voice-call";
 
 const table = schema.aiConversations;
 type Row = typeof table.$inferSelect;
@@ -30,6 +31,8 @@ export async function listAiConversations(userId: string) {
 export async function deleteAiConversation(userId: string, id: string) {
   const removed = await getDb().delete(table).where(and(eq(table.id, id), eq(table.userId, userId))).returning({ id: table.id });
   if (!removed.length) throw missing();
+  const calls = await getDb().delete(schema.aiVoiceSessions).where(and(eq(schema.aiVoiceSessions.userId, userId), eq(schema.aiVoiceSessions.conversationId, id))).returning({ callId: schema.aiVoiceSessions.callId, status: schema.aiVoiceSessions.status });
+  await Promise.allSettled(calls.filter(call => call.status !== "ended").map(call => hangupRealtimeCall(call.callId)));
 }
 
 export function recentAiContext(messages: SavedAiMessage[]) {

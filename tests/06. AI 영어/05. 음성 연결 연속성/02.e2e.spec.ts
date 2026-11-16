@@ -10,9 +10,8 @@ test("자동 갱신 후에도 음소거를 유지한다", async ({ page }) => {
   await expect.poll(async () => (await voiceState(page)).enabled).toBe(true);
   await page.getByRole("button", { name: "마이크 끄기", exact: true }).click();
   const first = await voiceState(page);
-  await voiceEvent(page, { kind: "renewing" });
-  await voiceEvent(page, { kind: "renew", sessionId: first.sessionIds[0] });
-  await expect.poll(async () => (await voiceState(page)).starts).toBe(2);
+  await voiceEvent(page, { kind: "refresh", observerId: first.observerIds[0] });
+  await expect.poll(async () => (await voiceState(page)).observerStarts).toBe(1);
   await expect(page.getByText("듣고 있어요. 편하게 말씀해 주세요.", { exact: true })).toBeVisible();
   await expect(page.getByText("마이크가 꺼져 있어요.", { exact: true })).toBeVisible();
   expect((await voiceState(page)).enabled).toBe(false);
