@@ -5,7 +5,7 @@ import WebSocket from "ws";
 
 import { getDb, schema } from "@/src/5-shared/db";
 
-import { endVoiceSession, getOwnedVoiceSession } from "./realtime";
+import { getOwnedVoiceSession, hangupRealtimeCall } from "./realtime";
 import { AiError } from "./server";
 import type { RealtimeEvent } from "./type";
 import { createVoiceObserver } from "./voice-observer";
@@ -29,7 +29,10 @@ export async function watchRealtimeSession(userId: string, connection: { session
         signal.removeEventListener("abort", abort);
         ws.removeAllListeners("message");
         if (ws.readyState === WebSocket.OPEN) ws.close(); else ws.terminate();
-        await endVoiceSession(userId, session.id).catch(() => {});
+        await Promise.allSettled([
+          getDb().update(table).set({ status: "ended" }).where(eq(table.id, session.id)),
+          hangupRealtimeCall(session.callId),
+        ]);
         try { controller.close(); } catch { /* Already cancelled. */ }
       };
       stop = finish;
