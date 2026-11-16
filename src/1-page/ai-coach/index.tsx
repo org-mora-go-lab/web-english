@@ -35,7 +35,7 @@ export function AiCoach({ viewer }: AiCoachProps) {
             <Link href="/library">영어 영상도 둘러보기 <ArrowUpRight size={14} aria-hidden="true" /></Link>
           </div>
         </section>
-        <AiChat signedIn={Boolean(viewer)} />
+        {viewer ? <AiChat signedIn /> : <section className="ai-coach-gate" id="ai-chat" aria-labelledby="ai-login-title"><MessageCircle size={30} aria-hidden="true" /><h2 id="ai-login-title">로그인 후 AI를 이용해 주세요.</h2><p>부모님 계정으로 로그인하면 모델을 선택하고<br />영어 놀이와 회화를 준비할 수 있어요.</p><Link href="/login?callbackUrl=/ai">로그인하고 대화하기 <ArrowUpRight size={16} aria-hidden="true" /></Link></section>}
         <footer className="ai-coach-footer"><span>작은 한마디도 충분해요.</span><p>AI의 제안은 틀릴 수 있어요. 아이의 관심과 안전에 맞게 골라 사용해 주세요.</p></footer>
       </main>
     </div>

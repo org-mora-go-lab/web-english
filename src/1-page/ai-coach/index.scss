@@ -30,6 +30,11 @@
   .ai-coach-note > p { font-size: 12px !important; }
   .ai-coach-note a { display: inline-flex; align-items: center; gap: 6px; margin-top: 18px; font-size: 11px; color: #4b7152; font-weight: 700; }
   .ai-coach-footer { text-align: center; padding: 30px 0 0; }
+  .ai-coach-gate { text-align: center; padding: 48px 20px; border: 1px solid #dfe5da; border-radius: 24px; background: white; scroll-margin-top: 24px; }
+  .ai-coach-gate > svg { margin: 0 auto 16px; color: #658465; }
+  .ai-coach-gate h2 { font-size: 23px; letter-spacing: -.04em; }
+  .ai-coach-gate p { color: #718072; line-height: 1.8; font-size: 14px; margin: 16px 0 24px; }
+  .ai-coach-gate a { display: inline-flex; align-items: center; gap: 12px; padding: 14px 20px; border-radius: 12px; color: white; background: #365d43; font-size: 14px; font-weight: 700; }
   .ai-coach-footer span { color: #7c927d; font-size: 12px; font-weight: 700; }
   .ai-coach-footer p { font-size: 11px; color: #8a958b; line-height: 1.7; margin: 8px 0; }
 
