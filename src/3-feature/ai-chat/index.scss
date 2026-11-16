@@ -1,4 +1,9 @@
 .ai-chat {
+  .ai-chat-history, .ai-chat-voice { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; padding: 16px 26px; border-bottom: 1px solid #edf0e8; font-size: 12px; color: #526c4c; }
+  .ai-chat-history select { flex: 1; min-width: 120px; max-width: 100%; padding: 10px; border: 1px solid #dce4d7; border-radius: 9px; background: white; }
+  .ai-chat-history button, .ai-chat-voice button { display: inline-flex; align-items: center; gap: 6px; padding: 10px; border-radius: 9px; background: #edf3e7; color: #34583c; }
+  .ai-chat-voice button[aria-pressed="true"] { background: #345e3b; color: white; }
+  .ai-chat-voice small { flex-basis: 100%; font-size: 11px; line-height: 1.8; color: #718072; }
   overflow: hidden;
   border: 1px solid #dfe5da;
   border-radius: 24px;

@@ -1,13 +1,14 @@
 "use client";
 
-import { ArrowDown, ArrowUp, Check, ChevronDown, MessageCircle, Plus, RefreshCw, Sparkles, Square } from "lucide-react";
+import { ArrowDown, ArrowUp, Check, ChevronDown, MessageCircle, Mic, Plus, RefreshCw, Sparkles, Square,Trash2, Volume2 } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import type { AiChatProps, ChatConfiguration, ChatMessage, ChatMode } from "./type";
+import { useAiVoice } from "./hook";
+import type { AiChatProps, ChatConfiguration, ChatMessage, ChatMode, ConversationSummary, SavedConversation } from "./type";
 
 const modelStorageKey = "mora-english-ai-model";
-const maxMessages = 20;
+const maxMessages = 200;
 const maxCharacters = 2000;
 const starterPrompts = {
   parent: [
@@ -39,6 +40,59 @@ export function AiChat({ signedIn }: AiChatProps) {
   const configurationRequest = useRef<AbortController | null>(null);
   const composer = useRef<HTMLTextAreaElement | null>(null);
   const conversationEnd = useRef<HTMLDivElement | null>(null);
+  const [conversationId, setConversationId] = useState("");
+  const [revision, setRevision] = useState(0);
+  const [conversations, setConversations] = useState<ConversationSummary[]>([]);
+  const [historyLoading, setHistoryLoading] = useState(true);
+  const [historyError, setHistoryError] = useState("");
+  const historyRequest = useRef<AbortController | null>(null);
+  const turn = useRef<{ key: string; id: string } | null>(null);
+  const voice = useAiVoice({ language: mode === "practice" ? "en-US" : "ko-KR", onTranscript: text => { setDraft(text); void sendMessage(text); }, onError: setError });
+
+  function applyConversation(item: SavedConversation) {
+    setConversationId(item.id); setRevision(item.revision); setMessages(item.messages); setMode(item.mode); setModel(item.model); turn.current = null;
+  }
+
+  const loadHistory = useCallback(async () => {
+    historyRequest.current?.abort();
+    const controller = new AbortController(); historyRequest.current = controller;
+    try {
+      const response = await fetch("/api/ai/conversations", { cache: "no-store", signal: controller.signal });
+      if (response.status === 401) { setLoginRequired(true); return; }
+      if (!response.ok) throw new Error("대화 내역을 불러오지 못했어요. 다시 불러온 뒤 시작해 주세요.");
+      const data = await response.json();
+      if (controller.signal.aborted) return;
+      setConversations(data.conversations);
+      if (data.latest) applyConversation(data.latest);
+      else { setConversationId(""); setRevision(0); setMessages([]); turn.current = null; }
+      setHistoryError("");
+    } catch (failure) { if (!controller.signal.aborted) setHistoryError(failure instanceof Error ? failure.message : "대화 내역을 불러오지 못했어요."); }
+    finally { if (!controller.signal.aborted) setHistoryLoading(false); }
+  }, []);
+
+  function reloadHistory() { voice.stop(); setHistoryLoading(true); setDraft(""); setError(""); void loadHistory(); }
+
+  async function openConversation(id: string) {
+    voice.stop(); setHistoryLoading(true); setError("");
+    try {
+      const response = await fetch(`/api/ai/conversations/${id}`, { cache: "no-store" });
+      if (response.status === 401) setLoginRequired(true);
+      if (!response.ok) throw new Error("대화를 불러오지 못했어요. 내역을 다시 불러와 주세요.");
+      applyConversation((await response.json()).conversation); setDraft(""); setHistoryError("");
+    } catch (failure) { setHistoryError(failure instanceof Error ? failure.message : "대화를 불러오지 못했어요."); }
+    finally { setHistoryLoading(false); }
+  }
+
+  async function deleteConversation() {
+    if (!conversationId || !window.confirm("이 대화 내역을 삭제할까요? 삭제한 대화는 복구할 수 없어요.")) return;
+    voice.stop(); setHistoryLoading(true);
+    try {
+      const response = await fetch(`/api/ai/conversations/${conversationId}`, { method: "DELETE" });
+      if (!response.ok) throw new Error("대화를 삭제하지 못했어요. 다시 시도해 주세요.");
+      setConversations(items => items.filter(item => item.id !== conversationId)); startFresh();
+    } catch (failure) { setError(failure instanceof Error ? failure.message : "대화를 삭제하지 못했어요."); }
+    finally { setHistoryLoading(false); }
+  }
 
   const loadConfiguration = useCallback(async () => {
     configurationRequest.current?.abort();
@@ -65,9 +119,9 @@ export function AiChat({ signedIn }: AiChatProps) {
 
   useEffect(() => {
     let disposed = false;
-    queueMicrotask(() => { if (!disposed) void loadConfiguration(); });
-    return () => { disposed = true; configurationRequest.current?.abort(); request.current?.abort(); };
-  }, [loadConfiguration]);
+    queueMicrotask(() => { if (!disposed) { void loadConfiguration(); void loadHistory(); } });
+    return () => { disposed = true; configurationRequest.current?.abort(); historyRequest.current?.abort(); request.current?.abort(); };
+  }, [loadConfiguration, loadHistory]);
 
   useEffect(() => {
     if (messages.length || pendingQuestion) conversationEnd.current?.scrollIntoView({ block: "nearest", behavior: "smooth" });
@@ -76,8 +130,10 @@ export function AiChat({ signedIn }: AiChatProps) {
   const activeModel = configuration?.models.find(item => item.id === model);
   const suggestedMessage = mode === "parent" ? "공놀이할 때 아이에게 무슨 영어를 해주면 좋을까요?" : "I'd like to practice talking about my day.";
   const conversationFull = messages.length >= maxMessages;
-  const contextTooLong = messages.reduce((total, item) => total + item.content.length, 0) + draft.trim().length > 12000;
-  const canCompose = !loginRequired && Boolean(configuration?.configured && activeModel) && !configurationLoading && !configurationError;
+  const context = messages.slice(-18);
+  while (context.length && context.reduce((total, item) => total + item.content.length, 0) > 10000) context.splice(0, 2);
+  const contextTooLong = context.reduce((total, item) => total + item.content.length, 0) + draft.trim().length > 12000;
+  const canCompose = !loginRequired && Boolean(configuration?.configured && activeModel) && !configurationLoading && !configurationError && !historyLoading && !historyError;
   const canSend = canCompose && !busy && !conversationFull && !contextTooLong && Boolean(draft.trim()) && draft.length <= maxCharacters;
 
   function retryConfiguration() {
@@ -93,6 +149,7 @@ export function AiChat({ signedIn }: AiChatProps) {
   }
 
   function startFresh(nextMode = mode) {
+    voice.stop(); setConversationId(""); setRevision(0); turn.current = null;
     setMode(nextMode);
     setMessages([]);
     setDraft("");
@@ -103,6 +160,7 @@ export function AiChat({ signedIn }: AiChatProps) {
   }
 
   function stopResponse() {
+    voice.stop();
     request.current?.abort();
     request.current = null;
     setBusy(false);
@@ -111,11 +169,14 @@ export function AiChat({ signedIn }: AiChatProps) {
     setNotice("응답 생성을 중지했어요. 작성한 질문은 남아 있어요.");
   }
 
-  async function sendMessage() {
-    if (!canSend || request.current) return;
-    const content = draft.trim();
+  async function sendMessage(spoken?: string) {
+    const content = (spoken ?? draft).trim();
+    if (!canCompose || busy || conversationFull || !content || content.length > maxCharacters || request.current) { if (spoken) voice.stop(); return; }
     const chosenModel = model;
-    const history = messages.map(item => ({ role: item.role, content: item.content }));
+    const history = context.map(item => ({ role: item.role, content: item.content }));
+    const id = conversationId || crypto.randomUUID(); setConversationId(id);
+    const key = JSON.stringify([id, revision, chosenModel, mode, content]);
+    if (turn.current?.key !== key) turn.current = { key, id: crypto.randomUUID() };
     const controller = new AbortController();
     request.current = controller;
     setBusy(true);
@@ -126,7 +187,7 @@ export function AiChat({ signedIn }: AiChatProps) {
       const response = await fetch("/api/ai/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ model: chosenModel, mode, messages: [...history, { role: "user", content }] }),
+        body: JSON.stringify({ conversationId: id, revision, turnId: turn.current.id, model: chosenModel, mode, messages: [...history, { role: "user", content }] }),
         signal: controller.signal,
       });
       const data = await response.json().catch(() => { throw new Error("답변을 가져오지 못했어요. 잠시 뒤 다시 보내 주세요."); });
@@ -138,8 +199,13 @@ export function AiChat({ signedIn }: AiChatProps) {
       if (typeof data.reply !== "string" || !data.reply.trim()) throw new Error("답변을 가져오지 못했어요. 잠시 뒤 다시 보내 주세요.");
       const responseModel = configuration?.models.find(item => item.id === data.model)?.id ?? chosenModel;
       setMessages(current => [...current, { id: crypto.randomUUID(), role: "user", content }, { id: crypto.randomUUID(), role: "assistant", content: data.reply, model: responseModel }]);
-      setDraft("");
+      if (data.conversation) {
+        applyConversation(data.conversation);
+        setConversations(items => [data.conversation, ...items.filter(item => item.id !== data.conversation.id)].slice(0, 100));
+      }
+      setDraft(""); voice.speak(data.reply);
     } catch (failure) {
+      voice.stop();
       if (!controller.signal.aborted) setError(failure instanceof Error && !(failure instanceof TypeError) ? failure.message : "연결이 잠시 끊겼어요. 작성한 질문은 남아 있으니 다시 보내 주세요.");
     } finally {
       if (request.current === controller) {
@@ -154,12 +220,30 @@ export function AiChat({ signedIn }: AiChatProps) {
     <section className="ai-chat" id="ai-chat" aria-label="AI 영어 도우미">
       <div className="ai-chat-toolbar">
         <div className="ai-chat-modes" role="group" aria-label="대화 모드">
-          <button type="button" aria-pressed={mode === "parent"} disabled={busy} onClick={() => mode !== "parent" && startFresh("parent")}><Sparkles size={16} aria-hidden="true" />부모 영어 놀이</button>
-          <button type="button" aria-pressed={mode === "practice"} disabled={busy} onClick={() => mode !== "practice" && startFresh("practice")}><MessageCircle size={16} aria-hidden="true" />영어 회화 연습</button>
+          <button type="button" aria-pressed={mode === "parent"} disabled={busy || historyLoading} onClick={() => mode !== "parent" && startFresh("parent")}><Sparkles size={16} aria-hidden="true" />부모 영어 놀이</button>
+          <button type="button" aria-pressed={mode === "practice"} disabled={busy || historyLoading} onClick={() => mode !== "practice" && startFresh("practice")}><MessageCircle size={16} aria-hidden="true" />영어 회화 연습</button>
         </div>
-        <button type="button" className="ai-chat-new" disabled={busy || (!messages.length && !draft)} onClick={() => startFresh()}><Plus size={16} aria-hidden="true" />새 대화</button>
+        <button type="button" className="ai-chat-new" disabled={busy || historyLoading || (!messages.length && !draft)} onClick={() => startFresh()}><Plus size={16} aria-hidden="true" />새 대화</button>
       </div>
 
+      <div className="ai-chat-history">
+        <label htmlFor="ai-history">내 대화 내역</label>
+        <select id="ai-history" value={conversations.some(item => item.id === conversationId) ? conversationId : ""} disabled={busy || historyLoading} onChange={event => { if (event.target.value) void openConversation(event.target.value); else startFresh(); }}>
+          <option value="">새 대화</option>{conversations.map(item => <option value={item.id} key={item.id}>{item.title}</option>)}
+        </select>
+        <button type="button" disabled={busy || historyLoading} onClick={reloadHistory}><RefreshCw size={14} aria-hidden="true" />내역 새로고침</button>
+        <button type="button" disabled={busy || historyLoading || !conversations.some(item => item.id === conversationId)} onClick={() => void deleteConversation()}><Trash2 size={14} aria-hidden="true" />대화 삭제</button>
+      </div>
+      {historyLoading && <p className="ai-chat-notice" role="status">저장된 대화를 불러오고 있어요…</p>}
+      {historyError && <p className="ai-chat-banner ai-chat-error" role="alert">{historyError}</p>}
+
+      <div className="ai-chat-voice">
+        <button type="button" aria-pressed={voice.active} disabled={!voice.available || (!voice.active && (!canCompose || busy || Boolean(draft)))} onClick={() => { if (voice.active) voice.stop(); else { setError(""); voice.start(); } }}><Mic size={16} aria-hidden="true" />{voice.active ? "음성 대화 종료" : "음성 대화 시작"}</button>
+        <button type="button" disabled={!voice.available || busy || !messages.some(item => item.role === "assistant")} onClick={() => { voice.stop(); voice.speak(messages.filter(item => item.role === "assistant").at(-1)!.content, false); }}><Volume2 size={16} aria-hidden="true" />마지막 답변 듣기</button>
+        <button type="button" onClick={voice.stop} disabled={voice.status === "음성 대화 꺼짐"}>음성 중지</button>
+        <span role="status">{voice.status}</span>
+        <small>{voice.available ? "마이크를 허용하면 말한 내용이 자동 전송되고, 답변을 읽은 뒤 다시 듣습니다. 음성은 브라우저 제공 서비스로 전송될 수 있어요. 화면을 벗어나면 마이크를 끕니다." : "이 브라우저에서는 음성 대화를 지원하지 않아요. Chrome에서 시도하거나 텍스트로 대화해 주세요."}</small>
+      </div>
       <div className="ai-chat-model-row">
         <div className="ai-chat-model-choice">
           <label htmlFor="ai-model">AI 모델</label>
@@ -190,7 +274,7 @@ export function AiChat({ signedIn }: AiChatProps) {
 
       {error && <div className="ai-chat-banner ai-chat-error" role="alert"><p>{error}</p>{!loginRequired && <button type="button" disabled={!canSend} onClick={() => void sendMessage()}><RefreshCw size={14} aria-hidden="true" />다시 보내기</button>}</div>}
       {notice && <p className="ai-chat-notice" role="status">{notice}</p>}
-      {conversationFull && <div className="ai-chat-banner" role="status"><p>이번 대화에서 10번의 이야기를 나눴어요. 새 대화로 이어가 주세요.</p></div>}
+      {conversationFull && <div className="ai-chat-banner" role="status"><p>이번 대화에서 100번의 이야기를 나눴어요. 새 대화로 이어가 주세요.</p></div>}
       {!conversationFull && contextTooLong && <div className="ai-chat-banner" role="status"><p>대화가 길어졌어요. 질문을 줄이거나 새 대화를 시작해 주세요. 한 대화에 담을 수 있는 길이는 총 12,000자예요.</p></div>}
 
       <form className="ai-chat-composer" onSubmit={event => { event.preventDefault(); void sendMessage(); }}>
@@ -198,7 +282,7 @@ export function AiChat({ signedIn }: AiChatProps) {
         <textarea ref={composer} id="ai-message" aria-label="AI에게 보낼 메시지" aria-describedby="ai-chat-privacy ai-chat-memory" placeholder={suggestedMessage} rows={3} maxLength={maxCharacters} disabled={!canCompose || busy || conversationFull} value={draft} onChange={event => { setDraft(event.target.value); setError(""); }} onKeyDown={event => { if (event.key === "Tab" && !event.shiftKey && !event.ctrlKey && !event.altKey && !event.metaKey && !event.nativeEvent.isComposing && !draft && canCompose) { event.preventDefault(); setDraft(suggestedMessage); setError(""); return; } if (event.key === "Enter" && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); void sendMessage(); } }} />
         <div className="ai-chat-composer-bottom"><span>{draft.length.toLocaleString()} / 2,000<span className="ai-chat-key-hint"> · Shift + Enter 줄바꿈</span></span>{busy ? <button key="stop" type="button" className="ai-chat-stop" onClick={event => { event.preventDefault(); stopResponse(); }}><Square size={13} fill="currentColor" aria-hidden="true" />응답 중지</button> : <button key="send" type="submit" className="ai-chat-send" disabled={!canSend}>보내기<ArrowUp size={17} aria-hidden="true" /></button>}</div>
       </form>
-      <div className="ai-chat-privacy"><p id="ai-chat-memory">빈 입력창에서 Tab을 누르면 추천 질문을 채워요. 대화는 이 화면에만 유지되며, 새로고침하거나 페이지를 나가면 사라져요.</p><p id="ai-chat-privacy">입력한 대화는 답변 생성을 위해 OpenAI로 전송됩니다. 아이의 이름 등 개인정보는 입력하지 마세요.</p></div>
+      <div className="ai-chat-privacy"><p id="ai-chat-memory">빈 입력창에서 Tab을 누르면 추천 질문을 채워요. 완료된 대화는 로그인한 계정에 저장되며 다시 접속하면 이어갈 수 있어요. 최근 대화부터 AI에 전달해요.</p><p id="ai-chat-privacy">입력한 대화는 답변 생성을 위해 OpenAI로 전송됩니다. 아이의 이름 등 개인정보는 입력하지 마세요.</p></div>
     </section>
   );
 }

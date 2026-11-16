@@ -20,6 +20,7 @@ test("선택한 모델로 대화하고 응답의 모델명을 표시한다", asy
   await expect(page.getByTestId("ai-message-assistant")).toContainText("Roll the ball!");
   await expect(page.getByTestId("ai-message-assistant")).toContainText("GPT-6 Sol");
   expect(payload).toEqual({
+    conversationId: expect.any(String), revision: 0, turnId: expect.any(String),
     model: "gpt-6-sol",
     mode: "parent",
     messages: [{ role: "user", content: "공으로 하는 영어 놀이를 알려줘" }],
