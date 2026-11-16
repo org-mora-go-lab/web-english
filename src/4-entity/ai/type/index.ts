@@ -4,6 +4,8 @@ export type AiModel = {
   description: string;
 };
 
+export type { RealtimeEvent, VoiceObserverOptions } from "./realtime";
+
 export type AiMode = "parent" | "practice";
 
 export type AiMessage = {

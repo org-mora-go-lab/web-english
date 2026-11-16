@@ -1,24 +1,24 @@
 import { expect, test } from "@playwright/test";
 
 import { createAccount } from "../../__util__";
-import { type AiRequest, mockAiModels } from "../01. AI 대화/__mock__";
-import { finishSpeaking, mockVoice, say, voiceStarts } from "./__mock__";
+import { mockAiModels } from "../01. AI 대화/__mock__";
+import { mockVoice, voiceEvent, voiceState } from "./__mock__";
 
-test("음성을 전송하고 답변을 읽은 뒤 다음 음성 대화를 이어간다", async ({ page }) => {
+test("고급 음성 연결에서 서버가 저장한 전사문과 답변을 표시한다", async ({ page }) => {
   await mockVoice(page); await createAccount(page); await mockAiModels(page);
-  const requests: AiRequest[] = [];
-  await page.route("**/api/ai/chat", async route => { requests.push(route.request().postDataJSON()); await route.fulfill({ json: { reply: "Hello, how are you?", model: "gpt-6-luna" } }); });
   await page.goto("/ai");
   await page.getByRole("button", { name: "영어 회화 연습", exact: true }).click();
-  await page.getByRole("button", { name: "음성 대화 시작", exact: true }).click();
-  await say(page, "Hello, I am happy.");
-  await expect(page.getByTestId("ai-message-assistant")).toBeVisible();
-  await expect.poll(() => page.evaluate(() => (window as unknown as { __voice: { spoken: string[] } }).__voice.spoken)).toEqual(["Hello, how are you?"]);
-  await finishSpeaking(page);
-  await expect.poll(() => voiceStarts(page)).toBe(2);
-  await say(page, "How about you?");
-  await expect(page.getByTestId("ai-message-assistant")).toHaveCount(2);
-  expect(requests[1].messages).toEqual([{ role: "user", content: "Hello, I am happy." }, { role: "assistant", content: "Hello, how are you?" }, { role: "user", content: "How about you?" }]);
-  await page.getByRole("button", { name: "음성 대화 종료", exact: true }).click();
-  await expect(page.getByRole("button", { name: "음성 대화 시작", exact: true })).toHaveAttribute("aria-pressed", "false");
+  await page.getByRole("button", { name: "고급 음성 시작", exact: true }).click();
+  await expect.poll(async () => (await voiceState(page)).enabled).toBe(true);
+  const input = (await voiceState(page)).requests[0];
+  expect(input).toMatchObject({ mode: "practice", voice: "marin", revision: 0 });
+  await voiceEvent(page, { kind: "user", text: "How are you?" });
+  await expect(page.getByTestId("ai-message-pending")).toContainText("How are you?");
+  await voiceEvent(page, { kind: "saved", conversation: { id: input.conversationId, title: "How are you?", mode: "practice", model: "gpt-realtime-2.1", revision: 1, updatedAt: Date.now(), messages: [{ id: "user-1", role: "user", content: "How are you?" }, { id: "assistant-1", role: "assistant", content: "I'm well. How about you?", model: "gpt-realtime-2.1" }] } });
+  await expect(page.getByTestId("ai-message-assistant")).toContainText("GPT Realtime 2.1");
+  await expect(page.getByTestId("ai-message-assistant")).toContainText("I'm well.");
+  await expect(page.getByTestId("ai-message-pending")).toHaveCount(0);
+  await expect(page.getByRole("textbox", { name: "AI에게 보낼 메시지" })).toBeDisabled();
+  await page.getByRole("button", { name: "고급 음성 종료", exact: true }).click();
+  await expect(page.getByRole("textbox", { name: "AI에게 보낼 메시지" })).toBeEnabled();
 });

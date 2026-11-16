@@ -1,9 +1,9 @@
-export type Recognition = {
-  lang: string; continuous: boolean; interimResults: boolean;
-  onresult: ((event: { results: { isFinal: boolean; [index: number]: { transcript: string } }[] }) => void) | null;
-  onerror: ((event: { error: string }) => void) | null;
-  onend: (() => void) | null;
-  start(): void; abort(): void;
+import type { ChatMode, SavedConversation } from "./chat-state";
+
+export type AiVoiceOptions = {
+  conversationId: string; revision: number; mode: ChatMode; voice: "marin" | "cedar";
+  onTranscript: (text: string) => void;
+  onConversation: (conversation: SavedConversation) => void;
+  onError: (message: string) => void;
+  onNotice: (message: string) => void;
 };
-export type VoiceWindow = Window & { SpeechRecognition?: new () => Recognition; webkitSpeechRecognition?: new () => Recognition };
-export type AiVoiceOptions = { language: string; onTranscript: (text: string) => void; onError: (message: string) => void };

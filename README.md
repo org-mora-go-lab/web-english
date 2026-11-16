@@ -53,7 +53,11 @@ http://localhost:3200 에서 실행합니다. `.env.local`의 `AUTH_SECRET`을 �
 
 서버는 [Responses API](https://developers.openai.com/api/docs/guides/text)를 사용합니다. API 키를 클라이언트에 전달하지 않고 로그인·요청 출처·허용 모델·입력 길이를 검사합니다. 계정별 분당 5회/일 30회와 전체 일 100회 제한을 DB에 저장합니다. 전체 일 제한은 `OPENAI_GLOBAL_DAILY_LIMIT`으로 1~1000 범위에서 조정할 수 있습니다. 제한은 요청 횟수이며 금액 한도가 아닙니다. 답변은 최대 1200 출력 토큰, 요청 시간은 45초로 제한하며 서버가 자동으로 재시도하지 않습니다. 클라이언트 중지는 이미 처리된 요청의 비용을 취소하지 않습니다.
 
-Chrome의 음성 대화 시작을 누르고 마이크를 허용하면 말한 문장이 자동 전송됩니다. AI 답변을 브라우저 음성으로 읽은 뒤 다음 발화를 듣습니다. 영어 회화는 en-US, 부모 놀이는 ko-KR를 사용합니다. 음성 종료·페이지 이탈·화면 숨김·대화 전환 시 마이크와 읽기를 중지합니다. 브라우저 음성 인식은 제공업체 서비스에 오디오를 전송할 수 있으며 앱 서버에는 오디오 파일을 저장하지 않습니다. 지원하지 않는 브라우저는 텍스트 대화를 제공합니다. 음성 입력·읽기용 별도 유료 API는 추가하지 않았습니다. 실제 음성 품질과 지원 여부는 브라우저·기기에 따라 다릅니다. [브라우저 음성 API 안내](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API)를 참고하세요.
+고급 음성 시작을 누르고 마이크를 허용하면 OpenAI GPT Realtime 2.1과 WebRTC로 직접 대화합니다. Marin/Cedar 목소리를 선택하고 의미 기반 발화 감지와 끼어들기를 사용합니다. 브라우저 SpeechRecognition·SpeechSynthesis는 사용하지 않습니다. 서버의 `englishVoiceAgent`가 성인 보호자를 위한 영어 코치 지침과 저장된 최근 문맥을 설정하므로 별도 Agent Builder 리소스나 외부 도구 권한은 필요하지 않습니다. 텍스트 모델 선택은 텍스트 대화에 적용되고 고급 음성은 전용 Realtime 모델을 사용합니다.
+
+API 키는 서버에만 보관하고 SDP 교환을 중계합니다. 서버가 OpenAI sideband WebSocket에서 직접 받은 전사문·완료된 답변만 계정에 저장합니다. 취소된 답변은 저장하지 않습니다. 연결당 최대 3분·완료된 답변 10회, 계정당 동시 연결 1개입니다. 세션 생성은 기존 계정별·전체 요청 한도에 포함됩니다. 시작 전에 API 키에 Realtime 사용 권한과 모델 이용 권한이 있어야 합니다. 종료·화면 숨김·이탈·연결 오류 때 오디오 트랙과 peer connection을 닫고 서버에서 call hangup을 요청합니다. 요청 횟수와 시간 제한은 금액 한도가 아니므로 OpenAI 프로젝트 예산도 별도로 설정하세요.
+
+오디오는 OpenAI로 직접 전송되고 앱 DB에는 음성 파일을 저장하지 않습니다. AI 생성 음성임을 화면에 안내합니다. WebRTC·마이크를 사용할 수 없는 브라우저는 텍스트 대화를 제공하고, 자동 재연결이나 무단 마이크 시작은 하지 않습니다. 자동화 테스트는 합성 장치·모의 연결로 흐름을 검증하며 실제 음질은 네트워크·장치·환경에 따라 다릅니다. [Realtime 연결](https://developers.openai.com/api/docs/guides/voice-webrtc?api=realtime), [서버 제어](https://developers.openai.com/api/docs/guides/voice-server-controls?api=realtime), [모델](https://developers.openai.com/api/docs/models/gpt-realtime-2.1)을 참고하세요. Vercel의 음성 요청은 `maxDuration=240`을 사용하므로 해당 실행 시간을 지원하는 Fluid compute 환경이 필요합니다.
 
 OpenAI API는 무료 도구가 아니며 계정의 크레딧과 사용량 요금이 적용됩니다. 키 생성과 앱 연결은 크레딧 구매를 수행하지 않습니다. OpenAI 프로젝트의 사용 한도와 [API 요금](https://openai.com/api/pricing/)을 별도로 확인하세요. 요청에는 `store: false`를 사용하지만, 이는 OpenAI의 모든 데이터 보관을 해제한다는 뜻은 아닙니다. 테스트는 로컬 DB와 모의 응답을 사용하며 실제 유료 API를 호출하지 않습니다.
 

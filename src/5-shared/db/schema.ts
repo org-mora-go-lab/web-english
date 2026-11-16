@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import { index, integer, primaryKey, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
 
 export const users = sqliteTable("users", {
@@ -33,6 +34,18 @@ export const aiConversations = sqliteTable("ai_conversations", {
   createdAt: integer("created_at").notNull(),
   updatedAt: integer("updated_at").notNull(),
 }, (table) => [index("ai_conversations_user_updated_idx").on(table.userId, table.updatedAt)]);
+
+export const aiVoiceSessions = sqliteTable("ai_voice_sessions", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  conversationId: text("conversation_id").notNull(),
+  callId: text("call_id").notNull(),
+  mode: text("mode", { enum: ["parent", "practice"] }).notNull(),
+  revision: integer("revision").notNull(),
+  status: text("status", { enum: ["created", "active", "ended"] }).notNull().default("created"),
+  createdAt: integer("created_at").notNull(),
+  expiresAt: integer("expires_at").notNull(),
+}, (table) => [index("ai_voice_sessions_user_expiry_idx").on(table.userId, table.expiresAt), uniqueIndex("ai_voice_sessions_user_active_unique").on(table.userId).where(sql`status != 'ended'`)]);
 
 export const categories = sqliteTable("categories", {
   id: text("id").primaryKey(),

@@ -4,6 +4,8 @@
   .ai-chat-history button, .ai-chat-voice button { display: inline-flex; align-items: center; gap: 6px; padding: 10px; border-radius: 9px; background: #edf3e7; color: #34583c; }
   .ai-chat-voice button[aria-pressed="true"] { background: #345e3b; color: white; }
   .ai-chat-voice small { flex-basis: 100%; font-size: 11px; line-height: 1.8; color: #718072; }
+  .ai-chat-voice > strong { flex-basis: 100%; font-size: 13px; color: #345e3b; }
+  .ai-chat-voice select { border: 1px solid #dce4d7; border-radius: 9px; padding: 9px; background: white; max-width: 100%; }
   overflow: hidden;
   border: 1px solid #dfe5da;
   border-radius: 24px;
