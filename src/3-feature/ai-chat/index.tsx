@@ -46,6 +46,7 @@ export function AiChat({ signedIn }: AiChatProps) {
     configurationRequest.current = controller;
     try {
       const response = await fetch("/api/ai/models", { signal: controller.signal, cache: "no-store" });
+      if (response.status === 401) { setLoginRequired(true); return; }
       if (!response.ok) throw new Error("configuration");
       const data = await response.json() as ChatConfiguration;
       if (!Array.isArray(data.models) || typeof data.configured !== "boolean") throw new Error("configuration");
@@ -73,6 +74,7 @@ export function AiChat({ signedIn }: AiChatProps) {
   }, [messages, pendingQuestion]);
 
   const activeModel = configuration?.models.find(item => item.id === model);
+  const suggestedMessage = mode === "parent" ? "공놀이할 때 아이에게 무슨 영어를 해주면 좋을까요?" : "I'd like to practice talking about my day.";
   const conversationFull = messages.length >= maxMessages;
   const contextTooLong = messages.reduce((total, item) => total + item.content.length, 0) + draft.trim().length > 12000;
   const canCompose = !loginRequired && Boolean(configuration?.configured && activeModel) && !configurationLoading && !configurationError;
@@ -193,10 +195,10 @@ export function AiChat({ signedIn }: AiChatProps) {
 
       <form className="ai-chat-composer" onSubmit={event => { event.preventDefault(); void sendMessage(); }}>
         <label className="ai-chat-composer-label" htmlFor="ai-message">부모님의 한마디</label>
-        <textarea ref={composer} id="ai-message" aria-label="AI에게 보낼 메시지" aria-describedby="ai-chat-privacy ai-chat-memory" placeholder={mode === "parent" ? "예: 공놀이할 때 아이에게 무슨 영어를 해주면 좋을까요?" : "예: I'd like to practice talking about my day."} rows={3} maxLength={maxCharacters} disabled={!canCompose || busy || conversationFull} value={draft} onChange={event => { setDraft(event.target.value); setError(""); }} onKeyDown={event => { if (event.key === "Enter" && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); void sendMessage(); } }} />
+        <textarea ref={composer} id="ai-message" aria-label="AI에게 보낼 메시지" aria-describedby="ai-chat-privacy ai-chat-memory" placeholder={suggestedMessage} rows={3} maxLength={maxCharacters} disabled={!canCompose || busy || conversationFull} value={draft} onChange={event => { setDraft(event.target.value); setError(""); }} onKeyDown={event => { if (event.key === "Tab" && !event.shiftKey && !event.ctrlKey && !event.altKey && !event.metaKey && !event.nativeEvent.isComposing && !draft && canCompose) { event.preventDefault(); setDraft(suggestedMessage); setError(""); return; } if (event.key === "Enter" && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); void sendMessage(); } }} />
         <div className="ai-chat-composer-bottom"><span>{draft.length.toLocaleString()} / 2,000<span className="ai-chat-key-hint"> · Shift + Enter 줄바꿈</span></span>{busy ? <button key="stop" type="button" className="ai-chat-stop" onClick={event => { event.preventDefault(); stopResponse(); }}><Square size={13} fill="currentColor" aria-hidden="true" />응답 중지</button> : <button key="send" type="submit" className="ai-chat-send" disabled={!canSend}>보내기<ArrowUp size={17} aria-hidden="true" /></button>}</div>
       </form>
-      <div className="ai-chat-privacy"><p id="ai-chat-memory">대화는 이 화면에만 유지되며, 새로고침하거나 페이지를 나가면 사라져요.</p><p id="ai-chat-privacy">입력한 대화는 답변 생성을 위해 OpenAI로 전송됩니다. 아이의 이름 등 개인정보는 입력하지 마세요.</p></div>
+      <div className="ai-chat-privacy"><p id="ai-chat-memory">빈 입력창에서 Tab을 누르면 추천 질문을 채워요. 대화는 이 화면에만 유지되며, 새로고침하거나 페이지를 나가면 사라져요.</p><p id="ai-chat-privacy">입력한 대화는 답변 생성을 위해 OpenAI로 전송됩니다. 아이의 이름 등 개인정보는 입력하지 마세요.</p></div>
     </section>
   );
 }
