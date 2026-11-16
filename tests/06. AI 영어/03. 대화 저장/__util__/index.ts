@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 import { createClient } from "@libsql/client";
 
 export async function seedConversation(email: string, title = "공놀이 영어") {
-  const client = createClient({ url: "file:./.tmp/e2e.sqlite" });
+  const client = createClient({ url: "file:./.tmp/e2e.sqlite", timeout: 5000 });
   try {
     const account = await client.execute({ sql: "SELECT id FROM users WHERE email = ?", args: [email] });
     const id = randomUUID();

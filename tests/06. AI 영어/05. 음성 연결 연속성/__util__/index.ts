@@ -5,7 +5,7 @@ import { createClient } from "@libsql/client";
 export const voiceInput = (conversationId = randomUUID(), revision = 0) => ({ sdp: "v=0\r\nm=audio 9 UDP/TLS/RTP/SAVPF 111\r\n", conversationId, revision, mode: "parent", voice: "marin" });
 
 export async function seedLongVoiceConversation(email: string) {
-  const client = createClient({ url: "file:./.tmp/e2e.sqlite" });
+  const client = createClient({ url: "file:./.tmp/e2e.sqlite", timeout: 5000 });
   try {
     const account = await client.execute({ sql: "SELECT id FROM users WHERE email = ?", args: [email] });
     const id = randomUUID();
@@ -16,7 +16,7 @@ export async function seedLongVoiceConversation(email: string) {
 }
 
 export async function seedEndedVoice(email: string, renewable = false, reused = false) {
-  const client = createClient({ url: "file:./.tmp/e2e.sqlite" });
+  const client = createClient({ url: "file:./.tmp/e2e.sqlite", timeout: 5000 });
   try {
     const account = await client.execute({ sql: "SELECT id FROM users WHERE email = ?", args: [email] });
     const id = randomUUID(); const conversationId = randomUUID();
