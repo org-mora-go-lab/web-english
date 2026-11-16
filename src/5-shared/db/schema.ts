@@ -36,6 +36,7 @@ export const aiConversations = sqliteTable("ai_conversations", {
 }, (table) => [index("ai_conversations_user_updated_idx").on(table.userId, table.updatedAt)]);
 
 export const aiVoiceSessions = sqliteTable("ai_voice_sessions", {
+  voice: text("voice").notNull().default("marin"),
   id: text("id").primaryKey(),
   userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   conversationId: text("conversation_id").notNull(),

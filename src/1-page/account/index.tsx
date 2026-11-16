@@ -19,7 +19,7 @@ async function post(path: string, body: unknown) {
   return data;
 }
 
-export function Account({ mode, returnTo = "/studio", kakaoEnabled = false }: AccountProps) {
+export function Account({ mode, returnTo = "/", kakaoEnabled = false }: AccountProps) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
@@ -41,12 +41,12 @@ export function Account({ mode, returnTo = "/studio", kakaoEnabled = false }: Ac
         await post("/api/account/signup", { email, password, passwordConfirmation: confirmation, displayName });
         const result = await signIn("credentials", { email, password, redirect: false });
         if (result?.error) throw new Error("가입을 완료할 수 없습니다. 입력한 이메일로 로그인할 수 있는지 확인해 주세요.");
-        router.push("/studio");
+        router.push("/");
         router.refresh();
       } else if (mode === "login") {
         const result = await signIn("credentials", { email, password, redirect: false });
         if (result?.error) throw new Error("로그인 정보를 확인해 주세요.");
-        router.push(returnTo.startsWith("/") && !returnTo.startsWith("//") ? returnTo : "/studio");
+        router.push(returnTo.startsWith("/") && !returnTo.startsWith("//") ? returnTo : "/");
         router.refresh();
       }
     } catch (cause) { setError(cause instanceof Error ? cause.message : "요청을 처리하지 못했습니다."); }
@@ -61,7 +61,7 @@ export function Account({ mode, returnTo = "/studio", kakaoEnabled = false }: Ac
         <p className="mt-2 text-sm text-slate-600">{headings[mode][1]}</p>
         {error && <p role="alert" className="mt-5 rounded-xl bg-red-50 p-3 text-sm text-red-700">{error}</p>}
         {message && <p role="status" className="mt-5 rounded-xl bg-green-50 p-3 text-sm text-green-800">{message}</p>}
-        {kakaoEnabled && <><button type="button" disabled={busy || !hydrated} onClick={() => void signIn("kakao", { callbackUrl: returnTo.startsWith("/") && !returnTo.startsWith("//") ? returnTo : "/studio" })} className="mt-7 w-full rounded-xl bg-[#FEE500] px-4 py-3 font-semibold text-slate-950 hover:bg-[#f7dc00] disabled:opacity-50">카카오로 계속하기</button><p className="mt-3 text-center text-xs text-slate-500">기존 이메일 계정과 자동으로 합쳐지지 않습니다.</p><div className="my-5 flex items-center gap-3 text-xs text-slate-500"><span className="h-px flex-1 bg-slate-200"/>또는 이메일로 계속<span className="h-px flex-1 bg-slate-200"/></div></>}
+        {kakaoEnabled && <><button type="button" disabled={busy || !hydrated} onClick={() => void signIn("kakao", { callbackUrl: returnTo.startsWith("/") && !returnTo.startsWith("//") ? returnTo : "/" })} className="mt-7 w-full rounded-xl bg-[#FEE500] px-4 py-3 font-semibold text-slate-950 hover:bg-[#f7dc00] disabled:opacity-50">카카오로 계속하기</button><p className="mt-3 text-center text-xs text-slate-500">기존 이메일 계정과 자동으로 합쳐지지 않습니다.</p><div className="my-5 flex items-center gap-3 text-xs text-slate-500"><span className="h-px flex-1 bg-slate-200"/>또는 이메일로 계속<span className="h-px flex-1 bg-slate-200"/></div></>}
           <form onSubmit={submit} className="mt-7 space-y-4">
             <label className="block text-sm font-medium">이메일<input type="email" required disabled={!hydrated} autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3" /></label>
             {mode === "signup" && <label className="block text-sm font-medium">닉네임<input required disabled={!hydrated} minLength={2} maxLength={40} autoComplete="nickname" value={displayName} onChange={(event) => setDisplayName(event.target.value)} className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3" /></label>}

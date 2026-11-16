@@ -1,3 +1,4 @@
+import "@/src/3-feature/ai-chat/index.scss";
 import "@/src/5-shared/style/global.scss";
 import "@/src/5-shared/style/tailwind.css";
 import "@/src/1-page/home/index.scss";
@@ -7,10 +8,6 @@ import "@/src/1-page/account/index.scss";
 import "@/src/1-page/account-settings/index.scss";
 import "@/src/1-page/post-list/index.scss";
 import "@/src/1-page/post-detail/index.scss";
-import "@/src/1-page/post-editor/index.scss";
-import "@/src/1-page/studio/index.scss";
-import "@/src/1-page/post-import/index.scss";
-import "@/src/1-page/media-manager/index.scss";
 import "@/src/1-page/learning-context/index.scss";
 import "@/src/1-page/learn/index.scss";
 import "@/src/1-page/learning-progress/index.scss";

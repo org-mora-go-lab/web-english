@@ -31,7 +31,7 @@ export function AccountSettings({ email, displayName, profileImageUrl, isKakao }
     finally { setBusy(false); }
   }
   return <main className="account-settings mx-auto max-w-2xl space-y-8 px-4 py-10 text-slate-900">
-    <nav className="flex flex-wrap items-center justify-between gap-3"><Link href="/" className="font-bold text-orange-700">mora english</Link><div className="flex gap-4 text-sm"><Link href="/studio">내 글</Link><button onClick={() => signOut({ callbackUrl: "/login" })}>로그아웃</button></div></nav>
+    <nav className="flex flex-wrap items-center justify-between gap-3"><Link href="/" className="font-bold text-orange-700">mora english</Link><div className="flex gap-4 text-sm"><Link href="/">놀이로 돌아가기</Link><button onClick={() => signOut({ callbackUrl: "/login" })}>로그아웃</button></div></nav>
     <h1 className="text-3xl font-bold">계정 설정</h1>
     <div className="rounded-2xl border p-5"><AccountIdentity displayName={displayName} profileImageUrl={profileImageUrl} />{isKakao && <p className="mt-3 text-sm text-slate-600">카카오 계정으로 로그인했습니다. 이름과 사진은 카카오 프로필에서 변경한 뒤 다시 로그인하면 반영됩니다.</p>}</div>
     {message && <p role="status" className="rounded-xl bg-green-50 p-3 text-green-800">{message}</p>}

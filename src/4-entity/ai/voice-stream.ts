@@ -108,7 +108,7 @@ export async function watchRealtimeSession(userId: string, connection: { session
             const conversation = row.revision ? await getAiConversation(userId, row.conversationId) : null;
             if ((conversation?.revision ?? 0) !== row.revision) { emit({ kind: "warm-stale" }); return; }
             contextRequest = row.warmRequestId; contextRevision = row.revision; contextUpdating = true;
-            ws.send(JSON.stringify({ type: "session.update", session: { type: "realtime", instructions: voiceInstructions(row.mode, recentAiContext(conversation?.messages ?? [])) } }));
+            ws.send(JSON.stringify({ type: "session.update", session: { type: "realtime", instructions: voiceInstructions(row.mode, recentAiContext(conversation?.messages ?? []), row.voice) } }));
           }
           if (owned && !recording && !row.warmPending) {
             observer = await createObserver(row.revision); recording = true;
