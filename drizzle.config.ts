@@ -12,6 +12,7 @@ export default defineConfig({
   dialect: "turso",
   dbCredentials: {
     url: databaseUrl,
-    authToken: process.env.TURSO_AUTH_TOKEN,
+    // Drizzle Kit requires a nonempty token even though file-backed libsql ignores it.
+    authToken: process.env.TURSO_AUTH_TOKEN || (databaseUrl.startsWith("file:") ? "local-file-unused-token" : undefined),
   },
 });

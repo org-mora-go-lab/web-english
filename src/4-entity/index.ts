@@ -1,3 +1,4 @@
+export * from "./ai";
 export * from "./family";
 export type { Lesson } from "./lesson";
 export { categories, lessons, lessonVideos, songs, useBrowse, useCaptionPreference, useLibrary } from "./lesson";

@@ -16,6 +16,6 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run test:e2e:structure
-      - run: npm run build
       - run: npx playwright install --with-deps chromium webkit
+      # E2E builds and starts Next.js with the isolated test environment.
       - run: npm run test:e2e

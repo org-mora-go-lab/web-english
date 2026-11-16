@@ -11,13 +11,28 @@ import { checkRateLimit, findUserByEmail, findUserById, upsertKakaoUser, verifyP
 const dummyHash = argon2.hash("not-a-real-account-password", { type: argon2.argon2id });
 export const kakaoEnabled = Boolean(process.env.AUTH_KAKAO_ID && process.env.AUTH_KAKAO_SECRET);
 
+function hasLocalHttpAuthUrl() {
+  if (!process.env.AUTH_URL) return false;
+  try {
+    const url = new URL(process.env.AUTH_URL);
+    return url.protocol === "http:"
+      && (url.hostname === "localhost" || url.hostname === "127.0.0.1")
+      && !url.username && !url.password;
+  } catch {
+    return false;
+  }
+}
+
+// Local production previews still use HTTP; deployed hosts keep Secure session cookies.
+const secureSessionCookie = process.env.NODE_ENV === "production" && !hasLocalHttpAuthUrl();
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   trustHost: true,
   session: { strategy: "jwt", maxAge: 30 * 24 * 60 * 60 },
   cookies: {
     sessionToken: {
-      name: process.env.NODE_ENV === "production" ? "__Secure-web-english.session-token" : "web-english.session-token",
-      options: { httpOnly: true, sameSite: "lax", path: "/", secure: process.env.NODE_ENV === "production" },
+      name: secureSessionCookie ? "__Secure-web-english.session-token" : "web-english.session-token",
+      options: { httpOnly: true, sameSite: "lax", path: "/", secure: secureSessionCookie },
     },
   },
   pages: { signIn: "/login" },

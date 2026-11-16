@@ -9,6 +9,7 @@ test("web-english 로그인 세션 쿠키는 다른 앱과 분리된다", async 
   expect(session).toBeDefined();
   expect(session?.domain).toBe("localhost");
   expect(session?.httpOnly).toBe(true);
+  expect(session?.secure).toBe(false); // Explicit HTTP localhost preview; deployed HTTPS uses Secure.
   expect(session?.sameSite).toBe("Lax");
   expect(cookies.some(cookie => cookie.name.includes("web-notepad"))).toBe(false);
 });
