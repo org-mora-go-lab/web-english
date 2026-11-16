@@ -249,11 +249,12 @@ export function AiChat({ signedIn }: AiChatProps) {
         <strong>OpenAI 고급 음성 · GPT Realtime 2.1</strong>
         <label htmlFor="ai-voice-name">목소리</label>
         <select id="ai-voice-name" value={voiceName} disabled={voice.active} onChange={event => setVoiceName(event.target.value as "marin" | "cedar")}><option value="marin">Marin</option><option value="cedar">Cedar</option></select>
-        <button type="button" aria-pressed={voice.active} disabled={!voice.available || (!voice.active && (!canCompose || busy || conversationFull || Boolean(draft)))} onClick={() => { if (voice.active) { voice.stop(); setPendingQuestion(""); } else { setError(""); setNotice(""); void voice.start(); } }}><Mic size={16} aria-hidden="true" />{voice.active ? "고급 음성 종료" : "고급 음성 시작"}</button>
+        <button type="button" aria-pressed={voice.active} disabled={!voice.available || (!voice.active && (!canCompose || busy || Boolean(draft)))} onClick={() => { if (voice.active) { voice.stop(); setPendingQuestion(""); } else { setError(""); setNotice(""); void voice.start(); } }}><Mic size={16} aria-hidden="true" />{voice.active ? "고급 음성 종료" : "고급 음성 시작"}</button>
         <button type="button" disabled={!voice.active} aria-pressed={voice.muted} onClick={voice.toggleMute}>{voice.muted ? "마이크 켜기" : "마이크 끄기"}</button>
         {voice.audioBlocked && <button type="button" onClick={voice.resumeAudio}>소리 재생 허용</button>}
-        <span role="status">{voice.muted ? "마이크가 꺼져 있어요." : voice.status}</span>
-        <small>{voice.available ? "AI가 생성하는 음성입니다. 마이크 음성은 OpenAI로 전송되며 전사문과 완료된 답변을 내 계정에 저장합니다. 최대 3분·10회 대화 후 다시 연결할 수 있어요. 고급 음성은 전용 모델을 사용하며 아래 모델 선택은 텍스트 대화에 적용됩니다. API 사용료가 적용됩니다. 종료하거나 화면을 벗어나면 마이크를 끕니다." : "이 브라우저에서는 고급 음성을 지원하지 않아요. HTTPS의 Chrome에서 시도하거나 텍스트로 대화해 주세요."}</small>
+        <span role="status">{voice.status}</span>
+        {voice.muted && <span>마이크가 꺼져 있어요.</span>}
+        <small>{voice.available ? "AI가 생성하는 음성입니다. 마이크 음성은 OpenAI로 전송되며 전사문과 완료된 답변을 내 계정에 저장합니다. 3분 제한 없이 대화할 수 있어요. 연결 갱신 시 잠시 기다리면 같은 대화를 자동으로 이어갑니다. 고급 음성은 전용 모델을 사용하며 아래 모델 선택은 텍스트 대화에 적용됩니다. API 사용료가 적용됩니다. 종료하거나 화면을 벗어나면 마이크를 끕니다." : "이 브라우저에서는 고급 음성을 지원하지 않아요. HTTPS의 Chrome에서 시도하거나 텍스트로 대화해 주세요."}</small>
       </div>
       <div className="ai-chat-model-row">
         <div className="ai-chat-model-choice">
@@ -285,7 +286,7 @@ export function AiChat({ signedIn }: AiChatProps) {
 
       {error && <div className="ai-chat-banner ai-chat-error" role="alert"><p>{error}</p>{!loginRequired && <button type="button" disabled={!canSend} onClick={() => void sendMessage()}><RefreshCw size={14} aria-hidden="true" />다시 보내기</button>}</div>}
       {notice && <p className="ai-chat-notice" role="status">{notice}</p>}
-      {conversationFull && <div className="ai-chat-banner" role="status"><p>이번 대화에서 100번의 이야기를 나눴어요. 새 대화로 이어가 주세요.</p></div>}
+      {conversationFull && !voice.active && <div className="ai-chat-banner" role="status"><p>텍스트 대화는 100회까지 가능해요. 음성으로 계속 이야기하거나 새 대화로 이어가 주세요.</p></div>}
       {!conversationFull && contextTooLong && <div className="ai-chat-banner" role="status"><p>대화가 길어졌어요. 질문을 줄이거나 새 대화를 시작해 주세요. 한 대화에 담을 수 있는 길이는 총 12,000자예요.</p></div>}
 
       <form className="ai-chat-composer" onSubmit={event => { event.preventDefault(); void sendMessage(); }}>

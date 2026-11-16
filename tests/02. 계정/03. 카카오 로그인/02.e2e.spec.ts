@@ -5,7 +5,7 @@ import { createAccount } from "../../__util__";
 
 test("회원의 프로필 이름과 이미지가 홈과 스튜디오에 표시된다", async ({ page }) => {
   const account = await createAccount(page);
-  const db = createClient({ url: "file:./.tmp/e2e.sqlite" });
+  const db = createClient({ url: "file:./.tmp/e2e.sqlite", timeout: 5000 });
   try {
     await db.execute({ sql: "UPDATE users SET display_name = ?, profile_image_url = ? WHERE email = ?", args: ["카카오 학습자", "https://k.kakaocdn.net/dn/example/profile.jpg", account.email] });
   } finally { db.close(); }

@@ -17,7 +17,6 @@ export async function createVoiceObserver(options: VoiceObserverOptions) {
   const responseUsers = new Map<string, string>();
   const completed = new Set<string>();
   let latestUser = "";
-  let turns = 0;
   async function flush() {
     for (const [responseId, output] of outputs) {
       const question = users.get(output.userId);
@@ -27,9 +26,10 @@ export async function createVoiceObserver(options: VoiceObserverOptions) {
       const saved = await saveAiTurn(options.userId, input, previous, { reply: output.text, model: REALTIME_MODEL });
       if (!saved) throw new Error("Missing saved voice conversation");
       previous = saved; completed.add(responseId); outputs.delete(responseId);
-      options.onSaved?.(saved); options.emit({ kind: "saved", conversation: saved });
-      turns++;
-      if (turns >= 10 || saved.messages.length >= 200) throw new AiError("이번 음성 대화를 마쳤어요. 저장된 대화에서 다시 시작할 수 있어요.", 429, "VOICE_TURN_LIMIT");
+      users.delete(output.userId); responseUsers.delete(responseId);
+      // Persist the complete history; bound each streamed UI snapshot.
+      options.onSaved?.(saved); options.emit({ kind: "saved", conversation: { ...saved, messages: saved.messages.slice(-200) } });
+      if (completed.size > 256) completed.delete(completed.values().next().value!);
     }
   }
   return async (event: RealtimeEvent) => {
@@ -53,7 +53,7 @@ export async function createVoiceObserver(options: VoiceObserverOptions) {
     }
     if (event.type === "error") throw new AiError("OpenAI 음성 연결에 오류가 발생했어요. 다시 연결해 주세요.", 502, "VOICE_UPSTREAM_ERROR");
     if (event.type === "conversation.item.input_audio_transcription.failed") throw new AiError("말씀을 텍스트로 저장하지 못했어요. 다시 연결해 주세요.", 502, "VOICE_TRANSCRIPTION_FAILED");
-    if (users.size > 100 || responseUsers.size > 100) throw new AiError("음성 대화를 다시 시작해 주세요.", 429, "VOICE_TURN_LIMIT");
+    if (users.size > 100 || responseUsers.size > 100) throw new AiError("음성 처리 대기열을 확인하지 못했어요. 다시 연결해 주세요.", 502, "VOICE_QUEUE_FULL");
     await flush();
   };
 }
