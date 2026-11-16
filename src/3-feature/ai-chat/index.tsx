@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowDown, ArrowUp, Check, ChevronDown, MessageCircle, Mic, Plus, RefreshCw, Sparkles, Square,Trash2, Volume2 } from "lucide-react";
+import { ArrowDown, ArrowUp, Check, ChevronDown, MessageCircle, Mic, Plus, RefreshCw, Sparkles, Square, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -47,10 +47,18 @@ export function AiChat({ signedIn }: AiChatProps) {
   const [historyError, setHistoryError] = useState("");
   const historyRequest = useRef<AbortController | null>(null);
   const turn = useRef<{ key: string; id: string } | null>(null);
-  const voice = useAiVoice({ language: mode === "practice" ? "en-US" : "ko-KR", onTranscript: text => { setDraft(text); void sendMessage(text); }, onError: setError });
+  const [voiceName, setVoiceName] = useState<"marin" | "cedar">("marin");
+  const voice = useAiVoice({ conversationId, revision, mode, voice: voiceName,
+    onTranscript: setPendingQuestion,
+    onConversation: item => { applyConversation(item); setConversations(items => [item, ...items.filter(row => row.id !== item.id)].slice(0, 100)); setPendingQuestion(""); },
+    onError: message => { setPendingQuestion(""); setError(message); },
+    onNotice: message => { setPendingQuestion(""); setNotice(message); },
+  });
 
   function applyConversation(item: SavedConversation) {
-    setConversationId(item.id); setRevision(item.revision); setMessages(item.messages); setMode(item.mode); setModel(item.model); turn.current = null;
+    setConversationId(item.id); setRevision(item.revision); setMessages(item.messages); setMode(item.mode);
+    if (["gpt-6-luna", "gpt-6-sol", "gpt-6-astra"].includes(item.model)) setModel(item.model);
+    turn.current = null;
   }
 
   const loadHistory = useCallback(async () => {
@@ -133,7 +141,7 @@ export function AiChat({ signedIn }: AiChatProps) {
   const context = messages.slice(-18);
   while (context.length && context.reduce((total, item) => total + item.content.length, 0) > 10000) context.splice(0, 2);
   const contextTooLong = context.reduce((total, item) => total + item.content.length, 0) + draft.trim().length > 12000;
-  const canCompose = !loginRequired && Boolean(configuration?.configured && activeModel) && !configurationLoading && !configurationError && !historyLoading && !historyError;
+  const canCompose = !loginRequired && !voice.active && Boolean(configuration?.configured && activeModel) && !configurationLoading && !configurationError && !historyLoading && !historyError;
   const canSend = canCompose && !busy && !conversationFull && !contextTooLong && Boolean(draft.trim()) && draft.length <= maxCharacters;
 
   function retryConfiguration() {
@@ -203,7 +211,7 @@ export function AiChat({ signedIn }: AiChatProps) {
         applyConversation(data.conversation);
         setConversations(items => [data.conversation, ...items.filter(item => item.id !== data.conversation.id)].slice(0, 100));
       }
-      setDraft(""); voice.speak(data.reply);
+      setDraft("");
     } catch (failure) {
       voice.stop();
       if (!controller.signal.aborted) setError(failure instanceof Error && !(failure instanceof TypeError) ? failure.message : "연결이 잠시 끊겼어요. 작성한 질문은 남아 있으니 다시 보내 주세요.");
@@ -220,34 +228,37 @@ export function AiChat({ signedIn }: AiChatProps) {
     <section className="ai-chat" id="ai-chat" aria-label="AI 영어 도우미">
       <div className="ai-chat-toolbar">
         <div className="ai-chat-modes" role="group" aria-label="대화 모드">
-          <button type="button" aria-pressed={mode === "parent"} disabled={busy || historyLoading} onClick={() => mode !== "parent" && startFresh("parent")}><Sparkles size={16} aria-hidden="true" />부모 영어 놀이</button>
-          <button type="button" aria-pressed={mode === "practice"} disabled={busy || historyLoading} onClick={() => mode !== "practice" && startFresh("practice")}><MessageCircle size={16} aria-hidden="true" />영어 회화 연습</button>
+          <button type="button" aria-pressed={mode === "parent"} disabled={busy || historyLoading || voice.active} onClick={() => mode !== "parent" && startFresh("parent")}><Sparkles size={16} aria-hidden="true" />부모 영어 놀이</button>
+          <button type="button" aria-pressed={mode === "practice"} disabled={busy || historyLoading || voice.active} onClick={() => mode !== "practice" && startFresh("practice")}><MessageCircle size={16} aria-hidden="true" />영어 회화 연습</button>
         </div>
-        <button type="button" className="ai-chat-new" disabled={busy || historyLoading || (!messages.length && !draft)} onClick={() => startFresh()}><Plus size={16} aria-hidden="true" />새 대화</button>
+        <button type="button" className="ai-chat-new" disabled={busy || historyLoading || voice.active || (!messages.length && !draft)} onClick={() => startFresh()}><Plus size={16} aria-hidden="true" />새 대화</button>
       </div>
 
       <div className="ai-chat-history">
         <label htmlFor="ai-history">내 대화 내역</label>
-        <select id="ai-history" value={conversations.some(item => item.id === conversationId) ? conversationId : ""} disabled={busy || historyLoading} onChange={event => { if (event.target.value) void openConversation(event.target.value); else startFresh(); }}>
+        <select id="ai-history" value={conversations.some(item => item.id === conversationId) ? conversationId : ""} disabled={busy || historyLoading || voice.active} onChange={event => { if (event.target.value) void openConversation(event.target.value); else startFresh(); }}>
           <option value="">새 대화</option>{conversations.map(item => <option value={item.id} key={item.id}>{item.title}</option>)}
         </select>
-        <button type="button" disabled={busy || historyLoading} onClick={reloadHistory}><RefreshCw size={14} aria-hidden="true" />내역 새로고침</button>
-        <button type="button" disabled={busy || historyLoading || !conversations.some(item => item.id === conversationId)} onClick={() => void deleteConversation()}><Trash2 size={14} aria-hidden="true" />대화 삭제</button>
+        <button type="button" disabled={busy || historyLoading || voice.active} onClick={reloadHistory}><RefreshCw size={14} aria-hidden="true" />내역 새로고침</button>
+        <button type="button" disabled={busy || historyLoading || voice.active || !conversations.some(item => item.id === conversationId)} onClick={() => void deleteConversation()}><Trash2 size={14} aria-hidden="true" />대화 삭제</button>
       </div>
       {historyLoading && <p className="ai-chat-notice" role="status">저장된 대화를 불러오고 있어요…</p>}
       {historyError && <p className="ai-chat-banner ai-chat-error" role="alert">{historyError}</p>}
 
       <div className="ai-chat-voice">
-        <button type="button" aria-pressed={voice.active} disabled={!voice.available || (!voice.active && (!canCompose || busy || Boolean(draft)))} onClick={() => { if (voice.active) voice.stop(); else { setError(""); voice.start(); } }}><Mic size={16} aria-hidden="true" />{voice.active ? "음성 대화 종료" : "음성 대화 시작"}</button>
-        <button type="button" disabled={!voice.available || busy || !messages.some(item => item.role === "assistant")} onClick={() => { voice.stop(); voice.speak(messages.filter(item => item.role === "assistant").at(-1)!.content, false); }}><Volume2 size={16} aria-hidden="true" />마지막 답변 듣기</button>
-        <button type="button" onClick={voice.stop} disabled={voice.status === "음성 대화 꺼짐"}>음성 중지</button>
-        <span role="status">{voice.status}</span>
-        <small>{voice.available ? "마이크를 허용하면 말한 내용이 자동 전송되고, 답변을 읽은 뒤 다시 듣습니다. 음성은 브라우저 제공 서비스로 전송될 수 있어요. 화면을 벗어나면 마이크를 끕니다." : "이 브라우저에서는 음성 대화를 지원하지 않아요. Chrome에서 시도하거나 텍스트로 대화해 주세요."}</small>
+        <strong>OpenAI 고급 음성 · GPT Realtime 2.1</strong>
+        <label htmlFor="ai-voice-name">목소리</label>
+        <select id="ai-voice-name" value={voiceName} disabled={voice.active} onChange={event => setVoiceName(event.target.value as "marin" | "cedar")}><option value="marin">Marin</option><option value="cedar">Cedar</option></select>
+        <button type="button" aria-pressed={voice.active} disabled={!voice.available || (!voice.active && (!canCompose || busy || conversationFull || Boolean(draft)))} onClick={() => { if (voice.active) { voice.stop(); setPendingQuestion(""); } else { setError(""); setNotice(""); void voice.start(); } }}><Mic size={16} aria-hidden="true" />{voice.active ? "고급 음성 종료" : "고급 음성 시작"}</button>
+        <button type="button" disabled={!voice.active} aria-pressed={voice.muted} onClick={voice.toggleMute}>{voice.muted ? "마이크 켜기" : "마이크 끄기"}</button>
+        {voice.audioBlocked && <button type="button" onClick={voice.resumeAudio}>소리 재생 허용</button>}
+        <span role="status">{voice.muted ? "마이크가 꺼져 있어요." : voice.status}</span>
+        <small>{voice.available ? "AI가 생성하는 음성입니다. 마이크 음성은 OpenAI로 전송되며 전사문과 완료된 답변을 내 계정에 저장합니다. 최대 3분·10회 대화 후 다시 연결할 수 있어요. 고급 음성은 전용 모델을 사용하며 아래 모델 선택은 텍스트 대화에 적용됩니다. API 사용료가 적용됩니다. 종료하거나 화면을 벗어나면 마이크를 끕니다." : "이 브라우저에서는 고급 음성을 지원하지 않아요. HTTPS의 Chrome에서 시도하거나 텍스트로 대화해 주세요."}</small>
       </div>
       <div className="ai-chat-model-row">
         <div className="ai-chat-model-choice">
           <label htmlFor="ai-model">AI 모델</label>
-          <div className="ai-chat-select"><select id="ai-model" value={model} disabled={busy || configurationLoading || configurationError || !configuration?.models.length} onChange={event => selectModel(event.target.value)}>{configuration?.models.length ? configuration.models.map(item => <option value={item.id} key={item.id}>{item.name}</option>) : <option value="">{configurationLoading ? "모델 불러오는 중…" : configurationError ? "모델을 불러오지 못했어요" : "모델 준비 중"}</option>}</select><ChevronDown size={15} aria-hidden="true" /></div>
+          <div className="ai-chat-select"><select id="ai-model" value={model} disabled={busy || voice.active || configurationLoading || configurationError || !configuration?.models.length} onChange={event => selectModel(event.target.value)}>{configuration?.models.length ? configuration.models.map(item => <option value={item.id} key={item.id}>{item.name}</option>) : <option value="">{configurationLoading ? "모델 불러오는 중…" : configurationError ? "모델을 불러오지 못했어요" : "모델 준비 중"}</option>}</select><ChevronDown size={15} aria-hidden="true" /></div>
           {configuration && !configurationLoading && !configurationError && <span className={`ai-chat-connection ${configuration.configured ? "is-ready" : ""}`}>{configuration.configured ? <Check size={13} aria-hidden="true" /> : <span className="ai-chat-status-dot" />}{configuration.configured ? "AI 사용 가능" : "연결 준비 중"}</span>}
         </div>
         <p>{activeModel?.description ?? "부모님께 맞는 모델을 골라 보세요."}</p>
@@ -265,8 +276,8 @@ export function AiChat({ signedIn }: AiChatProps) {
           <p>{mode === "parent" ? "익숙한 하루의 장면을 알려 주세요.\n아이와 함께할 쉬운 영어와 놀이를 생각해 드릴게요." : "부모님을 위한 편안한 영어 연습이에요.\n짧은 인사나 오늘 있었던 일부터 이야기해 보세요."}</p>
           <div className="ai-chat-starters">{starterPrompts[mode].map(item => <button type="button" key={item.label} disabled={!canCompose} onClick={() => { setDraft(item.prompt); setError(""); composer.current?.focus(); }}><span>{item.label}</span><ArrowDown size={14} aria-hidden="true" /></button>)}</div>
         </div>}
-        {messages.map(item => <article key={item.id} className={`ai-chat-message is-${item.role}`} data-testid={`ai-message-${item.role}`}><div className="ai-chat-message-label">{item.role === "user" ? "나" : <><Sparkles size={14} aria-hidden="true" />영어 도우미<span>{configuration?.models.find(value => value.id === item.model)?.name ?? item.model}</span></>}</div><p>{item.content}</p></article>)}
-        {pendingQuestion && <><article className="ai-chat-message is-user is-pending" data-testid="ai-message-pending"><div className="ai-chat-message-label">나</div><p>{pendingQuestion}</p></article><div className="ai-chat-thinking" role="status"><span aria-hidden="true">✦</span>{activeModel?.name}이 답변을 준비하고 있어요…</div></>}
+        {messages.map(item => <article key={item.id} className={`ai-chat-message is-${item.role}`} data-testid={`ai-message-${item.role}`}><div className="ai-chat-message-label">{item.role === "user" ? "나" : <><Sparkles size={14} aria-hidden="true" />영어 도우미<span>{configuration?.models.find(value => value.id === item.model)?.name ?? (item.model === "gpt-realtime-2.1" ? "GPT Realtime 2.1" : item.model)}</span></>}</div><p>{item.content}</p></article>)}
+        {pendingQuestion && <><article className="ai-chat-message is-user is-pending" data-testid="ai-message-pending"><div className="ai-chat-message-label">나</div><p>{pendingQuestion}</p></article><div className="ai-chat-thinking" role="status"><span aria-hidden="true">✦</span>{voice.active ? "고급 음성 코치" : activeModel?.name}가 답변을 준비하고 있어요…</div></>}
         <div ref={conversationEnd} />
       </div>
 
