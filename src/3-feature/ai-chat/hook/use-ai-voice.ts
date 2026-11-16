@@ -55,6 +55,7 @@ export function useAiVoice(options: AiVoiceOptions) {
       const audio = document.createElement("audio"); audio.autoplay = true; current.audio = audio;
       while (valid()) {
         current.ready = false;
+        let renewing = false;
         setStatus(continuationOf ? "대화 맥락을 유지하며 음성 연결을 갱신하고 있어요…" : "OpenAI 고급 음성에 연결하고 있어요…");
         const pc = new RTCPeerConnection(); current.pc = pc;
         pc.ontrack = event => {
@@ -63,7 +64,7 @@ export function useAiVoice(options: AiVoiceOptions) {
           void audio.play().catch(() => { if (valid()) setAudioBlocked(true); });
         };
         pc.onconnectionstatechange = () => {
-          if (valid() && current.pc === pc && ["failed", "disconnected", "closed"].includes(pc.connectionState)) { stop(); callbacks.current.onError("음성 연결이 끊겼어요. 저장된 대화에서 다시 시작해 주세요."); }
+          if (valid() && current.pc === pc && !renewing && ["failed", "disconnected", "closed"].includes(pc.connectionState)) { stop(); callbacks.current.onError("음성 연결이 끊겼어요. 저장된 대화에서 다시 시작해 주세요."); }
         };
         media.getTracks().forEach(track => pc.addTrack(track, media));
         pc.createDataChannel("oai-events");
@@ -82,7 +83,7 @@ export function useAiVoice(options: AiVoiceOptions) {
         if (!response.ok) { const data = await response.json().catch(() => null); throw new Error(data?.error ?? "고급 음성 연결에 실패했어요."); }
         if (!response.body) throw new Error("음성 연결 데이터를 받지 못했어요.");
         const reader = response.body.getReader(); const decoder = new TextDecoder(); let buffer = "";
-        let renewal = ""; let renewing = false;
+        let renewal = "";
         stream: while (valid()) {
           const part = await reader.read(); if (part.done) break;
           buffer += decoder.decode(part.value, { stream: true });

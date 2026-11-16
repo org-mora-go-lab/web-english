@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test";
 
-export type VoiceControls = { requests: { conversationId: string; revision: number; mode: string; voice: string; continuationOf?: string }[]; microphones: number; sessionIds: string[]; holdRenewal: boolean; stopped: number; closed: number; deletes: number; denied: boolean; track: { enabled: boolean }; emit: (event: unknown) => void };
+export type VoiceControls = { requests: { conversationId: string; revision: number; mode: string; voice: string; continuationOf?: string }[]; microphones: number; sessionIds: string[]; holdRenewal: boolean; stopped: number; closed: number; deletes: number; denied: boolean; track: { enabled: boolean }; emit: (event: unknown) => void; disconnect: () => void };
 
 export async function mockVoice(page: Page) {
   await page.addInitScript({ content: `
@@ -13,6 +13,7 @@ export async function mockVoice(page: Page) {
     } } });
     window.RTCPeerConnection = class {
       iceGatheringState = 'complete'; connectionState = 'connected';
+      constructor() { window.__voice.disconnect = () => { this.connectionState = 'disconnected'; this.onconnectionstatechange?.(); }; }
       addTrack() {} createDataChannel() { return { send() {} }; }
       async createOffer() { return { type: 'offer', sdp: 'v=0\\r\\nm=audio 9 UDP/TLS/RTP/SAVPF 111\\r\\n' }; }
       async setLocalDescription(value) { this.localDescription = value; }
