@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("브라우저 탭은 Mora 영어 제목과 모라 아이콘을 제공한다", async ({ page }) => {
-  for (const path of ["/", "/ai"]) {
+  for (const path of ["/", "/ai", "/watch/brand-preview"]) {
     await page.goto(path); await expect(page).toHaveTitle("Mora 영어");
     const icon = page.locator('link[rel="icon"][type="image/svg+xml"]');
     await expect(icon).toHaveCount(1);
