@@ -1,7 +1,10 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("뒤로가기 목록 스크롤 복원", async ({ page }) => {
   await page.setViewportSize({ width: 1100, height: 700 });
+  await createAccount(page);
   await page.goto("/library");
   const card = page.getByRole("link", { name: /레슨 열기$/ }).last();
   await card.scrollIntoViewIfNeeded();

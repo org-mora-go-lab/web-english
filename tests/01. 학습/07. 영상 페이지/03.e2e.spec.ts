@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("브라우저 뒤로가기 필터 복원", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/library");
   await page.getByRole("button", { name: "둘러보기", exact: true }).click();
   await page.getByRole("button", { name: "여행", exact: true }).click();

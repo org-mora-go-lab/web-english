@@ -1,5 +1,8 @@
 import { expect, test } from "@playwright/test";
+
+import { createAccount } from "../../__util__";
 test("레슨 내부 저장과 카드 반영", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/library");
   await page.getByRole("link", { name: "오늘의 레슨 시작하기" }).click();
   await page

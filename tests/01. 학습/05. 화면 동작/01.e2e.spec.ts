@@ -1,5 +1,8 @@
 import { expect, test } from "@playwright/test";
+
+import { createAccount } from "../../__util__";
 test("데스크톱 메뉴 토글", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/library");
   const toggle = page.getByRole("button", { name: "메뉴 열기/닫기" });
   await expect(toggle).toHaveAttribute("aria-expanded", "true");

@@ -1,5 +1,8 @@
 import { expect, test } from "@playwright/test";
+
+import { createAccount } from "../../__util__";
 test("영상 일시 정지와 시간 이동", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/library");
   const video = page.getByTestId("momo-video");
   await expect

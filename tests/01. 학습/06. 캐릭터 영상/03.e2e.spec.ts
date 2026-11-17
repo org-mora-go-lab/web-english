@@ -1,5 +1,8 @@
 import { expect, test } from "@playwright/test";
+
+import { createAccount } from "../../__util__";
 test("Momo 목소리 켜기와 음소거", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/library");
   const video = page.getByTestId("momo-video");
   await expect

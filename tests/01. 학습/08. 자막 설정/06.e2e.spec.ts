@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("홈 영상에도 자막 끄기 유지", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/watch/small-talk");
   await page.getByRole("combobox", { name: "영상 자막", exact: true }).selectOption("off");
   await page.getByRole("link", { name: "목록으로 돌아가기" }).click();

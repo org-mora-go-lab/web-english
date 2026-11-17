@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("사이드 탭 5개", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/library");
   const navigation = page.getByRole("navigation", { name: "주 메뉴" });
   await expect(navigation.getByRole("button")).toHaveCount(5);

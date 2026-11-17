@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("카드에서 별도 시청 페이지", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/library");
   await page.getByRole("link", { name: /스몰토크.*레슨 열기/ }).click();
   await expect(page).toHaveURL("/watch/small-talk");

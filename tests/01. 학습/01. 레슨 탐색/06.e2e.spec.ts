@@ -1,5 +1,8 @@
 import { expect, test } from "@playwright/test";
+
+import { createAccount } from "../../__util__";
 test("난이도와 카테고리 교차 필터", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/library");
   await page.getByRole("button", { name: "표현 & 문법", exact: true }).click();
   await page.getByRole("combobox", { name: "레슨 난이도" }).selectOption("A1");

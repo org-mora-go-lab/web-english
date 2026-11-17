@@ -1,5 +1,8 @@
 import { expect, test } from "@playwright/test";
+
+import { createAccount } from "../../__util__";
 test("레슨 정렬", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/library");
   await page
     .getByRole("combobox", { name: "레슨 정렬" })

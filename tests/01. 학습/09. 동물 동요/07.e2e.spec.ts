@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("새 동요 학습 완료와 진행률", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/watch/leo-counts");
   await page.getByRole("button", { name: "오늘의 학습 완료", exact: true }).click();
   await page.getByRole("link", { name: "목록으로 돌아가기" }).click();

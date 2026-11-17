@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("영어 한국어 자막 선택", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/watch/small-talk");
   const video = page.getByTestId("lesson-video");
   await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.textTracks.length)).toBe(2);

@@ -11,7 +11,7 @@ test("비회원이 로그인한 뒤 AI 대화 화면으로 복귀한다", async 
   const aiRequests: string[] = [];
   page.on("request", request => { if (request.url().includes("/api/ai/")) aiRequests.push(request.url()); });
   await page.goto("/ai");
-  await expect(page.getByRole("heading", { name: "로그인 후 AI를 이용해 주세요." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /로그인하고\s*영어 놀이를 시작해요/ })).toBeVisible();
   await expect(page.getByRole("textbox", { name: "AI에게 보낼 메시지" })).toHaveCount(0);
   await expect(page.getByRole("combobox", { name: "AI 모델" })).toHaveCount(0);
   expect(aiRequests).toHaveLength(0);

@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("관련 영상 전환", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/watch/small-talk");
   const next = page.getByRole("complementary", { name: "다음 학습 영상" }).getByRole("link").first();
   const href = await next.getAttribute("href");

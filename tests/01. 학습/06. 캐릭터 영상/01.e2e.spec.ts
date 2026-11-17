@@ -1,5 +1,8 @@
 import { expect, test } from "@playwright/test";
+
+import { createAccount } from "../../__util__";
 test("홈 영상 실제 자동 재생", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/library");
   const video = page.getByTestId("momo-video");
   await expect(video).toBeInViewport();

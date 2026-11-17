@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("모바일 시청 페이지", async ({ page }) => {
+  await createAccount(page);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/watch/coffee");
   await expect(page.getByTestId("lesson-video")).toBeInViewport();

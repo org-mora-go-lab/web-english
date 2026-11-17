@@ -1,7 +1,9 @@
 import { expect, test } from "@playwright/test";
+
+import { createAccount } from "../../__util__";
 test("고양이는 클릭할 때만 소리를 재생한다", async ({page}) => {
   await page.addInitScript(() => { HTMLMediaElement.prototype.play = async function() { document.documentElement.dataset.played = this.src; }; });
-  await page.goto("/");
+  await createAccount(page);
   await expect(page.locator("html")).not.toHaveAttribute("data-played");
   await page.getByRole("button", {name: "고양이 야옹 소리 듣기"}).click();
   await expect(page.locator("html")).toHaveAttribute("data-played", /kitten-meow.wav/);

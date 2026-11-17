@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("10종 동요 영상 실제 1080p 재생", async ({ page }) => {
+  await createAccount(page);
   test.setTimeout(120000);
   const manifest = await (await page.request.get("/media/singalong/manifest.json")).json();
   expect(Object.keys(manifest)).toHaveLength(10);

@@ -1,7 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("모든 개월수 단계에 다섯 주제의 놀이가 8개씩 있다", async ({ page }) => {
-  await page.goto("/");
+  await createAccount(page);
   await page.getByRole("button", { name: "커리큘럼", exact: true }).click();
 
   for (const stage of ["16–17개월", "18–20개월", "21–23개월", "24–26개월", "27–29개월", "30–32개월", "33–35개월", "36개월"]) {

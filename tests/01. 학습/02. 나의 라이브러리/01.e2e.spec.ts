@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("저장 유지와 취소", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/library");
   await page
     .getByRole("button", {

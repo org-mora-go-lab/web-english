@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("저장소 차단 시 자막 설정 세션 유지", async ({ page }) => {
+  await createAccount(page);
   await page.addInitScript(() => { Storage.prototype.setItem = () => { throw new DOMException("Blocked", "SecurityError"); }; });
   await page.goto("/watch/small-talk");
   await page.getByRole("combobox", { name: "영상 자막", exact: true }).selectOption("off");

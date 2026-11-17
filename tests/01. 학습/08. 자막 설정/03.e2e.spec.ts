@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("자막 언어 새 탭 유지", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/watch/small-talk");
   await page.getByRole("combobox", { name: "영상 자막", exact: true }).selectOption("ko");
   const other = await page.context().newPage();
