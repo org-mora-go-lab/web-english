@@ -10,7 +10,7 @@ test("작은 고정 헤더 아래로 콘텐츠가 남은 높이를 채운다", a
   const menu = (await page.getByRole("button", { name: "메뉴 열기" }).boundingBox())!;
   const title = (await page.locator(".play-header-title").boundingBox())!;
   const content = (await page.getByRole("button", { name: "콘텐츠", exact: true }).boundingBox())!;
-  expect(header.height).toBeLessThanOrEqual(40);
+  expect(header.height).toBeCloseTo(46, 0);
   expect(Math.abs(title.x + title.width / 2 - 195)).toBeLessThan(1);
   expect(menu.x + menu.width).toBeLessThan(title.x);
   expect(title.x + title.width).toBeLessThan(content.x);

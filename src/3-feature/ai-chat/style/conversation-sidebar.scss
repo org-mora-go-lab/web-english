@@ -1,37 +1,37 @@
 .conversation-sidebar {
   color: var(--theme-ink);
-  font-size: 12px;
+  font-size: 13px;
   .conversation-sidebar-new { display: flex; align-items: center; gap: 10px; width: 100%; padding: 12px; border: 1px solid var(--theme-border-strong); border-radius: 12px; color: var(--theme-primary); background: var(--theme-surface); font: inherit; font-weight: 700; text-align: left; }
   .conversation-sidebar-new:hover:not(:disabled) { background: var(--theme-surface-tint); }
   .conversation-sidebar-projects { margin-top: 20px; }
-  .conversation-sidebar-heading { display: flex; align-items: center; justify-content: space-between; padding: 0 8px 7px; color: var(--theme-muted); font-size: 11px; }
+  .conversation-sidebar-heading { display: flex; align-items: center; justify-content: space-between; padding: 0 8px 7px; color: var(--theme-muted); font-size: 12px; }
   .conversation-sidebar-heading > button, .conversation-sidebar-project-heading > button:not(.conversation-sidebar-project-toggle) { display: grid; place-items: center; width: 25px; height: 25px; border: 0; border-radius: 7px; background: transparent; color: var(--theme-muted); flex: none; }
   .conversation-sidebar-heading > button:hover:not(:disabled), .conversation-sidebar-project-heading > button:hover:not(:disabled) { background: var(--theme-surface); color: var(--theme-primary); }
   .conversation-sidebar-project { margin-bottom: 7px; }
   .conversation-sidebar-project-heading { display: flex; align-items: center; gap: 2px; }
-  .conversation-sidebar-project-toggle { flex: 1; min-width: 0; display: flex; align-items: center; gap: 5px; padding: 8px 2px; text-align: left; border: 0; background: transparent; color: var(--theme-ink); font: inherit; font-size: 12px; }
+  .conversation-sidebar-project-toggle { flex: 1; min-width: 0; display: flex; align-items: center; gap: 5px; padding: 8px 2px; text-align: left; border: 0; background: transparent; color: var(--theme-ink); font: inherit; font-size: 13px; }
   .conversation-sidebar-project-toggle > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .conversation-sidebar-project-toggle > svg { flex: none; }
   .conversation-sidebar-project-chats { padding-left: 6px; border-left: 1px solid var(--theme-border-strong); margin-left: 7px; }
   .conversation-sidebar-chats { margin-top: 20px; max-height: 30dvh; overflow-y: auto; scrollbar-width: thin; }
   .conversation-sidebar-row { position: relative; border-radius: 9px; margin: 2px 0; }
   .conversation-sidebar-row.is-active { background: var(--theme-surface); }
-  .conversation-sidebar-open { display: block; width: 100%; padding: 10px 32px 10px 9px; border: 0; border-radius: 9px; text-align: left; background: transparent; color: var(--theme-ink); font: inherit; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .conversation-sidebar-open { display: block; width: 100%; padding: 10px 32px 10px 9px; border: 0; border-radius: 9px; text-align: left; background: transparent; color: var(--theme-ink); font: inherit; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .conversation-sidebar-open:hover:not(:disabled), .conversation-sidebar-open[aria-current="page"] { background: var(--theme-surface); color: var(--theme-primary); }
   .conversation-sidebar-menu > summary { position: absolute; display: grid; place-items: center; right: 3px; top: 5px; width: 26px; height: 26px; border-radius: 7px; list-style: none; cursor: pointer; color: var(--theme-muted); }
   .conversation-sidebar-menu > summary::-webkit-details-marker { display: none; }
   .conversation-sidebar-menu > summary:hover { background: var(--theme-surface-tint); color: var(--theme-primary); }
   .conversation-sidebar-menu-content { display: grid; gap: 8px; padding: 8px; border: 1px solid var(--theme-border); border-radius: 9px; background: var(--theme-surface-tint); }
-  .conversation-sidebar-menu-content label { display: grid; gap: 5px; font-size: 10px; color: var(--theme-muted); }
-  .conversation-sidebar-menu-content select { width: 100%; min-width: 0; padding: 8px; border: 1px solid var(--theme-border-strong); border-radius: 8px; background: var(--theme-surface); color: var(--theme-ink); font: inherit; font-size: 11px; }
-  .conversation-sidebar-danger { display: flex; align-items: center; gap: 7px; width: 100%; border: 0; border-radius: 7px; padding: 8px; text-align: left; background: var(--theme-danger-soft); color: var(--theme-danger); font: inherit; font-size: 11px; }
+  .conversation-sidebar-menu-content label { display: grid; gap: 5px; font-size: 11px; color: var(--theme-muted); }
+  .conversation-sidebar-menu-content select { width: 100%; min-width: 0; padding: 8px; border: 1px solid var(--theme-border-strong); border-radius: 8px; background: var(--theme-surface); color: var(--theme-ink); font: inherit; font-size: 12px; }
+  .conversation-sidebar-danger { display: flex; align-items: center; gap: 7px; width: 100%; border: 0; border-radius: 7px; padding: 8px; text-align: left; background: var(--theme-danger-soft); color: var(--theme-danger); font: inherit; font-size: 12px; }
   .conversation-sidebar-name-form { padding: 10px; margin: 7px 0 10px; border: 1px solid var(--theme-border-strong); border-radius: 11px; background: var(--theme-surface); }
-  .conversation-sidebar-name-label { display: grid; gap: 6px; color: var(--theme-muted); font-size: 10px; }
-  .conversation-sidebar-name-form input { width: 100%; min-width: 0; padding: 9px; border: 1px solid var(--theme-border-strong); border-radius: 8px; background: var(--theme-surface-tint); color: var(--theme-ink); font: inherit; font-size: 12px; }
+  .conversation-sidebar-name-label { display: grid; gap: 6px; color: var(--theme-muted); font-size: 11px; }
+  .conversation-sidebar-name-form input { width: 100%; min-width: 0; padding: 9px; border: 1px solid var(--theme-border-strong); border-radius: 8px; background: var(--theme-surface-tint); color: var(--theme-ink); font: inherit; font-size: 13px; }
   .conversation-sidebar-name-form > div { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 9px; }
-  .conversation-sidebar-name-form button { padding: 7px 8px; border: 0; border-radius: 7px; color: var(--theme-primary); background: var(--theme-soft); font: inherit; font-size: 10px; }
+  .conversation-sidebar-name-form button { padding: 7px 8px; border: 0; border-radius: 7px; color: var(--theme-primary); background: var(--theme-soft); font: inherit; font-size: 11px; }
   .conversation-sidebar-name-form button[type="submit"] { color: var(--theme-on-primary); background: var(--theme-primary); }
-  .conversation-sidebar-empty { margin: 6px 0 10px; padding: 0 8px; font-size: 11px; line-height: 1.6; color: var(--theme-muted); }
-  .conversation-sidebar-error { margin: 10px 0; padding: 10px; border-radius: 9px; background: var(--theme-danger-soft); color: var(--theme-danger); font-size: 11px; line-height: 1.6; overflow-wrap: anywhere; }
+  .conversation-sidebar-empty { margin: 6px 0 10px; padding: 0 8px; font-size: 12px; line-height: 1.6; color: var(--theme-muted); }
+  .conversation-sidebar-error { margin: 10px 0; padding: 10px; border-radius: 9px; background: var(--theme-danger-soft); color: var(--theme-danger); font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
   :is(button, input, select, summary):focus-visible { outline: 3px solid var(--theme-focus); outline-offset: 2px; }
 }

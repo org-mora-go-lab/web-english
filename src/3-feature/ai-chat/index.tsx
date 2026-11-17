@@ -15,6 +15,7 @@ import type { AiChatProps, ChatConfiguration, ChatMessage, ChatMode, ChatProject
 const modelStorageKey = "mora-english-ai-model";
 const maxMessages = 200;
 const maxCharacters = 2000;
+const voiceLabels = { cat: "고양이", marin: "여자", cedar: "남자" } as const;
 const starterPrompts = {
   parent: [
     { label: "공놀이할 때 한마디", prompt: "두 살 아이와 공을 굴리며 놀 때 쓸 쉬운 영어 3개와 짧은 놀이 방법을 알려 주세요." },
@@ -41,6 +42,7 @@ export function AiChat({ signedIn, embedded = false, learningTopic, onClearTopic
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [optionsOpen, setOptionsOpen] = useState(false);
+  const [standaloneSidebarHidden, setStandaloneSidebarHidden] = useState(false);
   const [loginRequired, setLoginRequired] = useState(!signedIn);
   const request = useRef<AbortController | null>(null);
   const configurationRequest = useRef<AbortController | null>(null);
@@ -315,7 +317,17 @@ export function AiChat({ signedIn, embedded = false, learningTopic, onClearTopic
   }, [learningTopic, canCompose, busy, conversationFull]);
 
   const modelControl = (<div className="ai-chat-select"><select id="ai-model" aria-label="AI 모델" value={model} disabled={!authenticated || busy || voice.active || configurationLoading || configurationError || !configuration?.models.length} onChange={event => selectModel(event.target.value)}>{configuration?.models.length ? configuration.models.map(item => <option value={item.id} key={item.id}>{item.name}</option>) : <option value="">{configurationLoading ? "모델 불러오는 중…" : configurationError ? "모델을 불러오지 못했어요" : "모델 준비 중"}</option>}</select><ChevronDown size={15} aria-hidden="true" /></div>);
-  const voiceControl = (<select id="ai-voice-name" aria-label="목소리" value={voiceName} disabled={!authenticated || voice.active} onChange={event => setVoiceName(event.target.value as "cat" | "marin" | "cedar")}><option value="cat">고양이 · 귀엽고 다정하게</option><option value="marin">여자 · Marin</option><option value="cedar">남자 · Cedar</option></select>);
+  const voiceControl = (
+    <div className="ai-chat-voice-select" data-disabled={!authenticated || voice.active}>
+      <span className="ai-chat-voice-label" aria-hidden="true">{voiceLabels[voiceName]}</span>
+      <ChevronDown size={13} aria-hidden="true" />
+      <select id="ai-voice-name" aria-label="목소리" value={voiceName} disabled={!authenticated || voice.active} onChange={event => setVoiceName(event.target.value as "cat" | "marin" | "cedar")}>
+        <option value="cat">고양이 · 귀엽고 다정하게</option>
+        <option value="marin">여자 · Marin</option>
+        <option value="cedar">남자 · Cedar</option>
+      </select>
+    </div>
+  );
   const chatSettings = (<>      <div className="ai-chat-settings"><h2>대화 설정</h2><ThemePicker /><button type="button" disabled={!voice.active} aria-pressed={voice.muted} onClick={voice.toggleMute}>{voice.muted ? "마이크 켜기" : "마이크 끄기"}</button>
       <div className="ai-chat-toolbar">
         <div className="ai-chat-modes" role="group" aria-label="대화 모드">
@@ -340,9 +352,21 @@ export function AiChat({ signedIn, embedded = false, learningTopic, onClearTopic
       </div>      <details className="ai-chat-policy"><summary>정책</summary><p>고급 음성은 AI가 생성합니다. 마이크 음성과 대화는 OpenAI로 전송되며 API 사용료가 적용됩니다. 부모님이 함께 사용해 주세요.</p><p id="ai-chat-memory">빈 입력창에서 Tab을 누르면 추천 질문을 채워요. 완료된 대화는 로그인한 계정에 저장되며 다시 접속하면 이어갈 수 있어요. 최근 대화부터 AI에 전달해요.</p><p id="ai-chat-privacy">입력한 대화는 답변 생성을 위해 OpenAI로 전송됩니다. 아이의 이름 등 개인정보는 입력하지 마세요.</p></details></>);
 
   return (
-    <section className={`ai-chat${embedded ? " is-embedded" : ""}`} id="ai-chat" aria-label="AI 영어 도우미">
+    <section className={`ai-chat${embedded ? " is-embedded" : ""}${standaloneSidebarHidden ? " is-standalone-sidebar-hidden" : ""}`} id="ai-chat" aria-label="AI 영어 도우미">
       {sidebarTarget && createPortal(<ConversationSidebar signedIn={authenticated} projects={projects} conversations={conversations} activeConversationId={conversationId} newChatDisabled={managementBusy} busy={busy || voice.active || managementBusy} loading={authenticated && (historyLoading || projectsLoading)} error={managementError} onNewChat={() => { if (authenticated) { startFresh(); onSidebarNavigate?.(); } }} onOpenConversation={id => { if (authenticated) { void openConversation(id); onSidebarNavigate?.(); } }} onDeleteConversation={id => void deleteConversation(id)} onMoveConversation={(id, projectId) => void moveConversation(id, projectId)} onCreateProject={name => updateProject(null, name)} onRenameProject={updateProject} onDeleteProject={id => void deleteProject(id)} />, sidebarTarget)}
-      {sidebarTarget ? createPortal(chatSettings, sidebarTarget) : <><button className="ai-chat-sidebar-toggle" type="button" aria-label={optionsOpen ? "메뉴 닫기" : "메뉴 열기"} aria-expanded={optionsOpen} onClick={() => setOptionsOpen(open => !open)}><Menu size={22} aria-hidden="true" /></button>{optionsOpen && <button type="button" className="ai-chat-sidebar-backdrop" aria-label="메뉴 배경 닫기" onClick={() => setOptionsOpen(false)} />}<aside className={`ai-chat-standalone-sidebar${optionsOpen ? " is-open" : ""}`} aria-label="대화 설정 및 내역">{chatSettings}</aside></>}
+      {sidebarTarget ? createPortal(chatSettings, sidebarTarget) : <>
+        <button className="ai-chat-sidebar-toggle" type="button" aria-label={optionsOpen ? "메뉴 닫기" : "메뉴 열기"} aria-expanded={optionsOpen} onClick={() => setOptionsOpen(open => !open)}><Menu size={22} aria-hidden="true" /></button>
+        {standaloneSidebarHidden && <button className="ai-chat-desktop-sidebar-toggle" type="button" aria-label="메뉴 열기" aria-expanded={false} onClick={() => setStandaloneSidebarHidden(false)}><Menu size={22} aria-hidden="true" /></button>}
+        {optionsOpen && <button type="button" className="ai-chat-sidebar-backdrop" aria-label="메뉴 배경 닫기" onClick={() => setOptionsOpen(false)} />}
+        <aside className={`ai-chat-standalone-sidebar${optionsOpen ? " is-open" : ""}`} inert={standaloneSidebarHidden && !optionsOpen} aria-label="대화 설정 및 내역">
+          <div className="ai-chat-sidebar-header">
+            <button className="ai-chat-sidebar-menu" type="button" aria-label="메뉴 닫기" aria-expanded={!standaloneSidebarHidden} onClick={() => setStandaloneSidebarHidden(true)}><Menu size={22} aria-hidden="true" /></button>
+            <span className="ai-chat-sidebar-menu-space" aria-hidden="true" />
+            <Link href="/" className="ai-chat-sidebar-brand" aria-label="Mora 홈"><span aria-hidden="true">m.</span>Mora</Link>
+          </div>
+          <div className="ai-chat-sidebar-body">{chatSettings}</div>
+        </aside>
+      </>}
 
 
       {configurationError && <div className="ai-chat-banner ai-chat-error" role="alert"><p>모델 정보를 불러오지 못했어요. 연결 상태를 다시 확인해 주세요.</p><button type="button" onClick={retryConfiguration}><RefreshCw size={14} aria-hidden="true" />연결 상태 다시 확인</button></div>}

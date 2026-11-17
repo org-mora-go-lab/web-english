@@ -25,5 +25,5 @@ export function ThemePicker() {
     try { localStorage.setItem(key, memory); } catch { /* Keep the choice for this visit. */ }
     document.documentElement.dataset.theme = memory;
     window.dispatchEvent(new Event("mora-theme-change"));
-  }}><option value="light">라이트</option><option value="dark">다크</option></select></label>;
+  }}><option value="light">라이트</option><option value="dark">블랙</option></select></label>;
 }
