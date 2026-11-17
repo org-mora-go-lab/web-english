@@ -10,7 +10,7 @@ import { readServerEvents } from "@/src/5-shared/http";
 
 import { AI_MODELS } from "./constant";
 import type { AiChatInput, AiChatReply, AiModelList } from "./type";
-import { partialReply } from "./util";
+import { cleanConversationTitle, partialReply } from "./util";
 
 const MAX_BODY_BYTES = 64 * 1024;
 const UPSTREAM_TIMEOUT_MS = 45_000;
@@ -185,12 +185,12 @@ const modeInstructions = {
   practice: "Practice a short, friendly English conversation with the adult caregiver. Use simple English, offer one brief Korean explanation or gentle correction if helpful, and ask just one short follow-up question. Keep the reply concise.",
 };
 
-const suggestionInstructions = "Return JSON with reply first, then replySuggestion. In reply, finish with at most one simple question. In replySuggestion, write one short, natural example of the adult user's answer to that exact question, in first person where suitable. It must be a reply the user can send immediately, not another assistant question or an instruction. Match the conversation language (simple English for practice, Korean for parent guidance unless practicing an English answer). Do not invent identifying details about the child. If reply has no question, suggest a relevant short request to continue the topic. Keep the suggestion under 160 characters.";
+const suggestionInstructions = "Return JSON with reply first, then replySuggestion, then conversationTitle. In reply, finish with at most one simple question. In replySuggestion, write one short, natural example of the adult user's answer to that exact question, in first person where suitable. It must be a reply the user can send immediately, not another assistant question or an instruction. Match the conversation language (simple English for practice, Korean for parent guidance unless practicing an English answer). Do not invent identifying details about the child. If reply has no question, suggest a relevant short request to continue the topic. Keep the suggestion under 160 characters. For conversationTitle, summarize the FIRST user message's learning topic as a short Korean noun phrase, ideally 6-18 characters and always under 40 characters, such as 공놀이 영어 or 하루 이야기 연습. Do not copy the request sentence, boilerplate, markers, personal names or punctuation. This is a sidebar label, not an answer.";
 const replyFormat = {
   type: "json_schema", name: "english_conversation", strict: true,
-  schema: { type: "object", properties: { reply: { type: "string" }, replySuggestion: { type: "string" } }, required: ["reply", "replySuggestion"], additionalProperties: false },
+  schema: { type: "object", properties: { reply: { type: "string" }, replySuggestion: { type: "string" }, conversationTitle: { type: "string" } }, required: ["reply", "replySuggestion", "conversationTitle"], additionalProperties: false },
 };
-const replySchema = z.strictObject({ reply: z.string().trim().min(1), replySuggestion: z.string().trim().min(1).max(200) });
+const replySchema = z.strictObject({ reply: z.string().trim().min(1), replySuggestion: z.string().trim().min(1).max(200), conversationTitle: z.string().trim().min(1).max(80) });
 
 function completedReply(value: unknown, model: string): AiChatReply {
   const result = responseSchema.safeParse(value);
@@ -208,7 +208,7 @@ function completedReply(value: unknown, model: string): AiChatReply {
   const reply = parsed.reply.length > 2_000
     ? `${parsed.reply.slice(0, 2_000 - overflowNotice.length).replace(/[\uD800-\uDBFF]$/, "").trimEnd()}${overflowNotice}`
     : parsed.reply;
-  return { reply, replySuggestion: parsed.replySuggestion, model };
+  return { reply, replySuggestion: parsed.replySuggestion, conversationTitle: cleanConversationTitle(parsed.conversationTitle), model };
 }
 
 export async function generateAiReply(input: AiChatInput, signal?: AbortSignal, onDelta?: (text: string) => void): Promise<AiChatReply> {

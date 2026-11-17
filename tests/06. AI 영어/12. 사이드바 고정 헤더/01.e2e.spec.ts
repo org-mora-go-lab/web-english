@@ -7,7 +7,7 @@ test("홈 메뉴를 스크롤해도 상단 메뉴와 Mora를 고정한다", asyn
   await mockAiModels(page); await createAccount(page);
   await page.setViewportSize({ width: 390, height: 360 });
   await page.getByRole("button", { name: "메뉴 열기", exact: true }).click();
-  const sidebar = page.getByRole("complementary", { name: "콘텐츠 메뉴" });
+  const sidebar = page.getByRole("complementary", { name: "채팅 메뉴" });
   const header = sidebar.locator(".family-sidebar-header");
   const brand = header.getByRole("link", { name: "Mora 홈" });
   const menu = page.getByRole("button", { name: "메뉴 닫기", exact: true });

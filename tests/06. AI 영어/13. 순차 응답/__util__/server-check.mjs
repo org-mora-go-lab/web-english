@@ -29,7 +29,7 @@ globalThis.fetch = async (url, init) => {
   const request = JSON.parse(init.body);
   assert.equal(request.stream, true); assert.equal(request.store, false);
   assert.equal(request.text.format.type, 'json_schema');
-  assert.deepEqual(request.text.format.schema.required, ['reply', 'replySuggestion']);
+  assert.deepEqual(request.text.format.schema.required, ['reply', 'replySuggestion', 'conversationTitle']);
   let controller;
   const body = new ReadableStream({ start(value) { controller = value; } });
   const call = { controller, signal: init.signal };
@@ -48,11 +48,11 @@ function emit(call, event) {
 const reply = '고양이가 "Meow!" 하고 말해요.\nA cute cat 😸! Which toy does it like?';
 const replySuggestion = 'It likes the red ball.';
 function emitText(call) {
-  const json = JSON.stringify({ reply, replySuggestion });
+  const json = JSON.stringify({ reply, replySuggestion, conversationTitle: '고양이 영어 놀이' });
   for (let i = 0; i < json.length; i += 5) emit(call, { type: 'response.output_text.delta', delta: json.slice(i, i + 5) });
 }
 function finish(call) {
-  emit(call, { type: 'response.completed', response: { status: 'completed', output: [{ type: 'message', content: [{ type: 'output_text', text: JSON.stringify({ reply, replySuggestion }) }] }] } });
+  emit(call, { type: 'response.completed', response: { status: 'completed', output: [{ type: 'message', content: [{ type: 'output_text', text: JSON.stringify({ reply, replySuggestion, conversationTitle: '고양이 영어 놀이' }) }] }] } });
   call.controller.close();
 }
 async function collect(response) {

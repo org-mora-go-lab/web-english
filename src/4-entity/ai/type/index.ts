@@ -28,7 +28,7 @@ export type AiConversation = {
   messages: SavedAiMessage[]; revision: number; updatedAt: number;
 };
 
-export type AiChatReply = { reply: string; model: string; replySuggestion?: string };
+export type AiChatReply = { reply: string; model: string; replySuggestion?: string; conversationTitle?: string };
 
 export type AiModelList = {
   models: AiModel[];

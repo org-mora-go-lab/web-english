@@ -4,7 +4,7 @@ import { and, desc, eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { getActor } from "@/src/4-entity/account";
-import { activityById } from "@/src/4-entity/family";
+import { activityById, supportedAge } from "@/src/4-entity/family";
 import { getDb, schema } from "@/src/5-shared/db";
 import { jsonError, sameOrigin } from "@/src/5-shared/http";
 
@@ -14,15 +14,15 @@ export async function GET() {
   const db = getDb();
   const profile = await db.query.childProfiles.findFirst({ where: eq(schema.childProfiles.userId, actor.id) });
   const records = await db.query.playRecords.findMany({ where: eq(schema.playRecords.userId, actor.id), orderBy: [desc(schema.playRecords.playedAt)] });
-  return Response.json({ ageMonths: profile?.ageMonths ?? 16, records });
+  return Response.json({ ageMonths: supportedAge(profile?.ageMonths ?? 16), records });
 }
 
 export async function PATCH(request: Request) {
   if (!sameOrigin(request)) return jsonError("요청 출처를 확인해 주세요.", 403);
   const actor = await getActor();
   if (!actor) return jsonError("로그인이 필요합니다.", 401);
-  const parsed = z.object({ ageMonths: z.number().int().min(16).max(36) }).safeParse(await request.json().catch(() => null));
-  if (!parsed.success) return jsonError("월령은 16~36개월로 입력해 주세요.");
+  const parsed = z.object({ ageMonths: z.number().int().min(16).max(24) }).safeParse(await request.json().catch(() => null));
+  if (!parsed.success) return jsonError("개월수는 16~24개월로 입력해 주세요.");
   const db = getDb();
   const now = Date.now();
   await db.insert(schema.childProfiles).values({ id: randomUUID(), userId: actor.id, ageMonths: parsed.data.ageMonths, createdAt: now, updatedAt: now }).onConflictDoUpdate({ target: schema.childProfiles.userId, set: { ageMonths: parsed.data.ageMonths, updatedAt: now } });
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
   const db = getDb();
   const profile = await db.query.childProfiles.findFirst({ where: eq(schema.childProfiles.userId, actor.id) });
   const now = Date.now();
-  const record = { id: randomUUID(), userId: actor.id, ageMonths: profile?.ageMonths ?? 16, activityId: parsed.data.activityId, reaction: parsed.data.reaction, note: parsed.data.note, playedAt: now, createdAt: now };
+  const record = { id: randomUUID(), userId: actor.id, ageMonths: supportedAge(profile?.ageMonths ?? 16), activityId: parsed.data.activityId, reaction: parsed.data.reaction, note: parsed.data.note, playedAt: now, createdAt: now };
   await db.insert(schema.playRecords).values(record);
   return Response.json({ record }, { status: 201 });
 }

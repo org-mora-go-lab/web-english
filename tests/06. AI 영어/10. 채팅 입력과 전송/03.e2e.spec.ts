@@ -23,5 +23,7 @@ test("모바일 입력창 하단에서 모델·목소리·음성·전송 아이�
   const voiceBox = (await voice.boundingBox())!;
   expect(voiceBox.x + voiceBox.width).toBeLessThanOrEqual(micBox.x);
   expect(micBox.x + micBox.width).toBeLessThanOrEqual(sendBox.x);
+  expect(micBox.x - voiceBox.x - voiceBox.width).toBeGreaterThanOrEqual(9);
+  expect(sendBox.x - micBox.x - micBox.width).toBeGreaterThanOrEqual(9);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
