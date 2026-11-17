@@ -2,30 +2,45 @@ import "server-only";
 
 import { randomUUID } from "node:crypto";
 
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, or, sql } from "drizzle-orm";
 
 import { getDb, schema } from "@/src/5-shared/db";
 
 import { AiError } from "./server";
 import type { AiChatInput, AiChatReply, AiConversation, SavedAiMessage } from "./type";
+import { initialConversationTitle, legacyConversationTitle } from "./util";
 import { hangupRealtimeCall } from "./voice-call";
 
 const table = schema.aiConversations;
 type Row = typeof table.$inferSelect;
-const view = (row: Row): AiConversation => ({ id: row.id, projectId: row.projectId, title: row.title, mode: row.mode, model: row.model, messages: JSON.parse(row.messagesJson), revision: row.revision, updatedAt: row.updatedAt });
+const view = (row: Row): AiConversation => {
+  const messages = JSON.parse(row.messagesJson) as SavedAiMessage[];
+  return { id: row.id, projectId: row.projectId, title: legacyConversationTitle(messages[0]?.content ?? "", row.title), mode: row.mode, model: row.model, messages, revision: row.revision, updatedAt: row.updatedAt };
+};
 const missing = () => new AiError("대화를 찾을 수 없습니다.", 404, "CONVERSATION_NOT_FOUND");
 const conflict = () => new AiError("다른 창에서 대화가 변경됐어요. 대화 내역을 다시 불러와 주세요.", 409, "CONVERSATION_CONFLICT");
+
+async function repairTitles(userId: string, rows: { id: string; title: string; firstQuestion: string }[]) {
+  const changed = rows.map(row => ({ ...row, nextTitle: legacyConversationTitle(row.firstQuestion, row.title) })).filter(row => row.nextTitle !== row.title);
+  if (!changed.length) return;
+  await getDb().update(table).set({ title: sql`CASE ${table.id} ${sql.join(changed.map(row => sql`WHEN ${row.id} THEN ${row.nextTitle}`), sql` `)} ELSE ${table.title} END` })
+    .where(and(eq(table.userId, userId), or(...changed.map(row => and(eq(table.id, row.id), eq(table.title, row.title))))));
+  for (const row of rows) row.title = legacyConversationTitle(row.firstQuestion, row.title);
+}
 
 export async function getAiConversation(userId: string, id: string) {
   const row = await getDb().query.aiConversations.findFirst({ where: and(eq(table.id, id), eq(table.userId, userId)) });
   if (!row) throw missing();
+  const entry = { id: row.id, title: row.title, firstQuestion: (JSON.parse(row.messagesJson) as SavedAiMessage[])[0]?.content ?? "" };
+  await repairTitles(userId, [entry]); row.title = entry.title;
   return view(row);
 }
 
 export async function listAiConversations(userId: string) {
-  const rows = await getDb().select({ id: table.id, projectId: table.projectId, title: table.title, mode: table.mode, model: table.model, revision: table.revision, updatedAt: table.updatedAt })
+  const rows = await getDb().select({ id: table.id, projectId: table.projectId, title: table.title, firstQuestion: sql<string>`COALESCE(json_extract(${table.messagesJson}, '$[0].content'), '')`, mode: table.mode, model: table.model, revision: table.revision, updatedAt: table.updatedAt })
     .from(table).where(eq(table.userId, userId)).orderBy(desc(table.updatedAt)).limit(100);
-  return { conversations: rows, latest: rows[0] ? await getAiConversation(userId, rows[0].id) : null };
+  await repairTitles(userId, rows);
+  return { conversations: rows.map(row => ({ id: row.id, projectId: row.projectId, title: row.title, mode: row.mode, model: row.model, revision: row.revision, updatedAt: row.updatedAt })), latest: rows[0] ? await getAiConversation(userId, rows[0].id) : null };
 }
 
 export async function deleteAiConversation(userId: string, id: string) {
@@ -63,10 +78,10 @@ export async function saveAiTurn(userId: string, input: AiChatInput, previous: A
   const messages: SavedAiMessage[] = [...(previous?.messages ?? []),
     { ...input.messages.at(-1)!, id: randomUUID() },
     { id: randomUUID(), role: "assistant", content: reply.reply, model: reply.model, ...(reply.replySuggestion ? { replySuggestion: reply.replySuggestion } : {}) }];
-  const values = { model: reply.model, messagesJson: JSON.stringify(messages), revision: (previous?.revision ?? 0) + 1, lastTurnId: input.turnId!, updatedAt: now };
+  const values = { title: previous?.title ?? initialConversationTitle(messages[0].content, reply.conversationTitle), model: reply.model, messagesJson: JSON.stringify(messages), revision: (previous?.revision ?? 0) + 1, lastTurnId: input.turnId!, updatedAt: now };
   const rows = previous
     ? await getDb().update(table).set(values).where(and(eq(table.id, input.conversationId), eq(table.userId, userId), eq(table.revision, input.revision!))).returning()
-    : await getDb().insert(table).values({ ...values, id: input.conversationId, userId, title: (/^영어 학습 콘텐츠 “([^”]+)”/.exec(messages[0].content)?.[1] ?? messages[0].content).slice(0, 60), mode: input.mode, createdAt: now }).onConflictDoNothing().returning();
+    : await getDb().insert(table).values({ ...values, id: input.conversationId, userId, mode: input.mode, createdAt: now }).onConflictDoNothing().returning();
   if (!rows[0]) throw conflict();
   return view(rows[0]);
 }

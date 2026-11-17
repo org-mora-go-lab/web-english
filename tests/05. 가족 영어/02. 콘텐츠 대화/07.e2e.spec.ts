@@ -2,12 +2,13 @@ import { expect, test } from "@playwright/test";
 
 import { createAccount } from "../../__util__";
 import { mockAiModels } from "../../06. AI 영어/01. AI 대화/__mock__";
+import { openPlay } from "../__util__";
 import { mockTopicChat } from "./__mock__";
 
 test("대화 내용은 높이를 채우고 스크롤해도 입력창은 화면 하단에 유지된다", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await mockAiModels(page); await mockTopicChat(page); await createAccount(page);
-  await page.getByRole("button", { name: /오늘의 놀이 보기/ }).click();
+  await openPlay(page);
   await expect(page.getByTestId("ai-message-assistant")).toBeVisible();
   const input = page.getByRole("textbox", { name: "AI에게 보낼 메시지" });
   const log = page.getByRole("log", { name: "AI 대화" });

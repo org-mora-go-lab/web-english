@@ -11,14 +11,13 @@ test("모바일은 상단 펼침 설정 없이 콘텐츠 탐색과 하단 입력
   await expect(page.getByRole("button", { name: "콘텐츠 닫기", exact: true })).toHaveCount(0);
   const input = page.getByRole("textbox", { name: "AI에게 보낼 메시지" });
   await input.fill("Hello, Mora!");
-  await page.getByRole("button", {name: "메뉴 열기"}).click();
-  await page.getByRole("button", {name: "커리큘럼", exact: true}).click();
+  await page.getByRole("button", {name: "콘텐츠", exact: true}).click();
   await expect(page.getByRole("main", {name: "영어 학습 콘텐츠"})).toBeInViewport();
   await expect(input).toBeInViewport();
-  await input.fill("탐색 중에도 입력할 수 있어요");
+  await expect(page.getByRole("dialog", { name: "영어 학습 콘텐츠" })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.getByRole("button", {name: "학습 콘텐츠 닫기"}).click();
-  await expect(input).toHaveValue("탐색 중에도 입력할 수 있어요");
+  await expect(input).toHaveValue("Hello, Mora!");
   await expect(input).toBeInViewport();
   const bounds = await input.boundingBox();
   expect(bounds).not.toBeNull();

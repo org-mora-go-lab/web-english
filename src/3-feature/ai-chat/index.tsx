@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useEffectEvent, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
+import { initialConversationTitle } from "@/src/4-entity/ai";
 import { activityFromChatText } from "@/src/4-entity/family";
 import { ThemePicker } from "@/src/5-shared";
 
@@ -30,7 +31,7 @@ const starterPrompts = {
   ],
 };
 
-export function AiChat({ signedIn, embedded = false, learningTopic, onClearTopic, sidebarTarget, onSidebarNavigate, welcomeVisual, renderLearningVisual, onContentTarget, onTitleChange }: AiChatProps) {
+export function AiChat({ signedIn, embedded = false, learningTopic, onClearTopic, sidebarTarget, onSidebarNavigate, welcomeVisual, renderLearningVisual, onTitleChange }: AiChatProps) {
   const [configuration, setConfiguration] = useState<ChatConfiguration | null>(null);
   const [configurationLoading, setConfigurationLoading] = useState(signedIn);
   const [configurationError, setConfigurationError] = useState(false);
@@ -220,7 +221,7 @@ export function AiChat({ signedIn, embedded = false, learningTopic, onClearTopic
   }, [partialAnswer]);
 
   const firstQuestion = messages.find(item => item.role === "user")?.content || pendingQuestion;
-  const activeTitle = (openingConversationId ? conversations.find(item => item.id === openingConversationId)?.title : "") || activityFromChatText(firstQuestion)?.title || conversations.find(item => item.id === conversationId)?.title || firstQuestion || "새 채팅";
+  const activeTitle = (openingConversationId ? conversations.find(item => item.id === openingConversationId)?.title : "") || activityFromChatText(firstQuestion)?.title || conversations.find(item => item.id === conversationId)?.title || (firstQuestion ? initialConversationTitle(firstQuestion) : "새 채팅");
   useEffect(() => { onTitleChange?.(activeTitle); }, [activeTitle, onTitleChange]);
 
   const activeModel = configuration?.models.find(item => item.id === model);
@@ -379,7 +380,7 @@ export function AiChat({ signedIn, embedded = false, learningTopic, onClearTopic
       {historyLoading && <p className="ai-chat-notice" role="status">저장된 대화를 불러오고 있어요…</p>}
       {historyError && <p className="ai-chat-banner ai-chat-error" role="alert">{historyError}</p>}
 
-      </div>      <details className="ai-chat-policy"><summary>정책</summary><p>고급 음성은 AI가 생성합니다. 마이크 음성과 대화는 OpenAI로 전송되며 API 사용료가 적용됩니다. 부모님이 함께 사용해 주세요.</p><p id="ai-chat-memory">빈 입력창에서 Tab을 누르면 추천 질문을 채워요. 완료된 대화는 로그인한 계정에 저장되며 다시 접속하면 이어갈 수 있어요. 최근 대화부터 AI에 전달해요.</p><p id="ai-chat-privacy">입력한 대화는 답변 생성을 위해 OpenAI로 전송됩니다. 아이의 이름 등 개인정보는 입력하지 마세요.</p></details></>);
+      </div></>);
 
   return (
     <section className={`ai-chat${embedded ? " is-embedded" : ""}${standaloneSidebarHidden ? " is-standalone-sidebar-hidden" : ""}`} id="ai-chat" aria-label="AI 영어 도우미">
@@ -420,7 +421,6 @@ export function AiChat({ signedIn, embedded = false, learningTopic, onClearTopic
         {pendingQuestion && <>{(() => { const activity = activityFromChatText(pendingQuestion); return <>{activity && renderLearningVisual?.(activity.id)}<article className="ai-chat-message is-user is-pending" data-testid="ai-message-pending"><div className="ai-chat-message-label">나</div><p>{activity ? `“${activity.title}” 놀이로 이야기해요.` : pendingQuestion}</p></article></>; })()}{partialAnswer ? <article className="ai-chat-message is-assistant is-streaming" data-testid="ai-message-streaming" aria-live="off"><div className="ai-chat-message-label"><Sparkles size={14} aria-hidden="true" />영어 도우미<span>{activeModel?.name}</span></div><p>{partialAnswer}</p></article> : <div className="ai-chat-thinking" role="status"><span aria-hidden="true">✦</span>{voice.active ? "고급 음성 코치" : activeModel?.name}가 답변을 준비하고 있어요…</div>}</>}
         <div ref={conversationEnd} />
       </div>
-      <div className="ai-chat-content-target" ref={onContentTarget} />
       </div>
 
       {!authenticated && <div className="ai-chat-login-card"><div><strong>{signedIn ? "다시 로그인해 주세요." : "부모님, 로그인하고 시작해 보세요."}</strong><p>{signedIn ? "로그인 시간이 만료됐어요. 다시 로그인한 뒤 대화할 수 있어요." : "모델을 고르고 우리 가족에게 맞는 영어를 준비할 수 있어요."}</p></div><Link href={embedded ? "/login?callbackUrl=/" : "/login?callbackUrl=/ai"}>로그인하고 대화하기<ArrowUp size={15} aria-hidden="true" /></Link></div>}
@@ -432,7 +432,7 @@ export function AiChat({ signedIn, embedded = false, learningTopic, onClearTopic
 
       <form className={`ai-chat-composer${authenticated ? "" : " is-locked"}`} onSubmit={event => { event.preventDefault(); void sendMessage(); }}>
         <label className="ai-chat-composer-label" htmlFor="ai-message">부모님의 한마디</label>
-        <textarea ref={composer} id="ai-message" aria-label="AI에게 보낼 메시지" aria-describedby="ai-chat-privacy ai-chat-memory" placeholder={authenticated ? suggestedMessage : "로그인 후 메시지를 보낼 수 있어요."} rows={embedded ? 1 : 3} maxLength={maxCharacters} disabled={!canCompose || busy || conversationFull} value={draft} onChange={event => { setDraft(event.target.value); setError(""); }} onKeyDown={event => { if (event.key === "Tab" && !event.shiftKey && !event.ctrlKey && !event.altKey && !event.metaKey && !event.nativeEvent.isComposing && !draft && canCompose) { event.preventDefault(); setDraft(suggestedMessage); setError(""); return; } if (event.key === "Enter" && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); void sendMessage(); } }} />
+        <textarea ref={composer} id="ai-message" aria-label="AI에게 보낼 메시지" placeholder={authenticated ? suggestedMessage : "로그인 후 메시지를 보낼 수 있어요."} rows={embedded ? 1 : 3} maxLength={maxCharacters} disabled={!canCompose || busy || conversationFull} value={draft} onChange={event => { setDraft(event.target.value); setError(""); }} onKeyDown={event => { if (event.key === "Tab" && !event.shiftKey && !event.ctrlKey && !event.altKey && !event.metaKey && !event.nativeEvent.isComposing && !draft && canCompose) { event.preventDefault(); setDraft(suggestedMessage); setError(""); return; } if (event.key === "Enter" && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); void sendMessage(); } }} />
         <div className="ai-chat-composer-bottom">
           <div className="ai-chat-composer-tools">{modelControl}</div>
           <div className="ai-chat-composer-actions">{voiceControl}{embedded && <button type="button" className="ai-chat-voice-toggle" aria-label={voice.active ? "고급 음성 종료" : "고급 음성 시작"} aria-pressed={voice.active} disabled={!voice.available || (!voice.active && (!canCompose || busy || Boolean(draft)))} onClick={() => { if (voice.active) { voice.stop(); setPendingQuestion(""); } else { setError(""); setNotice(""); setOptionsOpen(false); void voice.start(); } }}><Mic size={18} aria-hidden="true" /><span>{voice.active ? "음성 종료" : "음성"}</span></button>}{busy ? <button key="stop" type="button" className="ai-chat-stop" aria-label="응답 중지" title="응답 중지" onClick={event => { event.preventDefault(); stopResponse(); }}><Square size={13} fill="currentColor" aria-hidden="true" /></button> : <button key="send" type="submit" className="ai-chat-send" aria-label="보내기" title="보내기" disabled={!canSend}><ArrowUp size={17} aria-hidden="true" /></button>}</div>

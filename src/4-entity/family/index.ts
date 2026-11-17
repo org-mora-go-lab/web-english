@@ -1,3 +1,3 @@
 export { activityFromChatText } from "./chat-activity";
-export type { AgePeriod, PlayActivity, PlayTheme } from "./curriculum";
-export { activityById, agePeriods, periodForAge, playActivities } from "./curriculum";
+export { activitiesForAge, activityById, ageMonths, playActivities, supportedAge } from "./curriculum";
+export type { AgeMonth, PlayActivity, PlayTheme } from "./type";
