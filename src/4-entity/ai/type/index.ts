@@ -22,13 +22,13 @@ export type AiChatInput = {
   mode: AiMode;
 };
 
-export type SavedAiMessage = AiMessage & { id: string; model?: string };
+export type SavedAiMessage = AiMessage & { id: string; model?: string; replySuggestion?: string };
 export type AiConversation = {
   id: string; projectId: string | null; title: string; mode: AiMode; model: string;
   messages: SavedAiMessage[]; revision: number; updatedAt: number;
 };
 
-export type AiChatReply = { reply: string; model: string };
+export type AiChatReply = { reply: string; model: string; replySuggestion?: string };
 
 export type AiModelList = {
   models: AiModel[];

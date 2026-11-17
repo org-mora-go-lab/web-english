@@ -1,3 +1,5 @@
+export { readServerEvents } from "./server-events";
+
 export function sameOrigin(request: Request) {
   const origin = request.headers.get("origin");
   if (!origin) return false;

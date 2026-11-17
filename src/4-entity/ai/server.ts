@@ -6,9 +6,11 @@ import { sql } from "drizzle-orm";
 import { z } from "zod";
 
 import { getDb } from "@/src/5-shared/db";
+import { readServerEvents } from "@/src/5-shared/http";
 
 import { AI_MODELS } from "./constant";
 import type { AiChatInput, AiChatReply, AiModelList } from "./type";
+import { partialReply } from "./util";
 
 const MAX_BODY_BYTES = 64 * 1024;
 const UPSTREAM_TIMEOUT_MS = 45_000;
@@ -183,7 +185,33 @@ const modeInstructions = {
   practice: "Practice a short, friendly English conversation with the adult caregiver. Use simple English, offer one brief Korean explanation or gentle correction if helpful, and ask just one short follow-up question. Keep the reply concise.",
 };
 
-export async function generateAiReply(input: AiChatInput, signal?: AbortSignal): Promise<AiChatReply> {
+const suggestionInstructions = "Return JSON with reply first, then replySuggestion. In reply, finish with at most one simple question. In replySuggestion, write one short, natural example of the adult user's answer to that exact question, in first person where suitable. It must be a reply the user can send immediately, not another assistant question or an instruction. Match the conversation language (simple English for practice, Korean for parent guidance unless practicing an English answer). Do not invent identifying details about the child. If reply has no question, suggest a relevant short request to continue the topic. Keep the suggestion under 160 characters.";
+const replyFormat = {
+  type: "json_schema", name: "english_conversation", strict: true,
+  schema: { type: "object", properties: { reply: { type: "string" }, replySuggestion: { type: "string" } }, required: ["reply", "replySuggestion"], additionalProperties: false },
+};
+const replySchema = z.strictObject({ reply: z.string().trim().min(1), replySuggestion: z.string().trim().min(1).max(200) });
+
+function completedReply(value: unknown, model: string): AiChatReply {
+  const result = responseSchema.safeParse(value);
+  if (!result.success || result.data.status !== "completed") {
+    throw new AiError("AI 답변이 완성되지 않았습니다. 질문을 짧게 바꾸어 다시 시도해 주세요.", 502, "INCOMPLETE_RESPONSE");
+  }
+  const content = result.data.output.filter(item => item.type === "message").flatMap(item => item.content ?? []);
+  const refusal = content.filter(item => item.type === "refusal").map(item => item.refusal ?? "").join("\n").trim();
+  if (refusal) return { reply: refusal.slice(0, 2_000), model };
+  const text = content.filter(item => item.type === "output_text").map(item => item.text ?? "").join("").trim();
+  let parsed: z.infer<typeof replySchema>;
+  try { parsed = replySchema.parse(JSON.parse(text)); }
+  catch { throw new AiError("AI 답변을 가져오지 못했습니다. 다시 시도해 주세요.", 502, "INVALID_RESPONSE"); }
+  const overflowNotice = "\n\n답변이 길어 일부를 생략했어요. 질문을 나누어 다시 물어봐 주세요.";
+  const reply = parsed.reply.length > 2_000
+    ? `${parsed.reply.slice(0, 2_000 - overflowNotice.length).replace(/[\uD800-\uDBFF]$/, "").trimEnd()}${overflowNotice}`
+    : parsed.reply;
+  return { reply, replySuggestion: parsed.replySuggestion, model };
+}
+
+export async function generateAiReply(input: AiChatInput, signal?: AbortSignal, onDelta?: (text: string) => void): Promise<AiChatReply> {
   // Validate again so direct server consumers cannot bypass the model allowlist.
   const validated = parseAiChatInput(input);
   requireAiConfiguration();
@@ -199,11 +227,13 @@ export async function generateAiReply(input: AiChatInput, signal?: AbortSignal):
       signal: signal ? AbortSignal.any([timeout, signal]) : timeout,
       body: JSON.stringify({
         model: validated.model,
-        instructions: `${sharedInstructions} ${modeInstructions[validated.mode]}`,
+        instructions: `${sharedInstructions} ${modeInstructions[validated.mode]} ${suggestionInstructions}`,
         input: validated.messages,
         reasoning: { effort: "low" },
         max_output_tokens: 1_200,
         store: false,
+        text: { format: replyFormat },
+        ...(onDelta ? { stream: true } : {}),
       }),
     });
     if (!response.ok) {
@@ -212,21 +242,24 @@ export async function generateAiReply(input: AiChatInput, signal?: AbortSignal):
       if ([401, 403, 404].includes(response.status)) throw new AiError("선택한 모델에 연결할 수 없습니다. 다른 모델을 선택하거나 관리자에게 알려 주세요.", 503, "MODEL_UNAVAILABLE");
       throw new AiError("AI 응답을 받지 못했습니다. 잠시 후 다시 시도해 주세요.", 502, "UPSTREAM_UNAVAILABLE");
     }
-    const result = responseSchema.safeParse(await response.json());
-    if (!result.success || result.data.status !== "completed") {
-      throw new AiError("AI 답변이 완성되지 않았습니다. 질문을 짧게 바꾸어 다시 시도해 주세요.", 502, "INCOMPLETE_RESPONSE");
+    if (!onDelta) return completedReply(await response.json(), validated.model);
+    if (!response.body) throw new AiError("AI 연결이 끊겼습니다. 다시 시도해 주세요.", 502, "INCOMPLETE_RESPONSE");
+    let json = "";
+    let shown = "";
+    for await (const value of readServerEvents(response.body)) {
+      if (!value || typeof value !== "object") continue;
+      const event = value as { type?: string; delta?: string; response?: unknown };
+      if (event.type === "response.output_text.delta" && typeof event.delta === "string") {
+        json += event.delta;
+        if (json.length > 32_000) throw new AiError("AI 답변이 너무 깁니다. 질문을 나누어 주세요.", 502, "INVALID_RESPONSE");
+        const next = partialReply(json);
+        if (next.length > shown.length) { onDelta(next.slice(shown.length)); shown = next; }
+      } else if (event.type === "response.completed") return completedReply(event.response, validated.model);
+      else if (["error", "response.failed", "response.incomplete"].includes(event.type ?? "")) {
+        throw new AiError("AI 답변이 완성되지 않았습니다. 다시 시도해 주세요.", 502, "INCOMPLETE_RESPONSE");
+      }
     }
-    const reply = result.data.output
-      .filter((item) => item.type === "message")
-      .flatMap((item) => item.content ?? [])
-      .map((content) => content.type === "output_text" ? content.text ?? "" : content.type === "refusal" ? content.refusal ?? "" : "")
-      .filter(Boolean).join("\n").trim();
-    if (!reply) throw new AiError("AI 답변이 비어 있습니다. 질문을 바꾸어 다시 시도해 주세요.", 502, "EMPTY_RESPONSE");
-    const overflowNotice = "\n\n답변이 길어 일부를 생략했어요. 질문을 나누어 다시 물어봐 주세요.";
-    const boundedReply = reply.length > 2_000
-      ? `${reply.slice(0, 2_000 - overflowNotice.length).replace(/[\uD800-\uDBFF]$/, "").trimEnd()}${overflowNotice}`
-      : reply;
-    return { reply: boundedReply, model: validated.model };
+    throw new AiError("AI 연결이 끊겼습니다. 작성한 질문을 다시 보내 주세요.", 502, "INCOMPLETE_RESPONSE");
   } catch (error) {
     if (error instanceof AiError) throw error;
     if (timeout.aborted) throw new AiError("AI 응답 시간이 길어지고 있습니다. 잠시 후 다시 시도해 주세요.", 504, "UPSTREAM_TIMEOUT");

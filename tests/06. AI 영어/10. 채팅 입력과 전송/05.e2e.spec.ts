@@ -14,7 +14,10 @@ test("작은 고정 헤더 아래로 콘텐츠가 남은 높이를 채운다", a
   expect(Math.abs(title.x + title.width / 2 - 195)).toBeLessThan(1);
   expect(menu.x + menu.width).toBeLessThan(title.x);
   expect(title.x + title.width).toBeLessThan(content.x);
-  await page.getByRole("button", { name: "콘텐츠", exact: true }).click();
+  const contentButton = page.getByRole("button", { name: "콘텐츠", exact: true });
+  await expect(contentButton).toHaveText("");
+  await expect(contentButton.locator("svg")).toHaveCount(1);
+  await contentButton.click();
   const panel = (await page.getByRole("main", { name: "영어 학습 콘텐츠" }).boundingBox())!;
   const footer = (await page.locator(".ai-chat-composer").boundingBox())!;
   expect(panel.y).toBeCloseTo(header.y + header.height, 0);

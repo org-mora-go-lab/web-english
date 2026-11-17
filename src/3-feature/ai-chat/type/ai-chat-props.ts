@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 export type AiChatProps = {
   signedIn: boolean;
   embedded?: boolean;
+  onTitleChange?: (title: string) => void;
   onContentTarget?: (target: HTMLElement | null) => void;
   sidebarTarget?: HTMLElement | null;
   onSidebarNavigate?: () => void;

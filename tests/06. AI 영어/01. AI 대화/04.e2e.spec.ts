@@ -27,7 +27,10 @@ test("응답 중지 후 늦게 도착한 응답을 대화에 추가하지 않는
   await input.fill("오래 걸리는 질문");
   await page.getByRole("button", { name: "보내기", exact: true }).click();
   await expect.poll(() => count).toBe(1);
-  await page.getByRole("button", { name: "응답 중지" }).click();
+  const stop = page.getByRole("button", { name: "응답 중지", exact: true });
+  await expect(stop).toHaveText("");
+  await expect(stop.locator("svg")).toHaveCount(1);
+  await stop.click();
   await expect(input).toHaveValue("오래 걸리는 질문");
   await input.fill("새로운 질문");
   await page.getByRole("button", { name: "보내기", exact: true }).click();

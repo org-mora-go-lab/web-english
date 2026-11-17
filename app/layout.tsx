@@ -20,7 +20,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  title: "Mora Little English · 아이와 함께하는 영어 놀이",
+  title: "Mora 영어",
   description:
     "16~36개월 아이의 영어 놀이 커리큘럼과 가족의 놀이 기록, 부모 가이드.",
 };

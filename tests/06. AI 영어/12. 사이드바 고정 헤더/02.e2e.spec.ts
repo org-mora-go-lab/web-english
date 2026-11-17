@@ -13,14 +13,16 @@ test("AI 메뉴를 스크롤해도 상단 메뉴와 Mora를 고정한다", async
   const menu = page.getByRole("button", { name: "메뉴 닫기", exact: true });
   await expect(brand).toBeInViewport();
   await expect.poll(async () => Math.abs((await sidebar.boundingBox())!.x)).toBeLessThan(1);
-  await expect(menu.locator(".lucide-menu")).toHaveCount(1);
+  await expect(page.getByRole("button", { name: "메뉴 열기", exact: true })).toBeHidden();
+  await expect(sidebar.locator(".lucide-menu")).toHaveCount(0);
+  await expect(menu.locator("svg")).toHaveCount(1);
   const before = (await header.boundingBox())!;
   const body = sidebar.locator(".ai-chat-sidebar-body");
   await body.evaluate(element => { element.scrollTop = element.scrollHeight; });
   await expect.poll(() => body.evaluate(element => element.scrollTop)).toBeGreaterThan(0);
   await expect(brand).toBeInViewport(); await expect(menu).toBeInViewport();
   expect((await header.boundingBox())!.y).toBeCloseTo(before.y, 0);
-  expect((await brand.boundingBox())!.x).toBeGreaterThan((await menu.boundingBox())!.x + (await menu.boundingBox())!.width);
+  expect((await brand.boundingBox())!.x).toBeLessThan((await menu.boundingBox())!.x);
   await menu.click();
   await expect(page.getByRole("button", { name: "메뉴 열기", exact: true })).toBeVisible();
 });

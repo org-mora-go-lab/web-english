@@ -10,6 +10,7 @@ test("모바일 놀이 선택은 주제 대화를 시작하고 다음 답변에�
   await page.getByRole("button", { name: "메뉴 열기" }).click();
   await page.getByRole("button", {name: "커리큘럼", exact: true}).click();
   await page.getByRole("button", {name: /손 흔들며 인사/}).click();
+  await expect(page.locator(".play-header-title")).toHaveText("손 흔들며 인사");
   const log = page.getByRole("log", { name: "AI 대화" });
   await expect(log.getByRole("article", { name: "손 흔들며 인사 학습 카드" })).toBeVisible();
   await expect(log.getByTestId("ai-message-assistant")).toContainText("Wave your hand");

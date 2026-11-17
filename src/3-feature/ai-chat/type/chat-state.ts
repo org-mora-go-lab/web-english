@@ -13,6 +13,7 @@ export type ChatMessage = {
   role: "user" | "assistant";
   content: string;
   model?: string;
+  replySuggestion?: string;
 };
 
 export type SavedConversation = {

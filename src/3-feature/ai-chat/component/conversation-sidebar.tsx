@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import type { ConversationSidebarProps } from "../type";
 
-export function ConversationSidebar({ signedIn, projects, conversations, activeConversationId, newChatDisabled = false, busy, loading, error, onNewChat, onOpenConversation, onDeleteConversation, onMoveConversation, onCreateProject, onRenameProject, onDeleteProject }: ConversationSidebarProps) {
+export function ConversationSidebar({ signedIn, projects, conversations, activeConversationId, openingConversationId, newChatDisabled = false, busy, loading, error, onNewChat, onOpenConversation, onDeleteConversation, onMoveConversation, onCreateProject, onRenameProject, onDeleteProject }: ConversationSidebarProps) {
   const [creating, setCreating] = useState(false);
   const [editingId, setEditingId] = useState("");
   const [name, setName] = useState("");
@@ -36,12 +36,12 @@ export function ConversationSidebar({ signedIn, projects, conversations, activeC
   </form>;
   function renderConversations(items: typeof conversations) {
     return items.map(item => <div className={`conversation-sidebar-row ${activeConversationId === item.id ? "is-active" : ""}`} key={item.id}>
-      <button className="conversation-sidebar-open" type="button" aria-current={activeConversationId === item.id ? "page" : undefined} disabled={locked} onClick={() => onOpenConversation(item.id)} title={item.title}>{item.title}</button>
+      <button className={`conversation-sidebar-open${openingConversationId === item.id ? " is-loading" : ""}`} type="button" aria-current={activeConversationId === item.id ? "page" : undefined} aria-busy={openingConversationId === item.id} disabled={locked} onClick={() => onOpenConversation(item.id)} title={item.title}><span>{item.title}</span></button>
       <details className="conversation-sidebar-menu">
         <summary aria-label={`${item.title} 대화 메뉴`}><MoreHorizontal size={16} aria-hidden="true" /></summary>
         <div className="conversation-sidebar-menu-content">
-          <label>프로젝트 이동<select aria-label={`${item.title} 프로젝트 이동`} value={item.projectId ?? ""} disabled={locked} onChange={event => onMoveConversation(item.id, event.target.value || null)}><option value="">미분류</option>{projects.map(project => <option key={project.id} value={project.id}>{project.name}</option>)}</select></label>
-          <button className="conversation-sidebar-danger" type="button" aria-label={`${item.title} 대화 삭제`} disabled={locked} onClick={() => onDeleteConversation(item.id)}><Trash2 size={13} aria-hidden="true" />대화 삭제</button>
+          <label>프로젝트 이동<select aria-label={`${item.title} 프로젝트 이동`} value={item.projectId ?? ""} disabled={locked} onChange={event => { onMoveConversation(item.id, event.target.value || null); event.currentTarget.blur(); const menu = event.currentTarget.closest("details"); if (menu) { menu.open = false; menu.querySelector("summary")?.focus(); } }}><option value="">미분류</option>{projects.map(project => <option key={project.id} value={project.id}>{project.name}</option>)}</select></label>
+          <button className="conversation-sidebar-danger" type="button" aria-label={`${item.title} 대화 삭제`} disabled={locked} onClick={event => { const menu = event.currentTarget.closest("details"); if (menu) menu.open = false; onDeleteConversation(item.id); }}><Trash2 size={13} aria-hidden="true" />대화 삭제</button>
         </div>
       </details>
     </div>);
