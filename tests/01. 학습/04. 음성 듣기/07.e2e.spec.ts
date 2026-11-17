@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("영상 로드 오류와 재시도", async ({ page }) => {
+  await createAccount(page);
   await page.route("**/media/lessons/coffee.mp4", route => route.abort());
   await page.goto("/watch/coffee");
   await expect(page.locator(".player-error[role=alert]")).toContainText("영상을 불러오지 못했어요");

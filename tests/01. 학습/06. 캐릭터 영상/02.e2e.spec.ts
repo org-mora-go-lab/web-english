@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
+
+import { createAccount } from "../../__util__";
 test("모바일 첫 화면 영상 노출", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
+  await createAccount(page);
   await page.goto("/library");
   const video = page.getByTestId("momo-video");
   await expect(video).toBeVisible();

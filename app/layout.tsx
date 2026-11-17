@@ -1,4 +1,5 @@
 import "@/src/3-feature/play-chat-card/index.scss";
+import "@/src/3-feature/login-invitation/index.scss";
 import "@/src/3-feature/ai-chat/index.scss";
 import "@/src/5-shared/style/global.scss";
 import "@/src/5-shared/style/tailwind.css";
@@ -26,7 +27,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
+      <head><script dangerouslySetInnerHTML={{ __html: "try{document.documentElement.dataset.theme=localStorage.getItem('mora-english-theme')==='dark'?'dark':'light'}catch{}" }} /></head>
       <body>{children}</body>
     </html>
   );

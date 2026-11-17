@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("문장 해석 표시", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/library");
   await page.getByRole("link", { name: "오늘의 레슨 시작하기" }).click();
   const dialog = page.locator(".watch-primary");

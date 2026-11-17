@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
+
+import { createAccount } from "../../__util__";
 test("모든 레슨의 학습 콘텐츠", async ({ page }) => {
   test.setTimeout(120000);
+  await createAccount(page);
   await page.goto("/library");
   const cards = page.getByRole("link", { name: /레슨 열기$/ });
   await expect(cards).toHaveCount(15);

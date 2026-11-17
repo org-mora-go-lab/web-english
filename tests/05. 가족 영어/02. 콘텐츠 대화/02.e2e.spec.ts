@@ -11,7 +11,7 @@ test("콘텐츠를 여닫아도 대화와 입력 중인 문장은 유지된다",
   const input = page.getByRole("textbox", {name: "AI에게 보낼 메시지"});
   await input.fill("이 문장을 연습하고 싶어요");
   await expect(page.getByRole("main", { name: "영어 학습 콘텐츠" })).toBeHidden();
-  await page.getByRole("button", { name: "콘텐츠 열기", exact: true }).click();
+  await page.getByRole("button", { name: "커리큘럼", exact: true }).click();
   await expect(page.getByRole("main", { name: "영어 학습 콘텐츠" })).toBeVisible();
   await page.getByRole("button", { name: "학습 콘텐츠 닫기" }).click();
   await expect(page.getByRole("main", { name: "영어 학습 콘텐츠" })).toBeHidden();

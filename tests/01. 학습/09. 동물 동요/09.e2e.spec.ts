@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("부모 함께 놀이와 해석", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/watch/panda-body");
   const practice = page.getByRole("region", { name: "동요 가사와 함께 놀이" });
   await practice.getByRole("button", { name: "해석 보기", exact: true }).click();

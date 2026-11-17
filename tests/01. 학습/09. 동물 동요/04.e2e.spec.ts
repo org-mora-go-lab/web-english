@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("동요 가사 구절 재생", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/watch/bunny-hop");
   const video = page.getByTestId("lesson-video");
   await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.readyState)).toBeGreaterThanOrEqual(2);

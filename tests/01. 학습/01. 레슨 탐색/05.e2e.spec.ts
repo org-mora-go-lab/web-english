@@ -1,5 +1,8 @@
 import { expect, test } from "@playwright/test";
+
+import { createAccount } from "../../__util__";
 test("검색 제출 결과 이동", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/library");
   await page.getByRole("textbox", { name: "레슨 검색" }).fill("호텔");
   await page.getByRole("button", { name: "검색", exact: true }).click();

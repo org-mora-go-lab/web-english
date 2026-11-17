@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("홈 동물 동요 10편 프리뷰", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/library");
   const gallery = page.getByRole("region", { name: "동물 친구 영어 동요" });
   await expect(gallery.locator(".singalong-card")).toHaveCount(10);

@@ -1,7 +1,10 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("모바일 동요 탐색과 시청", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
+  await createAccount(page);
   await page.goto("/library");
   await expect(page.getByTestId("momo-video")).toBeInViewport();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);

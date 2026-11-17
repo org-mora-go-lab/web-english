@@ -1,21 +1,15 @@
 import { expect, test } from "@playwright/test";
 
-import { createAccount } from "../../__util__";
-import { mockAiModels } from "../01. AI 대화/__mock__";
-
-test("비회원 홈은 AI 요청 없이 채팅을 잠그고 로그인한 뒤 활성화한다", async ({ page }) => {
+test("비회원 홈은 학습 공간 대신 로그인 안내만 표시한다", async ({ page }) => {
   const aiRequests: string[] = [];
   page.on("request", request => { if (new URL(request.url()).pathname.startsWith("/api/ai/")) aiRequests.push(request.url()); });
   await page.goto("/");
-  await expect(page.getByRole("textbox", { name: "AI에게 보낼 메시지" })).toBeDisabled();
-  await expect(page.getByRole("button", { name: "보내기", exact: true })).toBeDisabled();
-  await expect(page.getByRole("combobox", { name: "목소리", exact: true })).toBeDisabled();
-  await expect(page.getByRole("button", { name: "새 채팅", exact: true })).toBeDisabled();
-  await page.getByRole("button", { name: "커리큘럼", exact: true }).click();
-  await page.getByRole("button", { name: /손 흔들며 인사/ }).click();
-  await expect(page.getByRole("textbox", { name: "AI에게 보낼 메시지" })).toBeDisabled();
+  await expect(page.getByRole("heading", { name: /로그인하고\s*영어 놀이를 시작해요/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: "로그인하고 대화하기" })).toHaveAttribute("href", "/login?callbackUrl=%2F");
+  await expect(page.getByRole("link", { name: /회원가입/ })).toHaveAttribute("href", "/signup");
+  await expect(page.getByRole("textbox", { name: "AI에게 보낼 메시지" })).toHaveCount(0);
+  await expect(page.getByRole("complementary", { name: "콘텐츠 메뉴" })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "커리큘럼", exact: true })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "새 채팅", exact: true })).toHaveCount(0);
   expect(aiRequests).toEqual([]);
-  await mockAiModels(page); await createAccount(page);
-  await expect(page.getByRole("textbox", { name: "AI에게 보낼 메시지" })).toBeEnabled();
-  await expect(page.getByRole("button", { name: "새 채팅", exact: true })).toBeEnabled();
 });

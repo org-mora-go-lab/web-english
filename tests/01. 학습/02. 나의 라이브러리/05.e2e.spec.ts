@@ -1,5 +1,8 @@
 import { expect, test } from "@playwright/test";
+
+import { createAccount } from "../../__util__";
 test("최근 학습 순서와 중복 제거", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/library");
   await page.getByRole("link", { name: /스몰토크.*레슨 열기/ }).click();
   await page.getByRole("link", { name: "목록으로 돌아가기" }).click();

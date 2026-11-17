@@ -1,5 +1,8 @@
 import { expect, test } from "@playwright/test";
+
+import { createAccount } from "../../__util__";
 test("영상 대본과 해석 펼치기", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/library");
   await page.getByText("영어 대본과 해석 보기", { exact: true }).click();
   await expect(page.locator(".video-transcript li")).toHaveCount(4);

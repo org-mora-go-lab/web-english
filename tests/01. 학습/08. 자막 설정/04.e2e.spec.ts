@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("플레이어 자체 자막 끄기 기억", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/watch/small-talk");
   const video = page.getByTestId("lesson-video");
   await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.readyState)).toBeGreaterThanOrEqual(2);

@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("최근 레슨 유지", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/library");
   await page.getByRole("link", { name: /해외 카페.*레슨 열기/ }).click();
   await page.getByRole("link", { name: "목록으로 돌아가기" }).click();

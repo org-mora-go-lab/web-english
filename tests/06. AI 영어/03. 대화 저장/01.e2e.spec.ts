@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { createAccount } from "../../__util__";
+import { createAccount, waitForChatControls } from "../../__util__";
 import { mockAiModels } from "../01. AI 대화/__mock__";
 import { seedConversation } from "./__util__";
 
@@ -13,6 +13,7 @@ test("계정에 저장된 최신 대화를 다시 불러와 이어서 요청한�
   await page.goto("/ai");
   await expect(page.getByTestId("ai-message-assistant")).toContainText("Roll the ball!");
   await page.reload();
+  await waitForChatControls(page);
   await expect(page.getByRole("combobox", { name: "내 대화 내역" })).toHaveValue(saved.id);
   await expect(page.getByTestId("ai-message-assistant")).toContainText("Roll the ball!");
   await page.getByRole("textbox", { name: "AI에게 보낼 메시지" }).fill("다음 표현도 알려줘");

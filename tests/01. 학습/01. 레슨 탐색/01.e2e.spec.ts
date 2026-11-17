@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("검색과 빈 결과", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/library");
   await page.getByRole("textbox", { name: "레슨 검색" }).fill("스몰토크");
   await expect(page.getByRole("article")).toHaveCount(1);

@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { createAccount } from "../../__util__";
+
 test("새 동요 저장과 복원", async ({ page }) => {
+  await createAccount(page);
   await page.goto("/watch/foxy-colors");
   await page.getByRole("button", { name: "레슨 저장", exact: true }).click();
   await page.reload();
