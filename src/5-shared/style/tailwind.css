@@ -1,2 +1,18 @@
 @import "tailwindcss/theme";
 @import "tailwindcss/utilities";
+
+:root {
+  --text-xs: 13px;
+  --text-sm: 15px;
+  --text-base: 17px;
+  --text-lg: 19px;
+  --text-xl: 21px;
+  --text-2xl: 25px;
+  --text-3xl: 31px;
+  --text-4xl: 37px;
+  --text-5xl: 49px;
+  --text-6xl: 61px;
+  --text-7xl: 73px;
+  --text-8xl: 97px;
+  --text-9xl: 129px;
+}
