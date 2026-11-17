@@ -1,3 +1,4 @@
+@use "../../5-shared/ui/theme-picker";
 @use "../../3-feature/ai-chat";
 
 .ai-coach {
@@ -19,11 +20,19 @@
   .ai-coach-home { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; color: var(--theme-muted); }
   .ai-coach-home:hover { background: var(--theme-soft); }
   .ai-coach-account { margin-left: auto; font-size: 13px; }
-  .ai-coach-main { flex: 1; min-height: 0; display: flex; }
+  .ai-coach-main { padding-left: 246px; flex: 1; min-height: 0; display: flex; }
 
   @media (max-width: 700px) {
+    .ai-coach-main { padding-left: 0; }
+    .ai-coach-account { margin-right: 44px; }
     .ai-coach-header { min-height: 56px; padding: 8px 12px; gap: 8px; }
     .ai-coach-brand { font-size: 16px; }
     .account-identity-name { display: none; }
   }
+}
+
+.ai-coach {
+  .ai-coach-header { position: sticky; top: 0; z-index: 40; height: 40px; min-height: 40px; padding: 2px 14px; justify-content: flex-end; background: var(--theme-bg); border: 0; }
+  .ai-coach-header > a { display: grid; place-items: center; height: 36px; font-size: 13px; color: var(--theme-muted); }
+  .ai-coach-title { position: absolute; left: 50%; transform: translateX(-50%); font-size: 15px; font-weight: 600; }
 }

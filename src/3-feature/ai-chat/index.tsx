@@ -1,11 +1,12 @@
 "use client";
 
-import { ArrowDown, ArrowUp, Check, ChevronDown, MessageCircle, Mic, Plus, RefreshCw, SlidersHorizontal, Sparkles, Square, Trash2, X } from "lucide-react";
+import { ArrowDown, ArrowUp, ChevronDown, Menu, MessageCircle, Mic, Plus, RefreshCw, Sparkles, Square, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useEffectEvent, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 import { activityFromChatText } from "@/src/4-entity/family";
+import { ThemePicker } from "@/src/5-shared";
 
 import { ConversationSidebar } from "./component";
 import { useAiVoice } from "./hook";
@@ -206,10 +207,11 @@ export function AiChat({ signedIn, embedded = false, learningTopic, onClearTopic
   const conversationFull = messages.length >= maxMessages;
   const context = messages.slice(-18);
   while (context.length && context.reduce((total, item) => total + item.content.length, 0) > 10000) context.splice(0, 2);
-  const contextTooLong = context.reduce((total, item) => total + item.content.length, 0) + draft.trim().length > 12000;
+  const outgoingMessage = draft.trim() || suggestedMessage;
+  const contextTooLong = context.reduce((total, item) => total + item.content.length, 0) + outgoingMessage.length > 12000;
   const authenticated = signedIn && !loginRequired;
   const canCompose = authenticated && !managementBusy && !voice.active && Boolean(configuration?.configured && activeModel) && !configurationLoading && !configurationError && !historyLoading && !historyError;
-  const canSend = canCompose && !busy && !conversationFull && !contextTooLong && Boolean(draft.trim()) && draft.length <= maxCharacters;
+  const canSend = canCompose && !busy && !conversationFull && !contextTooLong && Boolean(outgoingMessage) && outgoingMessage.length <= maxCharacters;
 
   function retryConfiguration() {
     setConfigurationLoading(true);
@@ -247,7 +249,7 @@ export function AiChat({ signedIn, embedded = false, learningTopic, onClearTopic
   }
 
   async function sendMessage(spoken?: string) {
-    const content = (spoken ?? draft).trim();
+    const content = spoken === undefined ? outgoingMessage : spoken.trim();
     if (!canCompose || busy || conversationFull || !content || content.length > maxCharacters || request.current) { if (spoken) voice.stop(); return; }
     const chosenModel = model;
     const history = context.map(item => ({ role: item.role, content: item.content }));
@@ -257,6 +259,7 @@ export function AiChat({ signedIn, embedded = false, learningTopic, onClearTopic
     const controller = new AbortController();
     request.current = controller;
     setOptionsOpen(false);
+    if (!draft.trim()) setDraft(content);
     setBusy(true);
     setError("");
     setNotice("");
@@ -311,12 +314,9 @@ export function AiChat({ signedIn, embedded = false, learningTopic, onClearTopic
     return () => { cancelled = true; };
   }, [learningTopic, canCompose, busy, conversationFull]);
 
-  return (
-    <section className={`ai-chat${embedded ? " is-embedded" : ""}`} id="ai-chat" aria-label="AI 영어 도우미">
-      {sidebarTarget && createPortal(<ConversationSidebar signedIn={authenticated} projects={projects} conversations={conversations} activeConversationId={conversationId} newChatDisabled={managementBusy} busy={busy || voice.active || managementBusy} loading={authenticated && (historyLoading || projectsLoading)} error={managementError} onNewChat={() => { if (authenticated) { startFresh(); onSidebarNavigate?.(); } }} onOpenConversation={id => { if (authenticated) { void openConversation(id); onSidebarNavigate?.(); } }} onDeleteConversation={id => void deleteConversation(id)} onMoveConversation={(id, projectId) => void moveConversation(id, projectId)} onCreateProject={name => updateProject(null, name)} onRenameProject={updateProject} onDeleteProject={id => void deleteProject(id)} />, sidebarTarget)}
-      <div className="ai-chat-options" id="ai-chat-options" hidden={embedded && !optionsOpen} onKeyDown={event => { if (embedded && event.key === "Escape") { setOptionsOpen(false); document.getElementById("ai-chat-options-toggle")?.focus(); } }}>
-      {embedded && <div className="ai-chat-options-heading"><strong>대화 옵션</strong><button type="button" aria-label="대화 옵션 닫기" onClick={() => setOptionsOpen(false)}><X size={18} aria-hidden="true" /></button></div>}
-      <details className="ai-chat-settings" open><summary>대화 설정 · 내역</summary>
+  const modelControl = (<div className="ai-chat-select"><select id="ai-model" aria-label="AI 모델" value={model} disabled={!authenticated || busy || voice.active || configurationLoading || configurationError || !configuration?.models.length} onChange={event => selectModel(event.target.value)}>{configuration?.models.length ? configuration.models.map(item => <option value={item.id} key={item.id}>{item.name}</option>) : <option value="">{configurationLoading ? "모델 불러오는 중…" : configurationError ? "모델을 불러오지 못했어요" : "모델 준비 중"}</option>}</select><ChevronDown size={15} aria-hidden="true" /></div>);
+  const voiceControl = (<select id="ai-voice-name" aria-label="목소리" value={voiceName} disabled={!authenticated || voice.active} onChange={event => setVoiceName(event.target.value as "cat" | "marin" | "cedar")}><option value="cat">고양이 · 귀엽고 다정하게</option><option value="marin">여자 · Marin</option><option value="cedar">남자 · Cedar</option></select>);
+  const chatSettings = (<>      <div className="ai-chat-settings"><h2>대화 설정</h2><ThemePicker /><button type="button" disabled={!voice.active} aria-pressed={voice.muted} onClick={voice.toggleMute}>{voice.muted ? "마이크 켜기" : "마이크 끄기"}</button>
       <div className="ai-chat-toolbar">
         <div className="ai-chat-modes" role="group" aria-label="대화 모드">
           <button type="button" aria-pressed={mode === "parent"} disabled={!authenticated || managementBusy || busy || historyLoading || voice.active} onClick={() => mode !== "parent" && startFresh("parent")}><Sparkles size={16} aria-hidden="true" />부모 영어 놀이</button>
@@ -337,30 +337,13 @@ export function AiChat({ signedIn, embedded = false, learningTopic, onClearTopic
       {historyLoading && <p className="ai-chat-notice" role="status">저장된 대화를 불러오고 있어요…</p>}
       {historyError && <p className="ai-chat-banner ai-chat-error" role="alert">{historyError}</p>}
 
-      </details>
-      <div className="ai-chat-voice">
-        <strong>OpenAI 고급 음성 · GPT Realtime 2.1</strong>
-        <label htmlFor="ai-voice-name">목소리</label>
-        <select id="ai-voice-name" value={voiceName} disabled={!authenticated || voice.active} onChange={event => setVoiceName(event.target.value as "cat" | "marin" | "cedar")}><option value="cat">고양이 · 귀엽고 다정하게</option><option value="marin">여자 · Marin</option><option value="cedar">남자 · Cedar</option></select>
-        {!embedded && <button type="button" aria-pressed={voice.active} disabled={!voice.available || (!voice.active && (!canCompose || busy || Boolean(draft)))} onClick={() => { if (voice.active) { voice.stop(); setPendingQuestion(""); } else { setError(""); setNotice(""); void voice.start(); } }}><Mic size={16} aria-hidden="true" />{voice.active ? "고급 음성 종료" : "고급 음성 시작"}</button>}
-        <button type="button" disabled={!voice.active} aria-pressed={voice.muted} onClick={voice.toggleMute}>{voice.muted ? "마이크 켜기" : "마이크 끄기"}</button>
-        {!embedded && voice.audioBlocked && <button type="button" onClick={voice.resumeAudio}>소리 재생 허용</button>}
-        {!embedded && <span role="status">{voice.status}</span>}
-        {!embedded && voice.muted && <span>마이크가 꺼져 있어요.</span>}
-        <small>{embedded ? "AI 음성 · API 사용료 적용 · 부모님이 함께 사용해 주세요. 마이크 음성과 대화는 OpenAI로 전송됩니다." : voice.available ? "AI가 생성하는 음성입니다. 마이크 음성은 OpenAI로 전송되며 전사문과 완료된 답변을 내 계정에 저장합니다. 3분 제한 없이 대화할 수 있어요. 저장 연결이 갱신되는 동안에도 듣고 말하기를 계속합니다. 장시간 대화는 다음 음성 연결을 미리 준비해 답변을 마친 뒤 이어갑니다. 고급 음성은 전용 모델을 사용하며 아래 모델 선택은 텍스트 대화에 적용됩니다. API 사용료가 적용됩니다. 종료하거나 화면을 벗어나면 마이크를 끕니다." : "이 브라우저에서는 고급 음성을 지원하지 않아요. HTTPS의 Chrome에서 시도하거나 텍스트로 대화해 주세요."}</small>
-      </div>
-      <details className="ai-chat-model-settings" open><summary>텍스트 모델 선택</summary>
-      <div className="ai-chat-model-row">
-        <div className="ai-chat-model-choice">
-          <label htmlFor="ai-model">AI 모델</label>
-          <div className="ai-chat-select"><select id="ai-model" value={model} disabled={!authenticated || busy || voice.active || configurationLoading || configurationError || !configuration?.models.length} onChange={event => selectModel(event.target.value)}>{configuration?.models.length ? configuration.models.map(item => <option value={item.id} key={item.id}>{item.name}</option>) : <option value="">{configurationLoading ? "모델 불러오는 중…" : configurationError ? "모델을 불러오지 못했어요" : "모델 준비 중"}</option>}</select><ChevronDown size={15} aria-hidden="true" /></div>
-          {configuration && !configurationLoading && !configurationError && <span className={`ai-chat-connection ${configuration.configured ? "is-ready" : ""}`}>{configuration.configured ? <Check size={13} aria-hidden="true" /> : <span className="ai-chat-status-dot" />}{configuration.configured ? "AI 사용 가능" : "연결 준비 중"}</span>}
-        </div>
-        <p>{activeModel?.description ?? "부모님께 맞는 모델을 골라 보세요."}</p>
-        <small>모델에 따라 응답 속도와 API 사용 비용이 달라집니다. 선택한 모델은 이 브라우저에 기억해요.</small>
-      </div>
-      </details>
-      </div>
+      </div>      <details className="ai-chat-policy"><summary>정책</summary><p>고급 음성은 AI가 생성합니다. 마이크 음성과 대화는 OpenAI로 전송되며 API 사용료가 적용됩니다. 부모님이 함께 사용해 주세요.</p><p id="ai-chat-memory">빈 입력창에서 Tab을 누르면 추천 질문을 채워요. 완료된 대화는 로그인한 계정에 저장되며 다시 접속하면 이어갈 수 있어요. 최근 대화부터 AI에 전달해요.</p><p id="ai-chat-privacy">입력한 대화는 답변 생성을 위해 OpenAI로 전송됩니다. 아이의 이름 등 개인정보는 입력하지 마세요.</p></details></>);
+
+  return (
+    <section className={`ai-chat${embedded ? " is-embedded" : ""}`} id="ai-chat" aria-label="AI 영어 도우미">
+      {sidebarTarget && createPortal(<ConversationSidebar signedIn={authenticated} projects={projects} conversations={conversations} activeConversationId={conversationId} newChatDisabled={managementBusy} busy={busy || voice.active || managementBusy} loading={authenticated && (historyLoading || projectsLoading)} error={managementError} onNewChat={() => { if (authenticated) { startFresh(); onSidebarNavigate?.(); } }} onOpenConversation={id => { if (authenticated) { void openConversation(id); onSidebarNavigate?.(); } }} onDeleteConversation={id => void deleteConversation(id)} onMoveConversation={(id, projectId) => void moveConversation(id, projectId)} onCreateProject={name => updateProject(null, name)} onRenameProject={updateProject} onDeleteProject={id => void deleteProject(id)} />, sidebarTarget)}
+      {sidebarTarget ? createPortal(chatSettings, sidebarTarget) : <><button className="ai-chat-sidebar-toggle" type="button" aria-label={optionsOpen ? "메뉴 닫기" : "메뉴 열기"} aria-expanded={optionsOpen} onClick={() => setOptionsOpen(open => !open)}><Menu size={22} aria-hidden="true" /></button>{optionsOpen && <button type="button" className="ai-chat-sidebar-backdrop" aria-label="메뉴 배경 닫기" onClick={() => setOptionsOpen(false)} />}<aside className={`ai-chat-standalone-sidebar${optionsOpen ? " is-open" : ""}`} aria-label="대화 설정 및 내역">{chatSettings}</aside></>}
+
 
       {configurationError && <div className="ai-chat-banner ai-chat-error" role="alert"><p>모델 정보를 불러오지 못했어요. 연결 상태를 다시 확인해 주세요.</p><button type="button" onClick={retryConfiguration}><RefreshCw size={14} aria-hidden="true" />연결 상태 다시 확인</button></div>}
       {!configurationError && !configurationLoading && configuration && !configuration.configured && <div className="ai-chat-banner" role="status"><p><strong>AI 연결을 준비하고 있어요.</strong><br />연결이 완료되면 선택한 모델과 대화할 수 있어요.</p><button type="button" onClick={retryConfiguration}><RefreshCw size={14} aria-hidden="true" />연결 상태 다시 확인</button></div>}
@@ -398,12 +381,12 @@ export function AiChat({ signedIn, embedded = false, learningTopic, onClearTopic
         <label className="ai-chat-composer-label" htmlFor="ai-message">부모님의 한마디</label>
         <textarea ref={composer} id="ai-message" aria-label="AI에게 보낼 메시지" aria-describedby="ai-chat-privacy ai-chat-memory" placeholder={authenticated ? suggestedMessage : "로그인 후 메시지를 보낼 수 있어요."} rows={embedded ? 1 : 3} maxLength={maxCharacters} disabled={!canCompose || busy || conversationFull} value={draft} onChange={event => { setDraft(event.target.value); setError(""); }} onKeyDown={event => { if (event.key === "Tab" && !event.shiftKey && !event.ctrlKey && !event.altKey && !event.metaKey && !event.nativeEvent.isComposing && !draft && canCompose) { event.preventDefault(); setDraft(suggestedMessage); setError(""); return; } if (event.key === "Enter" && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); void sendMessage(); } }} />
         <div className="ai-chat-composer-bottom">
-          {embedded ? <div className="ai-chat-composer-tools"><button id="ai-chat-options-toggle" type="button" aria-label="대화 옵션" aria-expanded={optionsOpen} aria-controls="ai-chat-options" onClick={() => setOptionsOpen(open => !open)}><SlidersHorizontal size={18} aria-hidden="true" /></button><span className="ai-chat-composer-model">{activeModel?.name ?? "영어 도우미"}</span></div> : <span>{draft.length.toLocaleString()} / 2,000<span className="ai-chat-key-hint"> · Shift + Enter 줄바꿈</span></span>}
-          <div className="ai-chat-composer-actions">{embedded && <button type="button" className="ai-chat-voice-toggle" aria-label={voice.active ? "고급 음성 종료" : "고급 음성 시작"} aria-pressed={voice.active} disabled={!voice.available || (!voice.active && (!canCompose || busy || Boolean(draft)))} onClick={() => { if (voice.active) { voice.stop(); setPendingQuestion(""); } else { setError(""); setNotice(""); setOptionsOpen(false); void voice.start(); } }}><Mic size={18} aria-hidden="true" /><span>{voice.active ? "음성 종료" : "음성"}</span></button>}{busy ? <button key="stop" type="button" className="ai-chat-stop" onClick={event => { event.preventDefault(); stopResponse(); }}><Square size={13} fill="currentColor" aria-hidden="true" />응답 중지</button> : <button key="send" type="submit" className="ai-chat-send" disabled={!canSend}>보내기<ArrowUp size={17} aria-hidden="true" /></button>}</div>
+          <div className="ai-chat-composer-tools">{modelControl}</div>
+          <div className="ai-chat-composer-actions">{voiceControl}{embedded && <button type="button" className="ai-chat-voice-toggle" aria-label={voice.active ? "고급 음성 종료" : "고급 음성 시작"} aria-pressed={voice.active} disabled={!voice.available || (!voice.active && (!canCompose || busy || Boolean(draft)))} onClick={() => { if (voice.active) { voice.stop(); setPendingQuestion(""); } else { setError(""); setNotice(""); setOptionsOpen(false); void voice.start(); } }}><Mic size={18} aria-hidden="true" /><span>{voice.active ? "음성 종료" : "음성"}</span></button>}{busy ? <button key="stop" type="button" className="ai-chat-stop" onClick={event => { event.preventDefault(); stopResponse(); }}><Square size={13} fill="currentColor" aria-hidden="true" />응답 중지</button> : <button key="send" type="submit" className="ai-chat-send" aria-label="보내기" title="보내기" disabled={!canSend}><ArrowUp size={17} aria-hidden="true" /></button>}</div>
         </div>
       </form>
       {embedded && voice.active && <p className="ai-chat-live-status" role="status"><span>{voice.status}</span>{voice.muted && <span> · <span>마이크가 꺼져 있어요.</span></span>}{voice.audioBlocked && <button type="button" onClick={voice.resumeAudio}>소리 재생 허용</button>}</p>}
-      <div className="ai-chat-privacy"><p id="ai-chat-memory">빈 입력창에서 Tab을 누르면 추천 질문을 채워요. 완료된 대화는 로그인한 계정에 저장되며 다시 접속하면 이어갈 수 있어요. 최근 대화부터 AI에 전달해요.</p><p id="ai-chat-privacy">입력한 대화는 답변 생성을 위해 OpenAI로 전송됩니다. 아이의 이름 등 개인정보는 입력하지 마세요.</p></div>
+
     </section>
   );
 }

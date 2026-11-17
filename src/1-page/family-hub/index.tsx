@@ -25,6 +25,7 @@ export function FamilyHub({ viewer }: FamilyHubProps) {
   const [contentOpen, setContentOpen] = useState(false);
   const [topic, setTopic] = useState<{ key: string; title: string; prompt: string; activityId: string } | null>(null);
   const [sidebar, setSidebar] = useState(false);
+  const [desktopSidebarHidden, setDesktopSidebarHidden] = useState(false);
   const [contentTarget, setContentTarget] = useState<HTMLElement | null>(null);
   const [chatSidebar, setChatSidebar] = useState<HTMLElement | null>(null);
   const contentRef = useRef<HTMLElement | null>(null);
@@ -99,17 +100,17 @@ export function FamilyHub({ viewer }: FamilyHubProps) {
     contentRef.current?.scrollTo({top: 0});
   }
   if (!viewer) return <LoginInvitation />;
-  return <div className="family-hub" style={{ height: viewportHeight }}>
+  return <div className={`family-hub${desktopSidebarHidden ? " is-sidebar-hidden" : ""}`} style={{ height: viewportHeight }}>
     <button className="mobile-menu" aria-label={sidebar ? "메뉴 닫기" : "메뉴 열기"} aria-expanded={sidebar} aria-controls="family-sidebar" onClick={() => setSidebar(!sidebar)}>{sidebar ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}</button>
     {sidebar && <button className="sidebar-backdrop" aria-label="메뉴 배경 닫기" onClick={() => setSidebar(false)} />}
-    <aside id="family-sidebar" className={`family-sidebar ${sidebar ? "is-open" : ""}`} aria-label="콘텐츠 메뉴">
+    <aside id="family-sidebar" inert={desktopSidebarHidden && !sidebar} className={`family-sidebar ${sidebar ? "is-open" : ""}`} aria-label="콘텐츠 메뉴">
       <Link href="/" className="family-brand"><span className="brand-mark">m.</span><span>mora <b>little english</b></span></Link>
       <p className="sidebar-caption">작은 놀이, 함께하는 영어</p><section className="chat-sidebar-slot" ref={setChatSidebar} aria-label="내 채팅" />
       <nav aria-label="주 메뉴">{viewLabels.map(item => <button key={item.id} aria-current={view === item.id ? "page" : undefined} className={view === item.id ? "active" : ""} onClick={() => { setView(item.id); setSelected(null); setContentOpen(true); setSidebar(false); }}><span aria-hidden="true">{item.icon}</span>{item.label}</button>)}<Link href="/ai" aria-label="AI 영어 도우미" className="sidebar-ai-link">✦ AI 영어 도우미</Link></nav>
       <div className="sidebar-age"><label htmlFor="child-age">현재 개월수</label><select id="child-age" aria-label="아이 개월수" value={age} disabled={!profileReady || ageSaving} onChange={event => void saveAge(Number(event.target.value))}>{Array.from({length: 21}, (_, i) => i + 16).map(month => <option key={month} value={month}>{month}개월</option>)}</select><p>{currentPeriod.label} · {currentPeriod.focus}</p></div>
       <div className="sidebar-bottom"><p>♡ 함께한 날 {viewer ? `${activeDays}일` : "—"}</p><div className="family-account">{viewer ? <><Link href="/settings/account"><AccountIdentity displayName={viewer.displayName} profileImageUrl={viewer.profileImageUrl} compact /></Link><button onClick={() => signOut({ callbackUrl: "/login" })}>로그아웃</button></> : <Link className="login-link" href="/login?callbackUrl=/">부모 로그인</Link>}</div></div>
     </aside>
-    <div className="family-content"><header className="play-header"><span>Mora English</span><span className="play-header-topic">{topic?.title ?? "우리 가족의 영어 친구"}</span></header>
+    <div className="family-content"><header className="play-header"><button type="button" className="desktop-menu" aria-label={desktopSidebarHidden ? "메뉴 열기" : "메뉴 닫기"} aria-expanded={!desktopSidebarHidden} onClick={() => setDesktopSidebarHidden(hidden => !hidden)}><Menu size={22} aria-hidden="true" /></button><span className="play-header-title">Mora</span><button className="play-content-button" aria-expanded={contentOpen} aria-controls="learning-content" onClick={() => setContentOpen(open => !open)}>콘텐츠</button></header>
     <div className="learning-workbench">
     <div className="chat-dock"><AiChat signedIn={Boolean(viewer)} embedded learningTopic={topic} onClearTopic={() => setTopic(null)} sidebarTarget={chatSidebar} onContentTarget={setContentTarget} onSidebarNavigate={() => { setSidebar(false); setContentOpen(false); setSelected(null); }} welcomeVisual={<PlayChatCard onStartToday={openTodayActivity} disabled={ageSaving || !profileReady} />} renderLearningVisual={id => { const activity = activityById(id); return activity ? <PlayChatCard activity={activity} onRecord={viewer ? () => recordActivity(id) : undefined} /> : null; }} /></div>
     {contentTarget && createPortal(<>{contentOpen && <button className="content-backdrop" aria-label="학습 콘텐츠 배경 닫기" onClick={() => setContentOpen(false)} />}

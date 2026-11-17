@@ -79,3 +79,28 @@ button:disabled {
   color: var(--theme-primary);
   border: 1px solid var(--theme-border);
 }
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --theme-bg: #19171e;
+  --theme-surface: #25212e;
+  --theme-surface-tint: #211d29;
+  --theme-soft: #302937;
+  --theme-ink: #f0eaf7;
+  --theme-muted: #b9adc5;
+  --theme-primary: #b89adc;
+  --theme-primary-hover: #ceb5eb;
+  --theme-on-primary: #241a30;
+  --theme-border: #3e3549;
+  --theme-border-strong: #695478;
+  --theme-coral: #e9a2ad;
+  --theme-warm: #382a30;
+  --theme-danger: #ffabbc;
+  --theme-danger-soft: #3b242d;
+  --theme-success: #a6d8bc;
+  --theme-warning: #e8c486;
+  --theme-overlay: #08060cb3;
+  --theme-focus: #cbb0eb;
+  --theme-shadow: 0 12px 36px #0003;
+  --theme-focus-ring: 0 0 0 3px #b89adc40;
+}

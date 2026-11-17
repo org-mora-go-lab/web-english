@@ -27,7 +27,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
+      <head><script dangerouslySetInnerHTML={{ __html: "try{document.documentElement.dataset.theme=localStorage.getItem('mora-english-theme')==='dark'?'dark':'light'}catch{}" }} /></head>
       <body>{children}</body>
     </html>
   );

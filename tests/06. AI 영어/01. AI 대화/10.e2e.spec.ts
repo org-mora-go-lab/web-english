@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { createAccount, openChatOptions } from "../../__util__";
+import { createAccount, waitForChatControls } from "../../__util__";
 import { mockAiModels } from "./__mock__";
 
 test("빈 입력창의 Tab은 현재 모드 추천 질문을 채우고 기존 입력은 보존한다", async ({ page }) => {
@@ -20,7 +20,7 @@ test("빈 입력창의 Tab은 현재 모드 추천 질문을 채우고 기존 �
   await input.press("Tab");
   await expect(input).toHaveValue("내가 작성한 질문");
   await expect(input).not.toBeFocused();
-  await openChatOptions(page);
+  await waitForChatControls(page);
   await page.getByRole("button", { name: "영어 회화 연습", exact: true }).click();
   const practice = await input.getAttribute("placeholder");
   expect(practice).not.toBe(suggestion);

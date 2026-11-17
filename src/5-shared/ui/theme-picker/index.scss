@@ -1,0 +1,8 @@
+.theme-picker {
+  display: grid;
+  gap: 8px;
+  margin: 16px 0;
+  font-size: 12px;
+  color: var(--theme-muted);
+  select { width: 100%; padding: 10px; border: 1px solid var(--theme-border-strong); border-radius: 10px; color: var(--theme-ink); background: var(--theme-surface); }
+}
