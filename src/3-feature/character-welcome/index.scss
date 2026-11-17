@@ -8,8 +8,8 @@
     position: relative;
     overflow: hidden;
     border-radius: 12px;
-    background: #edf0e3;
-    box-shadow: 0 7px 24px #62593d12;
+    background: var(--theme-soft);
+    box-shadow: var(--theme-shadow);
   }
   video {
     display: block;
@@ -25,8 +25,8 @@
     pointer-events: none;
     font-size: 8px;
     letter-spacing: 1px;
-    background: #fffdf3e6;
-    color: #8e7b5e;
+    background: color-mix(in srgb, var(--theme-surface) 90%, transparent);
+    color: var(--theme-primary);
     padding: 5px 7px;
     border-radius: 5px;
   }
@@ -42,12 +42,12 @@
     strong {
       display: block;
       font-size: 11px;
-      color: #625f54;
+      color: var(--theme-ink);
     }
     span {
       display: block;
       font-size: 9px;
-      color: #969080;
+      color: var(--theme-muted);
       margin-top: 5px;
     }
     button {
@@ -56,8 +56,8 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      background: #637f6c;
-      color: white;
+      background: var(--theme-primary);
+      color: var(--theme-on-primary);
       border: 0;
       border-radius: 7px;
       padding: 10px 12px;
@@ -66,14 +66,14 @@
     }
   }
   .video-message {
-    color: #9a563e;
+    color: var(--theme-danger);
     line-height: 1.7;
     font-size: 11px;
   }
   .video-transcript {
     margin-top: 12px;
     font-size: 10px;
-    color: #918978;
+    color: var(--theme-muted);
     summary {
       cursor: pointer;
       padding: 3px 0;
@@ -87,7 +87,7 @@
       line-height: 1.7;
       p {
         font-size: 12px;
-        color: #575f50;
+        color: var(--theme-ink);
         margin: 0 0 3px;
       }
       span {

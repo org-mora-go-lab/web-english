@@ -2,7 +2,7 @@
 
 import { ArrowDown, ArrowUp, Check, ChevronDown, MessageCircle, Mic, Plus, RefreshCw, Sparkles, Square, Trash2 } from "lucide-react";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useEffectEvent, useRef, useState } from "react";
 
 import { useAiVoice } from "./hook";
 import type { AiChatProps, ChatConfiguration, ChatMessage, ChatMode, ConversationSummary, SavedConversation } from "./type";
@@ -23,7 +23,7 @@ const starterPrompts = {
   ],
 };
 
-export function AiChat({ signedIn, embedded = false }: AiChatProps) {
+export function AiChat({ signedIn, embedded = false, learningTopic, onClearTopic }: AiChatProps) {
   const [configuration, setConfiguration] = useState<ChatConfiguration | null>(null);
   const [configurationLoading, setConfigurationLoading] = useState(true);
   const [configurationError, setConfigurationError] = useState(false);
@@ -78,7 +78,7 @@ export function AiChat({ signedIn, embedded = false }: AiChatProps) {
     finally { if (!controller.signal.aborted) setHistoryLoading(false); }
   }, []);
 
-  function reloadHistory() { voice.stop(); setHistoryLoading(true); setDraft(""); setError(""); void loadHistory(); }
+  function reloadHistory() { onClearTopic?.(); voice.stop(); setHistoryLoading(true); setDraft(""); setError(""); void loadHistory(); }
 
   async function openConversation(id: string) {
     voice.stop(); setHistoryLoading(true); setError("");
@@ -86,7 +86,7 @@ export function AiChat({ signedIn, embedded = false }: AiChatProps) {
       const response = await fetch(`/api/ai/conversations/${id}`, { cache: "no-store" });
       if (response.status === 401) setLoginRequired(true);
       if (!response.ok) throw new Error("대화를 불러오지 못했어요. 내역을 다시 불러와 주세요.");
-      applyConversation((await response.json()).conversation); setDraft(""); setHistoryError("");
+      applyConversation((await response.json()).conversation); onClearTopic?.(); setDraft(""); setHistoryError("");
     } catch (failure) { setHistoryError(failure instanceof Error ? failure.message : "대화를 불러오지 못했어요."); }
     finally { setHistoryLoading(false); }
   }
@@ -157,6 +157,7 @@ export function AiChat({ signedIn, embedded = false }: AiChatProps) {
   }
 
   function startFresh(nextMode = mode) {
+    onClearTopic?.();
     voice.stop(); setConversationId(""); setRevision(0); turn.current = null;
     setMode(nextMode);
     setMessages([]);
@@ -224,8 +225,27 @@ export function AiChat({ signedIn, embedded = false }: AiChatProps) {
     }
   }
 
+  const handledTopic = useRef("");
+  const beginTopic = useEffectEvent((topic: NonNullable<AiChatProps["learningTopic"]>) => {
+    setDraft(topic.prompt);
+    void sendMessage(topic.prompt);
+    composer.current?.focus();
+  });
+  useEffect(() => {
+    if (!learningTopic || handledTopic.current === learningTopic.key || !canCompose || busy || conversationFull) return;
+    let cancelled = false;
+    queueMicrotask(() => {
+      if (cancelled || handledTopic.current === learningTopic.key) return;
+      handledTopic.current = learningTopic.key;
+      beginTopic(learningTopic);
+    });
+    return () => { cancelled = true; };
+  }, [learningTopic, canCompose, busy, conversationFull]);
+
   return (
     <section className={`ai-chat${embedded ? " is-embedded" : ""}`} id="ai-chat" aria-label="AI 영어 도우미">
+      {embedded && <header className="ai-chat-workspace-title"><span>✦ MORA ENGLISH</span><strong>오늘은 어떤 영어로 이야기할까요?</strong><p>콘텐츠를 고르면 그 주제로 대화를 시작해요.</p></header>}
+      {learningTopic && <div className="ai-chat-topic" role="status"><span>학습 주제</span><strong>{learningTopic.title}</strong>{voice.active && !messages.some(item => item.content === learningTopic.prompt) && <small>음성을 종료하면 선택한 주제로 대화를 시작해요.</small>}{!signedIn && <small>로그인한 뒤 콘텐츠를 다시 선택해 대화를 시작해 주세요.</small>}</div>}
       <details className="ai-chat-settings" open={embedded ? undefined : true}><summary>대화 설정 · 내역</summary>
       <div className="ai-chat-toolbar">
         <div className="ai-chat-modes" role="group" aria-label="대화 모드">
@@ -277,7 +297,7 @@ export function AiChat({ signedIn, embedded = false }: AiChatProps) {
         {!messages.length && !pendingQuestion && <div className="ai-chat-welcome">
           <div className="ai-chat-welcome-mark" aria-hidden="true"><Sparkles size={25} strokeWidth={1.5} /></div>
           <span className="ai-chat-welcome-eyebrow">{mode === "parent" ? "LET'S MAKE PLAYTIME SIMPLE" : "A SMALL CONVERSATION, EVERY DAY"}</span>
-          <h2>{mode === "parent" ? "오늘, 어떤 놀이를 준비할까요?" : "틀려도 괜찮아요. 한마디부터."}</h2>
+          <h2>{mode === "parent" ? (embedded ? "우리 가족만의 영어 시간을 시작해요." : "오늘, 어떤 놀이를 준비할까요?") : "틀려도 괜찮아요. 한마디부터."}</h2>
           <p>{mode === "parent" ? "익숙한 하루의 장면을 알려 주세요.\n아이와 함께할 쉬운 영어와 놀이를 생각해 드릴게요." : "부모님을 위한 편안한 영어 연습이에요.\n짧은 인사나 오늘 있었던 일부터 이야기해 보세요."}</p>
           <div className="ai-chat-starters">{starterPrompts[mode].map(item => <button type="button" key={item.label} disabled={!canCompose} onClick={() => { setDraft(item.prompt); setError(""); composer.current?.focus(); }}><span>{item.label}</span><ArrowDown size={14} aria-hidden="true" /></button>)}</div>
         </div>}
