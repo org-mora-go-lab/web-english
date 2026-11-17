@@ -3,20 +3,43 @@
 }
 :root {
   color-scheme: light;
-  --ink: #202020;
-  --muted: #727272;
-  --line: #ededed;
-  --red: #e73535;
+  --theme-bg: #fffcf8;
+  --theme-surface: #fff;
+  --theme-surface-tint: #fcf9ff;
+  --theme-soft: #f3effa;
+  --theme-ink: #504761;
+  --theme-muted: #786884;
+  --theme-primary: #8061a8;
+  --theme-primary-hover: #694b91;
+  --theme-on-primary: #fff;
+  --theme-border: #e7dff0;
+  --theme-border-strong: #cdbbde;
+  --theme-coral: #ff8e91;
+  --theme-warm: #fff0e5;
+  --theme-danger: #ac465c;
+  --theme-danger-soft: #fff0f2;
+  --theme-success: #46725c;
+  --theme-warning: #966a35;
+  --theme-overlay: #382b4b88;
+  --theme-focus: #8061a8;
+  --theme-shadow: 0 12px 36px #70528c0d;
+  --theme-focus-ring: 0 0 0 3px #8061a824;
+  --ink: var(--theme-ink);
+  --muted: var(--theme-muted);
+  --line: var(--theme-border);
+  --red: var(--theme-danger);
 }
 body {
   margin: 0;
   color: var(--ink);
-  background: #fff;
+  background: var(--theme-bg);
   font-family: Arial, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   font-size: 14px;
 }
 button,
-input {
+input,
+select,
+textarea {
   font: inherit;
 }
 button {
@@ -29,8 +52,11 @@ input {
 }
 button:focus-visible,
 a:focus-visible,
-input:focus-visible {
-  outline: 3px solid #376bc5;
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--theme-focus);
   outline-offset: 4px;
 }
 button {
@@ -44,5 +70,12 @@ button:disabled {
   opacity: 0.5;
 }
 ::selection {
-  background: #ffdfd7;
+  background: #e6daf5;
+  color: var(--theme-ink);
+}
+
+.account-identity-initial {
+  background: var(--theme-soft);
+  color: var(--theme-primary);
+  border: 1px solid var(--theme-border);
 }

@@ -24,7 +24,7 @@ export type AiChatInput = {
 
 export type SavedAiMessage = AiMessage & { id: string; model?: string };
 export type AiConversation = {
-  id: string; title: string; mode: AiMode; model: string;
+  id: string; projectId: string | null; title: string; mode: AiMode; model: string;
   messages: SavedAiMessage[]; revision: number; updatedAt: number;
 };
 
@@ -35,3 +35,5 @@ export type AiModelList = {
   defaultModel: string;
   configured: boolean;
 };
+
+export type AiProject = { id: string; name: string; createdAt: number; updatedAt: number };

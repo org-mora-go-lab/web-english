@@ -1,1 +1,36 @@
-.learning-context { min-height: 100vh; }
+.learning-context {
+  min-height: 100dvh;
+  color: var(--theme-ink);
+  background: var(--theme-bg);
+
+  h1, h2, h3 { color: var(--theme-ink); letter-spacing: -.035em; }
+  nav { padding-bottom: 22px; border-bottom: 1px solid var(--theme-border); }
+  nav a, nav button { color: var(--theme-primary); }
+  a { text-underline-offset: 4px; }
+  a:hover { color: var(--theme-primary-hover); }
+  input, select, textarea { color: var(--theme-ink); background: var(--theme-surface-tint); border-color: var(--theme-border-strong); }
+  input::placeholder, textarea::placeholder { color: var(--theme-muted); }
+  input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible, a:focus-visible {
+    outline: 3px solid var(--theme-focus); outline-offset: 3px;
+  }
+  .border, .border-t, .border-b { border-color: var(--theme-border); }
+  .page-muted { color: var(--theme-muted); }
+  .page-accent { color: var(--theme-primary); }
+  .page-surface { background: var(--theme-surface); }
+  .page-soft { color: var(--theme-ink); background: var(--theme-soft); }
+  .page-divider { background: var(--theme-border); }
+  .page-shadow { box-shadow: var(--theme-shadow); }
+  .page-primary { color: var(--theme-on-primary); background: var(--theme-primary); border-color: var(--theme-primary); }
+  .page-primary:hover:not(:disabled) { color: var(--theme-on-primary); background: var(--theme-primary-hover); }
+  .page-success { background: var(--theme-soft); }
+  .page-success-text { color: var(--theme-primary); }
+  .page-danger-border { border-color: var(--theme-danger); background: var(--theme-danger-soft); }
+  .page-danger-text { color: var(--theme-danger); }
+  .page-danger-soft { background: var(--theme-danger-soft); }
+  .page-danger-button { color: var(--theme-on-primary); background: var(--theme-danger); }
+  button, input, select, textarea { transition: border-color .18s, background-color .18s, box-shadow .18s; }
+  > h1 { margin-top: 30px; }
+  > pre { border-radius: 22px; line-height: 1.8; overflow-wrap: anywhere; box-shadow: var(--theme-shadow); }
+  button.border { background: var(--theme-surface); color: var(--theme-primary); }
+  [role="status"] { color: var(--theme-primary); }
+}

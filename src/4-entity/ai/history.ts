@@ -12,7 +12,7 @@ import { hangupRealtimeCall } from "./voice-call";
 
 const table = schema.aiConversations;
 type Row = typeof table.$inferSelect;
-const view = (row: Row): AiConversation => ({ id: row.id, title: row.title, mode: row.mode, model: row.model, messages: JSON.parse(row.messagesJson), revision: row.revision, updatedAt: row.updatedAt });
+const view = (row: Row): AiConversation => ({ id: row.id, projectId: row.projectId, title: row.title, mode: row.mode, model: row.model, messages: JSON.parse(row.messagesJson), revision: row.revision, updatedAt: row.updatedAt });
 const missing = () => new AiError("대화를 찾을 수 없습니다.", 404, "CONVERSATION_NOT_FOUND");
 const conflict = () => new AiError("다른 창에서 대화가 변경됐어요. 대화 내역을 다시 불러와 주세요.", 409, "CONVERSATION_CONFLICT");
 
@@ -23,7 +23,7 @@ export async function getAiConversation(userId: string, id: string) {
 }
 
 export async function listAiConversations(userId: string) {
-  const rows = await getDb().select({ id: table.id, title: table.title, mode: table.mode, model: table.model, revision: table.revision, updatedAt: table.updatedAt })
+  const rows = await getDb().select({ id: table.id, projectId: table.projectId, title: table.title, mode: table.mode, model: table.model, revision: table.revision, updatedAt: table.updatedAt })
     .from(table).where(eq(table.userId, userId)).orderBy(desc(table.updatedAt)).limit(100);
   return { conversations: rows, latest: rows[0] ? await getAiConversation(userId, rows[0].id) : null };
 }
