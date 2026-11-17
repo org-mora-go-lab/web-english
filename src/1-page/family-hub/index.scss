@@ -14,10 +14,9 @@
   .family-brand { display: flex; align-items: center; gap: 9px; color: var(--theme-primary); font-size: 18px; font-weight: 800; letter-spacing: -.04em; }
   .family-brand b { display: block; margin-top: 3px; font-size: 14px; font-weight: 500; color: var(--theme-muted); }
   .brand-mark { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 16px; background: var(--theme-primary); color: var(--theme-on-primary); }
-  .family-sidebar-header { display: flex; align-items: center; flex: none; height: var(--chat-header-height); gap: 8px; padding: 3px 8px; background: var(--theme-soft); }
+  .family-sidebar-header { display: flex; align-items: center; justify-content: space-between; flex: none; height: var(--chat-header-height); gap: 8px; padding: 3px 8px 3px 14px; background: var(--theme-soft); }
   .family-sidebar-header .brand-mark { width: 30px; height: 30px; border-radius: 11px; font-size: 18px; }
   .sidebar-menu { display: grid; place-items: center; width: 40px; height: 40px; flex: none; padding: 0; border: 0; background: transparent; color: var(--theme-primary); }
-  .sidebar-menu-space { display: none; }
   .family-sidebar-body { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column; padding: 16px 18px; scrollbar-width: thin; }
   .sidebar-caption { margin: 12px 0 24px; font-size: 13px; color: var(--theme-muted); }
   .family-sidebar nav { display: grid; gap: 8px; }
@@ -33,11 +32,12 @@
   .family-account button { padding: 0; border: 0; background: transparent; color: var(--theme-muted); font-size: 13px; }
   .login-link { border: 1px solid var(--theme-border-strong); border-radius: 10px; padding: 10px 15px; }
   .family-content { flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; }
-  .play-header { height: var(--chat-header-height); min-height: var(--chat-header-height); flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 3px 10px; font-weight: 700; position: sticky; top: 0; z-index: 40; justify-content: flex-end; background: var(--theme-bg); }
-  .play-header-title { position: absolute; left: 50%; transform: translateX(-50%); font-size: 16px; font-weight: 600; }
+  .play-header { height: var(--chat-header-height); min-height: var(--chat-header-height); flex: none; display: grid; grid-template-columns: 40px minmax(0, 1fr) 40px; align-items: center; gap: 10px; padding: 3px 8px; font-weight: 700; position: sticky; top: 0; z-index: 40; background: var(--theme-bg); }
+  .play-header-title { grid-column: 2; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center; font-size: 16px; font-weight: 600; }
   .family-sidebar .ai-chat-policy { margin: 16px 0; color: var(--theme-muted); font-size: 13px; }
   .family-sidebar .ai-chat-policy p { font-size: 12px; line-height: 1.7; }
-  .play-content-button { padding: 6px 10px; min-height: 36px; border: 0; border-radius: 10px; background: transparent; color: var(--theme-muted); font-size: 14px; }
+  .play-content-button { grid-column: 3; display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 0; border-radius: 10px; background: transparent; color: var(--theme-muted); }
+  .play-content-button:hover { background: var(--theme-soft); }
   .play-header-brand { display: inline-flex; align-items: center; gap: 10px; }
   .play-header .brand-mark { width: 32px; height: 32px; border-radius: 11px; }
   .family-sidebar .ai-chat-settings { margin: 18px 0; font-size: 13px; }
@@ -136,9 +136,6 @@
     .family-sidebar.is-open { transform: translateX(0); visibility: visible; transition-delay: 0s; display: flex; position: fixed; inset: 0 auto 0 0; z-index: 42; width: min(308px, 93.5vw); }
     .sidebar-backdrop { display: block; position: fixed; inset: 0; z-index: 41; border: 0; background: var(--theme-overlay); }
     .mobile-menu { display: grid; place-items: center; position: fixed; top: 3px; left: 8px; z-index: 43; width: 40px; height: 40px; border: 0; border-radius: 12px; background: transparent; color: var(--theme-primary); }
-    .play-header { padding: 3px 10px 3px 52px; }
-    .sidebar-menu { display: none; }
-    .sidebar-menu-space { display: block; flex: none; width: 40px; height: 40px; }
   }
   @media (max-width: 620px) {
     .chat-dock { padding: 0; }

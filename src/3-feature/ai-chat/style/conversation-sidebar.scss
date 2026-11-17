@@ -18,6 +18,9 @@
   .conversation-sidebar-row.is-active { background: var(--theme-surface); }
   .conversation-sidebar-open { display: block; width: 100%; padding: 10px 32px 10px 9px; border: 0; border-radius: 9px; text-align: left; background: transparent; color: var(--theme-ink); font: inherit; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .conversation-sidebar-open:hover:not(:disabled), .conversation-sidebar-open[aria-current="page"] { background: var(--theme-surface); color: var(--theme-primary); }
+  .conversation-sidebar-open > span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .conversation-sidebar-open.is-loading > span { color: transparent; background: linear-gradient(90deg, var(--theme-muted) 35%, var(--theme-primary) 50%, var(--theme-muted) 65%); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; animation: conversation-title-shimmer 1.5s linear infinite; }
+  @media (prefers-reduced-motion: reduce) { .conversation-sidebar-open.is-loading > span { animation: none; color: var(--theme-muted); } }
   .conversation-sidebar-menu > summary { position: absolute; display: grid; place-items: center; right: 3px; top: 5px; width: 26px; height: 26px; border-radius: 7px; list-style: none; cursor: pointer; color: var(--theme-muted); }
   .conversation-sidebar-menu > summary::-webkit-details-marker { display: none; }
   .conversation-sidebar-menu > summary:hover { background: var(--theme-surface-tint); color: var(--theme-primary); }
@@ -34,4 +37,9 @@
   .conversation-sidebar-empty { margin: 6px 0 10px; padding: 0 8px; font-size: 12px; line-height: 1.6; color: var(--theme-muted); }
   .conversation-sidebar-error { margin: 10px 0; padding: 10px; border-radius: 9px; background: var(--theme-danger-soft); color: var(--theme-danger); font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
   :is(button, input, select, summary):focus-visible { outline: 3px solid var(--theme-focus); outline-offset: 2px; }
+}
+
+@keyframes conversation-title-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
 }

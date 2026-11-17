@@ -5,6 +5,7 @@ export type ConversationSidebarProps = {
   projects: ChatProject[];
   conversations: ConversationSummary[];
   activeConversationId: string;
+  openingConversationId?: string;
   busy: boolean;
   newChatDisabled?: boolean;
   loading: boolean;

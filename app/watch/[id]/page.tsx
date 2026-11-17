@@ -7,12 +7,6 @@ import { getActor } from "@/src/4-entity/account";
 
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata({ params }: PageProps<"/watch/[id]">) {
-  const { id } = await params;
-  const lesson = [...lessons, ...songs].find(item => item.id === id);
-  return { title: lesson ? `${lesson.title} · Mora English` : "영상을 찾을 수 없어요 · Mora English" };
-}
-
 export default async function Page({ params }: PageProps<"/watch/[id]">) {
   const { id } = await params;
   if (!await getActor()) return <LoginInvitation returnTo={`/watch/${encodeURIComponent(id)}`} />;

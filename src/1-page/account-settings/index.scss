@@ -32,4 +32,22 @@
   > section, > div.border { background: var(--theme-surface); border-radius: 22px; box-shadow: var(--theme-shadow); }
   > section.page-danger-border { background: var(--theme-danger-soft); }
   nav + h1 { margin-top: 30px; }
+  .account-settings-footer { display: flex; justify-content: flex-end; padding-top: 12px; }
+  .account-delete-link { padding: 6px 0; border: 0; background: transparent; color: var(--theme-muted); text-decoration: underline; text-underline-offset: 4px; font-size: 14px; cursor: pointer; }
+  .account-delete-link:hover { color: var(--theme-danger); }
+  .account-delete-dialog { width: min(480px, calc(100vw - 32px)); max-height: calc(100dvh - 40px); margin: auto; padding: 0; overflow-y: auto; border: 1px solid var(--theme-border); border-radius: 22px; color: var(--theme-ink); background: var(--theme-surface); box-shadow: var(--theme-shadow); }
+  .account-delete-dialog::backdrop { background: var(--theme-overlay); backdrop-filter: blur(4px); }
+  .account-delete-body { padding: 24px; }
+  .account-delete-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .account-delete-heading h2 { margin: 0; font-size: 22px; font-weight: 700; }
+  .account-delete-heading button { display: grid; place-items: center; flex: none; width: 36px; height: 36px; border: 0; border-radius: 10px; color: var(--theme-muted); background: transparent; cursor: pointer; }
+  .account-delete-body p { margin: 16px 0; font-size: 14px; line-height: 1.8; }
+  .account-delete-body form, .account-delete-body label { display: grid; gap: 10px; }
+  .account-delete-body form { gap: 16px; }
+  .account-delete-body label { font-size: 13px; }
+  .account-delete-body input { width: 100%; min-width: 0; padding: 12px; border: 1px solid var(--theme-border-strong); border-radius: 10px; font-size: 16px; }
+  .account-delete-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }
+  .account-delete-actions button { padding: 11px 14px; border: 1px solid var(--theme-border); border-radius: 10px; font-size: 14px; cursor: pointer; }
+  .account-delete-actions button[type="button"] { background: var(--theme-soft); }
+  .account-delete-dialog button:disabled { opacity: .5; cursor: not-allowed; }
 }

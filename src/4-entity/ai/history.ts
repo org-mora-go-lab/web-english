@@ -48,7 +48,7 @@ export async function prepareAiTurn(userId: string, input: AiChatInput) {
   const previous = row ? view(row) : null;
   if (previous && row!.lastTurnId === input.turnId) {
     const last = previous.messages.at(-1)!;
-    return { input, previous, replay: { reply: last.content, model: last.model ?? previous.model, conversation: previous } };
+    return { input, previous, replay: { reply: last.content, replySuggestion: last.replySuggestion, model: last.model ?? previous.model, conversation: previous } };
   }
   if ((previous?.revision ?? 0) !== input.revision) throw conflict();
   if (previous && previous.mode !== input.mode) throw new AiError("새 대화에서 모드를 변경해 주세요.", 400, "INVALID_MODE");
@@ -62,11 +62,11 @@ export async function saveAiTurn(userId: string, input: AiChatInput, previous: A
   const now = Date.now();
   const messages: SavedAiMessage[] = [...(previous?.messages ?? []),
     { ...input.messages.at(-1)!, id: randomUUID() },
-    { id: randomUUID(), role: "assistant", content: reply.reply, model: reply.model }];
+    { id: randomUUID(), role: "assistant", content: reply.reply, model: reply.model, ...(reply.replySuggestion ? { replySuggestion: reply.replySuggestion } : {}) }];
   const values = { model: reply.model, messagesJson: JSON.stringify(messages), revision: (previous?.revision ?? 0) + 1, lastTurnId: input.turnId!, updatedAt: now };
   const rows = previous
     ? await getDb().update(table).set(values).where(and(eq(table.id, input.conversationId), eq(table.userId, userId), eq(table.revision, input.revision!))).returning()
-    : await getDb().insert(table).values({ ...values, id: input.conversationId, userId, title: messages[0].content.slice(0, 60), mode: input.mode, createdAt: now }).onConflictDoNothing().returning();
+    : await getDb().insert(table).values({ ...values, id: input.conversationId, userId, title: (/^영어 학습 콘텐츠 “([^”]+)”/.exec(messages[0].content)?.[1] ?? messages[0].content).slice(0, 60), mode: input.mode, createdAt: now }).onConflictDoNothing().returning();
   if (!rows[0]) throw conflict();
   return view(rows[0]);
 }
