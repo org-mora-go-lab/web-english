@@ -22,7 +22,16 @@ export const rateLimits = sqliteTable("rate_limits", {
   expiresAt: integer("expires_at").notNull(),
 });
 
+export const aiProjects = sqliteTable("ai_projects", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  name: text("name").notNull(),
+  createdAt: integer("created_at").notNull(),
+  updatedAt: integer("updated_at").notNull(),
+}, (table) => [uniqueIndex("ai_projects_user_name_unique").on(table.userId, table.name), index("ai_projects_user_updated_idx").on(table.userId, table.updatedAt)]);
+
 export const aiConversations = sqliteTable("ai_conversations", {
+  projectId: text("project_id").references(() => aiProjects.id, { onDelete: "set null" }),
   id: text("id").primaryKey(),
   userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   title: text("title").notNull(),
@@ -33,7 +42,7 @@ export const aiConversations = sqliteTable("ai_conversations", {
   lastTurnId: text("last_turn_id").notNull(),
   createdAt: integer("created_at").notNull(),
   updatedAt: integer("updated_at").notNull(),
-}, (table) => [index("ai_conversations_user_updated_idx").on(table.userId, table.updatedAt)]);
+}, (table) => [index("ai_conversations_user_updated_idx").on(table.userId, table.updatedAt), index("ai_conversations_user_project_idx").on(table.userId, table.projectId, table.updatedAt)]);
 
 export const aiVoiceSessions = sqliteTable("ai_voice_sessions", {
   voice: text("voice").notNull().default("marin"),

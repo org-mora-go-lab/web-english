@@ -16,7 +16,9 @@ export type ChatMessage = {
 };
 
 export type SavedConversation = {
-  id: string; title: string; mode: ChatMode; model: string;
+  id: string; title: string; projectId?: string | null; mode: ChatMode; model: string;
   messages: ChatMessage[]; revision: number; updatedAt: number;
 };
 export type ConversationSummary = Omit<SavedConversation, "messages">;
+
+export type ChatProject = { id: string; name: string; createdAt: number; updatedAt: number };

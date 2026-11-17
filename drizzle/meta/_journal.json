@@ -71,6 +71,13 @@
       "when": 1794872315349,
       "tag": "0009_simple_betty_ross",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "6",
+      "when": 1794876929235,
+      "tag": "0010_loud_secret_warriors",
+      "breakpoints": true
     }
   ]
 }
