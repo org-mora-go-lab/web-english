@@ -8,7 +8,10 @@ test("놀이 선택은 주제 대화를 시작하고 다음 답변에도 같은 
   await mockAiModels(page); const requests = await mockTopicChat(page); await createAccount(page);
   await page.getByRole("button", {name: "커리큘럼", exact: true}).click();
   await page.getByRole("button", {name: /손 흔들며 인사/}).click();
-  await expect(page.getByTestId("ai-message-assistant")).toContainText("Wave your hand");
+  const log = page.getByRole("log", { name: "AI 대화" });
+  await expect(log.getByRole("article", { name: "손 흔들며 인사 학습 카드" })).toBeVisible();
+  await expect(log.getByTestId("ai-message-assistant")).toContainText("Wave your hand");
+  await expect(page.getByRole("main", { name: "영어 학습 콘텐츠" })).toBeHidden();
   expect(requests).toHaveLength(1);
   expect(requests[0].messages[0].content).toContain("놀이 방법:");
   expect(requests[0].messages[0].content).toContain("Hi! Bye!");
